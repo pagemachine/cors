@@ -64,7 +64,12 @@ class ContentPostProcessorHook {
 
       $accessController->setAllowedOrigins($configuration['allowOrigin']);
     }
-    
+
+    if (isset($configuration['allowCredentials'])) {
+
+      $accessController->setAllowCredentials($configuration['allowCredentials']);
+    }
+
     $accessController->sendHeadersForOrigin($origin);
   }
 
@@ -81,6 +86,11 @@ class ContentPostProcessorHook {
     foreach ($configuration as $option => &$value) {
       
       switch ($option) {
+
+        case 'allowCredentials':
+
+          $value = in_array($value, array('1', 'true'), TRUE) ? TRUE : FALSE;
+          break;
 
         case 'allowOrigin':
 

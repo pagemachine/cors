@@ -30,6 +30,26 @@ use PAGEmachine\CORS\Http\Uri;
 class AccessController {
 
   /**
+   * @var boolean $allowCredentials
+   */
+  protected $allowCredentials = FALSE;
+  
+  /**
+   * @return boolean
+   */
+  public function getAllowCredentials() {
+    return $this->allowCredentials;
+  }
+  
+  /**
+   * @param boolean $allowCredentials
+   * @return void
+   */
+  public function setAllowCredentials($allowCredentials) {
+    $this->allowCredentials = $allowCredentials;
+  }
+
+  /**
    * @var array $allowedOrigins
    */
   protected $allowedOrigins = array();
@@ -122,6 +142,11 @@ class AccessController {
     } elseif ($this->isOriginUriAllowed($originUri)) {
 
       header('Access-Control-Allow-Origin: ' . $originUri);
+    }
+
+    if ($this->getAllowCredentials()) {
+
+      header('Access-Control-Allow-Credentials: true');
     }
   }
 }

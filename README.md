@@ -8,6 +8,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 
 | Option | Type | Description |
 |-|-|-|
+| `allowCredentials` | int/boolean | Processing of the `credentials` flag |
 | `allowOrigin` | string/array|  List of allowed origins |
 
 ### Examples
@@ -40,4 +41,11 @@ All configuration options can be set via TypoScript setup in `config` or per pag
             org = http://example.org
             com = http://example.com
           }
+        }
+
+* Allow `credential` flag processing:
+
+        config {
+          // Set to 1/true to enable
+          allowCredentials = 1
         }
