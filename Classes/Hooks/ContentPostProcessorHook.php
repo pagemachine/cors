@@ -25,7 +25,10 @@ namespace PAGEmachine\CORS\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use PAGEmachine\CORS\AccessController;
+use PAGEmachine\CORS\Http\Uri;
 
 /**
  * Sends CORS-related headers as configured
@@ -41,6 +44,57 @@ class ContentPostProcessorHook {
    */
   public function process(array $parameters, TypoScriptFrontendController $frontendController) {
 
+    if (!isset($_SERVER['HTTP_ORIGIN'])) {
+
+      return;
+    }
+
+    $origin = new Uri($_SERVER['HTTP_ORIGIN']);
+    $request = Uri::fromEnvironment($_SERVER);
+    $accessController = new AccessController();
+
+    if (!$accessController->isCrossOriginRequest($origin, $request)) {
+
+      return;
+    }
+
+    $configuration = $this->getConfiguration($frontendController->config['config']);
+
+    if (isset($configuration['allowOrigin'])) {
+
+      $accessController->setAllowedOrigins($configuration['allowOrigin']);
+    }
     
+    $accessController->sendHeadersForOrigin($origin);
+  }
+
+  /**
+   * Returns the parsed and processed configuration
+   *
+   * @param array $rawConfiguration Raw configuration from TypoScriptFrontendController::$config['config']
+   * @return array
+   */
+  protected function getConfiguration(array $rawConfiguration) {
+
+    $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : array();
+
+    foreach ($configuration as $option => &$value) {
+      
+      switch ($option) {
+
+        case 'allowOrigin':
+
+          $value = GeneralUtility::trimExplode(',', $value);
+          break;
+
+        case 'allowOrigin.':
+
+          $configuration['allowOrigin'] = $value;
+          unset($configuration[$option]);
+          break;
+      }
+    }
+
+    return $configuration;
   }
 }
