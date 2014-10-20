@@ -70,6 +70,26 @@ class AccessController {
   }
 
   /**
+   * @var array $exposedHeaders
+   */
+  protected $exposedHeaders;
+  
+  /**
+   * @return array
+   */
+  public function getExposedHeaders() {
+    return $this->exposedHeaders;
+  }
+  
+  /**
+   * @param array $exposedHeaders
+   * @return void
+   */
+  public function setExposedHeaders(array $exposedHeaders) {
+    $this->exposedHeaders = $exposedHeaders;
+  }
+
+  /**
    * Sets up a new object
    *
    * @param array $allowedOrigins List of allowed hosts
@@ -147,6 +167,11 @@ class AccessController {
     if ($this->getAllowCredentials()) {
 
       header('Access-Control-Allow-Credentials: true');
+    }
+
+    if (count($this->getExposedHeaders())) {
+
+      header('Access-Control-Expose-Headers: ' . implode(', ', $this->getExposedHeaders()));
     }
   }
 }

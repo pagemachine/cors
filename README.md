@@ -10,6 +10,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 |-|-|-|
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
 | `allowOrigin` | string |  List of allowed origins |
+| `exposeHeaders` | string |  List of headers exposed to clients |
 
 ### Examples
 
@@ -39,4 +40,13 @@ All configuration options can be set via TypoScript setup in `config` or per pag
         config {
           // Set to 1/true to enable
           allowCredentials = 1
+        }
+
+*  Expose headers:
+
+        config {
+          exposeHeaders (
+            X-My-Custom-Header,
+            X-Another-Custom-Header
+          )
         }

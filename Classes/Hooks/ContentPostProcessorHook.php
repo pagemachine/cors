@@ -70,6 +70,11 @@ class ContentPostProcessorHook {
       $accessController->setAllowCredentials($configuration['allowCredentials']);
     }
 
+    if (isset($configuration['exposeHeaders'])) {
+
+      $accessController->setExposedHeaders($configuration['exposeHeaders']);
+    }
+
     $accessController->sendHeadersForOrigin($origin);
   }
 
@@ -93,6 +98,7 @@ class ContentPostProcessorHook {
           break;
 
         case 'allowOrigin':
+        case 'exposeHeaders':
 
           $value = GeneralUtility::trimExplode(',', $value);
           break;
