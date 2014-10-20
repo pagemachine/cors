@@ -60,14 +60,14 @@ class ContentPostProcessorHook {
 
     $configuration = $this->getConfiguration($frontendController->config['config']);
 
-    if (isset($configuration['allowOrigin'])) {
-
-      $accessController->setAllowedOrigins($configuration['allowOrigin']);
-    }
-
     if (isset($configuration['allowCredentials'])) {
 
       $accessController->setAllowCredentials($configuration['allowCredentials']);
+    }
+
+    if (isset($configuration['allowOrigin'])) {
+
+      $accessController->setAllowedOrigins($configuration['allowOrigin']);
     }
 
     if (isset($configuration['exposeHeaders'])) {

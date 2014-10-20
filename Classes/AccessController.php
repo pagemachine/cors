@@ -160,17 +160,17 @@ class AccessController {
 
     $originUri = $origin->getScheme() . '://' . $origin->getHostname();
 
+    if ($this->getAllowCredentials()) {
+
+      header('Access-Control-Allow-Credentials: true');
+    }
+
     if ($this->isOriginUriAllowed('*')) {
 
       header('Access-Control-Allow-Origin: *');
     } elseif ($this->isOriginUriAllowed($originUri)) {
 
       header('Access-Control-Allow-Origin: ' . $originUri);
-    }
-
-    if ($this->getAllowCredentials()) {
-
-      header('Access-Control-Allow-Credentials: true');
     }
 
     if (count($this->getExposedHeaders())) {
