@@ -253,6 +253,23 @@ class Uri {
       'pass' => 'password',
     );
 
+    // Determine port from scheme if not present
+    if (!isset($uriComponents['port']) && isset($uriComponents['scheme'])) {
+
+      switch ($uriComponents['scheme']) {
+
+        case 'http':
+        
+          $uriComponents['port'] = 80;
+          break;
+
+        case 'https':
+
+          $uriComponents['port'] = 443;
+          break;
+      }
+    }
+
     foreach ($uriComponents as $component => $value) {
 
       $property = isset($componentPropertyMapping[$component]) ? $componentPropertyMapping[$component] : $component;
