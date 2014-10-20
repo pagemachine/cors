@@ -109,7 +109,7 @@ class ContentPostProcessorHook {
 
         case 'allowCredentials':
 
-          $value = in_array($value, array('1', 'true'), TRUE) ? TRUE : FALSE;
+          $value = in_array($value, array('1', 'true'), TRUE);
           break;
 
         case 'allowHeaders':
