@@ -150,16 +150,6 @@ class AccessController {
   }
 
   /**
-   * Sets up a new object
-   *
-   * @param array $allowedOrigins List of allowed hosts
-   */
-  public function __construct(array $allowedOrigins = array()) {
-
-    $this->setAllowedOrigins($allowedOrigins);
-  }
-
-  /**
    * Returns TRUE, if the current request is cross origin, FALSE otherwise
    *
    * A request is cross origin if either the host name or the scheme does not match
