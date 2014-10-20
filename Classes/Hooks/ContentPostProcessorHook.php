@@ -75,6 +75,11 @@ class ContentPostProcessorHook {
       $accessController->setExposedHeaders($configuration['exposeHeaders']);
     }
 
+    if (isset($configuration['maxAge'])) {
+
+      $accessController->setMaximumAge($configuration['maxAge']);
+    }
+
     $accessController->sendHeadersForOrigin($origin);
   }
 
@@ -101,6 +106,11 @@ class ContentPostProcessorHook {
         case 'exposeHeaders':
 
           $value = GeneralUtility::trimExplode(',', $value);
+          break;
+
+        case 'maxAge':
+
+          $value = (int) $value;
           break;
       }
     }

@@ -90,6 +90,26 @@ class AccessController {
   }
 
   /**
+   * @var integer $maximumAge
+   */
+  protected $maximumAge;
+  
+  /**
+   * @return integer
+   */
+  public function getMaximumAge() {
+    return $this->maximumAge;
+  }
+  
+  /**
+   * @param integer $maximumAge
+   * @return void
+   */
+  public function setMaximumAge($maximumAge) {
+    $this->maximumAge = $maximumAge;
+  }
+
+  /**
    * Sets up a new object
    *
    * @param array $allowedOrigins List of allowed hosts
@@ -156,6 +176,11 @@ class AccessController {
     if (count($this->getExposedHeaders())) {
 
       header('Access-Control-Expose-Headers: ' . implode(', ', $this->getExposedHeaders()));
+    }
+
+    if ($this->getMaximumAge()) {
+
+      header('Access-Control-Max-Age: ' . $this->getMaximumAge());
     }
   }
 }

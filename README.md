@@ -11,6 +11,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
 | `allowOrigin` | string |  List of allowed origins |
 | `exposeHeaders` | string |  List of headers exposed to clients |
+| `maxAge` | int |  Cache lifetime of preflight requests, watch out for browser limits |
 
 ### Examples
 
@@ -49,4 +50,11 @@ All configuration options can be set via TypoScript setup in `config` or per pag
             X-My-Custom-Header,
             X-Another-Custom-Header
           )
+        }
+
+* Set maximum age of preflight request result:
+
+        config {
+          // 10 minutes
+          maxAge = 600
         }
