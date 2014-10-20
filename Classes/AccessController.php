@@ -115,22 +115,6 @@ class AccessController {
   }
 
   /**
-   * Returns TRUE, if access from any origin is allowed, FALSE otherwise
-   *
-   * @param array $allowedOrigins List of allowed origins
-   * @return boolean
-   */
-  public function isAnyOriginAllowed() {
-
-    if (in_array('*', $this->allowedOrigins)) {
-
-      return TRUE;
-    }
-
-    return FALSE;
-  }
-
-  /**
    * Returns TRUE, if access is allowed for an origin, FALSE otherwise
    *
    * @param string $originUri The origin URI
@@ -156,7 +140,7 @@ class AccessController {
 
     $originUri = $origin->getScheme() . '://' . $origin->getHostname();
 
-    if ($this->isAnyOriginAllowed()) {
+    if ($this->isOriginUriAllowed('*')) {
 
       header('Access-Control-Allow-Origin: *');
     } elseif ($this->isOriginUriAllowed($originUri)) {
