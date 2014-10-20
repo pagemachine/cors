@@ -29,11 +29,7 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 
         config {
           allowOrigin = http://example.org, http://example.com
-        }
-
-* Same as above but more readable with many origins:
-
-        config {
+          // More readable version
           allowOrigin (
             http://example.org,
             http://example.com
