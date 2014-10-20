@@ -50,6 +50,26 @@ class AccessController {
   }
 
   /**
+   * @var array $allowedMethods
+   */
+  protected $allowedMethods;
+  
+  /**
+   * @return array
+   */
+  public function getAllowedMethods() {
+    return $this->allowedMethods;
+  }
+  
+  /**
+   * @param array $allowedMethods
+   * @return void
+   */
+  public function setAllowedMethods(array $allowedMethods) {
+    $this->allowedMethods = $allowedMethods;
+  }
+
+  /**
    * @var array $allowedOrigins
    */
   protected $allowedOrigins = array();
@@ -163,6 +183,11 @@ class AccessController {
     if ($this->getAllowCredentials()) {
 
       header('Access-Control-Allow-Credentials: true');
+    }
+
+    if (count($this->getAllowedMethods())) {
+
+      header('Access-Control-Allow-Methods: ' . implode(', ', $this->getAllowedMethods()));
     }
 
     if ($this->isOriginUriAllowed('*')) {

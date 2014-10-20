@@ -65,6 +65,11 @@ class ContentPostProcessorHook {
       $accessController->setAllowCredentials($configuration['allowCredentials']);
     }
 
+    if (isset($configuration['allowMethods'])) {
+
+      $accessController->setAllowedMethods($configuration['allowMethods']);
+    }
+
     if (isset($configuration['allowOrigin'])) {
 
       $accessController->setAllowedOrigins($configuration['allowOrigin']);
@@ -102,6 +107,7 @@ class ContentPostProcessorHook {
           $value = in_array($value, array('1', 'true'), TRUE) ? TRUE : FALSE;
           break;
 
+        case 'allowMethods':
         case 'allowOrigin':
         case 'exposeHeaders':
 

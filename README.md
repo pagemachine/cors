@@ -9,6 +9,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | Option | Type | Description |
 |-|-|-|
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
+| `allowMethods` | string |  List of allowed methods (GET, POST, ...) |
 | `allowOrigin` | string |  List of allowed origins |
 | `exposeHeaders` | string |  List of headers exposed to clients |
 | `maxAge` | int |  Cache lifetime of preflight requests, watch out for browser limits |
@@ -34,6 +35,12 @@ All configuration options can be set via TypoScript setup in `config` or per pag
             http://example.org,
             http://example.com
           )
+        }
+
+* Allow specific methods:
+
+        config {
+          allowMethods = GET, POST, PUT, DELETE
         }
 
 * Allow `credential` flag processing:
