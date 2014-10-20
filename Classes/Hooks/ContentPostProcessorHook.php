@@ -96,12 +96,6 @@ class ContentPostProcessorHook {
 
           $value = GeneralUtility::trimExplode(',', $value);
           break;
-
-        case 'allowOrigin.':
-
-          $configuration['allowOrigin'] = $value;
-          unset($configuration[$option]);
-          break;
       }
     }
 

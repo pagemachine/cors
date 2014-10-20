@@ -9,7 +9,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | Option | Type | Description |
 |-|-|-|
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
-| `allowOrigin` | string/array|  List of allowed origins |
+| `allowOrigin` | string |  List of allowed origins |
 
 ### Examples
 
@@ -32,15 +32,6 @@ All configuration options can be set via TypoScript setup in `config` or per pag
             http://example.org,
             http://example.com
           )
-        }
-
-* Array syntax, useful for conditionally adding values:
-
-        config {
-          allowOrigin {
-            org = http://example.org
-            com = http://example.com
-          }
         }
 
 * Allow `credential` flag processing:
