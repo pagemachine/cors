@@ -172,7 +172,7 @@ class AccessController {
   /**
    * Returns TRUE, if the current request is cross origin, FALSE otherwise
    *
-   * A request is cross origin if either the host name or the scheme does not match
+   * A request is cross origin one of scheme, host or protocol does not match
    *
    * @param Uri $origin The origin
    * @param Uri $request The current request
@@ -180,8 +180,9 @@ class AccessController {
    */
   public function isCrossOriginRequest(Uri $origin, Uri $request) {
 
-    return $origin->getHostname() != $request->getHostname() ||
-      $origin->getScheme() != $request->getScheme();
+    return $origin->getScheme() != $request->getScheme() ||
+           $origin->getHostname() != $request->getHostname() ||
+           $origin->getPort() != $request->getPort();
   }
 
   /**
