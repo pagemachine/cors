@@ -9,6 +9,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | Option | Type | Description |
 |-|-|-|
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
+| `allowHeaders` | string |  List of allowed headers |
 | `allowMethods` | string |  List of allowed methods (GET, POST, ...) |
 | `allowOrigin` | string |  List of allowed origins |
 | `exposeHeaders` | string |  List of headers exposed to clients |
@@ -41,6 +42,15 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 
         config {
           allowMethods = GET, POST, PUT, DELETE
+        }
+
+* Allow headers:
+
+        config {
+          allowHeaders = (
+            Content-Type,
+            ...
+          )
         }
 
 * Allow `credential` flag processing:

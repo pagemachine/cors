@@ -50,6 +50,26 @@ class AccessController {
   }
 
   /**
+   * @var array $allowedHeaders
+   */
+  protected $allowedHeaders;
+  
+  /**
+   * @return array
+   */
+  public function getAllowedHeaders() {
+    return $this->allowedHeaders;
+  }
+  
+  /**
+   * @param array $allowedHeaders
+   * @return void
+   */
+  public function setAllowedHeaders(array $allowedHeaders) {
+    $this->allowedHeaders = $allowedHeaders;
+  }
+
+  /**
    * @var array $allowedMethods
    */
   protected $allowedMethods;
@@ -183,6 +203,11 @@ class AccessController {
     if ($this->getAllowCredentials()) {
 
       header('Access-Control-Allow-Credentials: true');
+    }
+
+    if (count($this->getAllowedHeaders())) {
+
+      header('Access-Control-Allow-Headers: ' . implode(', ', $this->getAllowedHeaders()));
     }
 
     if (count($this->getAllowedMethods())) {
