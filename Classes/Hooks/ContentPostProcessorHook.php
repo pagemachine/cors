@@ -87,6 +87,11 @@ class ContentPostProcessorHook {
       $accessController->setAllowedOrigins($configuration['allowOrigin']);
     }
 
+    if (isset($configuration['allowOriginPattern'])) {
+
+      $accessController->setAllowedOriginsPattern($configuration['allowOriginPattern']);
+    }
+
     if (isset($configuration['exposeHeaders'])) {
 
       $accessController->setExposedHeaders($configuration['exposeHeaders']);
@@ -139,6 +144,12 @@ class ContentPostProcessorHook {
 
           $value = (int) $value;
           break;
+      }
+
+      if ($option == 'allowOrigin.' && isset($value['pattern'])) {
+
+        $option = 'allowOriginPattern';
+        $value = $value['pattern'];
       }
 
       $configuration[$option] = $value;

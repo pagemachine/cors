@@ -110,6 +110,26 @@ class AccessController {
   }
 
   /**
+   * @var string $allowedOriginsPattern
+   */
+  protected $allowedOriginsPattern;
+  
+  /**
+   * @return string
+   */
+  public function getAllowedOriginsPattern() {
+    return $this->allowedOriginsPattern;
+  }
+  
+  /**
+   * @param string $allowedOriginsPattern
+   * @return void
+   */
+  public function setAllowedOriginsPattern($allowedOriginsPattern) {
+    $this->allowedOriginsPattern = $allowedOriginsPattern;
+  }
+
+  /**
    * @var array $exposedHeaders
    */
   protected $exposedHeaders;
@@ -172,9 +192,20 @@ class AccessController {
    */
   public function isOriginUriAllowed($originUri) {
 
+    // Check for exact match
     if (in_array($originUri, $this->allowedOrigins)) {
 
       return TRUE;
+    }
+
+    // Check for pattern match
+    if ($this->allowedOriginsPattern) {
+
+      // Explicitely not using preg_quote() here to allow for pattern passthrough
+      if (preg_match('~^' . $this->allowedOriginsPattern . '~i', $originUri) === 1) {
+
+        return TRUE;
+      }
     }
 
     return FALSE;

@@ -12,6 +12,7 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | `allowHeaders` | string |  List of allowed headers |
 | `allowMethods` | string |  List of allowed methods (GET, POST, ...) |
 | `allowOrigin` | string |  List of allowed origins |
+| `allowOrigin.pattern` | string |  Regular expression for matching origins, make sure to escape as necessary |
 | `exposeHeaders` | string |  List of headers exposed to clients |
 | `maxAge` | int |  Cache lifetime of preflight requests, watch out for browser limits |
 
@@ -34,6 +35,12 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
             http://example.org,
             http://example.com
           )
+        }
+
+* Matching origins via regular expressions:
+
+        config {
+          allowOrigin.pattern = https?://example\.(org|com)
         }
 
 * Allow specific methods:
