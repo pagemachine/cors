@@ -15,6 +15,8 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | `exposeHeaders` | string |  List of headers exposed to clients |
 | `maxAge` | int |  Cache lifetime of preflight requests, watch out for browser limits |
 
+Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/TyposcriptReference/Functions/Stdwrap/Index.html) processing through their `.stdWrap` property.
+
 ### Examples
 
 * Origin wildcarding:
@@ -74,4 +76,13 @@ All configuration options can be set via TypoScript setup in `config` or per pag
         config {
           // 10 minutes
           maxAge = 600
+        }
+
+* Set maximum age via some `stdWrap` processing:
+
+        config {
+          maxAge.stdWrap.cObject = TEXT
+          maxAge.stdWrap.cObject {
+            value = 600
+          }
         }

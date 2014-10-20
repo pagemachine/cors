@@ -26,6 +26,7 @@ namespace PAGEmachine\CORS\Hooks;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use PAGEmachine\CORS\AccessController;
 use PAGEmachine\CORS\Http\Uri;
@@ -34,6 +35,11 @@ use PAGEmachine\CORS\Http\Uri;
  * Sends CORS-related headers as configured
  */
 class ContentPostProcessorHook {
+
+  /**
+   * @var TypoScriptFrontendController
+   */
+  protected $frontendController;
 
   /**
    * Processes configuration and sends headers
@@ -58,6 +64,7 @@ class ContentPostProcessorHook {
       return;
     }
 
+    $this->frontendController = $frontendController;
     $configuration = $this->getConfiguration($frontendController->config['config']);
 
     if (isset($configuration['allowCredentials'])) {
@@ -103,7 +110,15 @@ class ContentPostProcessorHook {
 
     $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : array();
 
-    foreach ($configuration as $option => &$value) {
+    foreach ($configuration as $option => $value) {
+
+      // Perform stdWrap processing on all options
+      if (StringUtility::isLastPartOfString($option, '.') && isset($value['stdWrap.'])) {
+
+        unset($configuration[$option]);
+        $option = substr($option, 0, -1);
+        $value = $this->frontendController->cObj->stdWrap($configuration[$option], $value['stdWrap.']);
+      }
       
       switch ($option) {
 
@@ -125,6 +140,8 @@ class ContentPostProcessorHook {
           $value = (int) $value;
           break;
       }
+
+      $configuration[$option] = $value;
     }
 
     return $configuration;
