@@ -221,13 +221,14 @@ class AccessController {
   public function sendHeadersForOrigin(Uri $origin) {
 
     $originUri = $origin->getScheme() . '://' . $origin->getHostname();
+    $headers = array();
 
     if ($this->isOriginUriAllowed('*')) {
 
-      header('Access-Control-Allow-Origin: *');
+      $headers['Access-Control-Allow-Origin'] = '*';
     } elseif ($this->isOriginUriAllowed($originUri)) {
 
-      header('Access-Control-Allow-Origin: ' . $originUri);
+      $headers['Access-Control-Allow-Origin'] = $originUri;
     } else {
 
       return;
@@ -235,27 +236,37 @@ class AccessController {
 
     if ($this->getAllowCredentials()) {
 
-      header('Access-Control-Allow-Credentials: true');
+      $headers['Access-Control-Allow-Credentials'] = 'true';
     }
 
     if (count($this->getAllowedHeaders())) {
 
-      header('Access-Control-Allow-Headers: ' . implode(', ', $this->getAllowedHeaders()));
+      $headers['Access-Control-Allow-Headers'] = $this->getAllowedHeaders();
     }
 
     if (count($this->getAllowedMethods())) {
 
-      header('Access-Control-Allow-Methods: ' . implode(', ', $this->getAllowedMethods()));
+      $headers['Access-Control-Allow-Methods'] = $this->getAllowedMethods();
     }
 
     if (count($this->getExposedHeaders())) {
 
-      header('Access-Control-Expose-Headers: ' . implode(', ', $this->getExposedHeaders()));
+      $headers['Access-Control-Expose-Headers'] = $this->getExposedHeaders();
     }
 
     if ($this->getMaximumAge()) {
 
-      header('Access-Control-Max-Age: ' . $this->getMaximumAge());
+      $headers['Access-Control-Max-Age'] = $this->getMaximumAge();
+    }
+
+    foreach ($headers as $name => $value) {
+
+      if (is_array($value)) {
+
+        $value = implode(', ', $value);
+      }
+
+      header($name . ': ' . $value);
     }
   }
 }
