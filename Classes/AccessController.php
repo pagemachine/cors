@@ -222,6 +222,17 @@ class AccessController {
 
     $originUri = $origin->getScheme() . '://' . $origin->getHostname();
 
+    if ($this->isOriginUriAllowed('*')) {
+
+      header('Access-Control-Allow-Origin: *');
+    } elseif ($this->isOriginUriAllowed($originUri)) {
+
+      header('Access-Control-Allow-Origin: ' . $originUri);
+    } else {
+
+      return;
+    }
+
     if ($this->getAllowCredentials()) {
 
       header('Access-Control-Allow-Credentials: true');
@@ -235,14 +246,6 @@ class AccessController {
     if (count($this->getAllowedMethods())) {
 
       header('Access-Control-Allow-Methods: ' . implode(', ', $this->getAllowedMethods()));
-    }
-
-    if ($this->isOriginUriAllowed('*')) {
-
-      header('Access-Control-Allow-Origin: *');
-    } elseif ($this->isOriginUriAllowed($originUri)) {
-
-      header('Access-Control-Allow-Origin: ' . $originUri);
     }
 
     if (count($this->getExposedHeaders())) {
