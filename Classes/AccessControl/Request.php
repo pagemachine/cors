@@ -25,6 +25,7 @@ namespace PAGEmachine\CORS\AccessControl;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use PAGEmachine\CORS\Http\Uri;
 
 /**
@@ -38,6 +39,10 @@ class Request {
   protected $isCrossOrigin = FALSE;
 
   /**
+   * @var boolean
+   */
+  protected $isPreflight = FALSE;
+
   /**
    * @var boolean
    */
@@ -68,6 +73,46 @@ class Request {
   }
 
   /**
+   * @var string $requestMethod
+   */
+  protected $requestMethod;
+  
+  /**
+   * @return string
+   */
+  public function getRequestMethod() {
+    return $this->requestMethod;
+  }
+  
+  /**
+   * @param string $requestMethod
+   * @return void
+   */
+  public function setRequestMethod($requestMethod) {
+    $this->requestMethod = $requestMethod;
+  }
+
+  /**
+   * @var array $requestHeaders
+   */
+  protected $requestHeaders = array();
+  
+  /**
+   * @return array
+   */
+  public function getRequestHeaders() {
+    return $this->requestHeaders;
+  }
+  
+  /**
+   * @param array $requestHeaders
+   * @return void
+   */
+  public function setRequestHeaders(array $requestHeaders) {
+    $this->requestHeaders = $requestHeaders;
+  }
+
+  /**
    * Constructs a new request object
    *
    * @param array $environment Server environment (from $_SERVER)
@@ -79,12 +124,29 @@ class Request {
     if (isset($environment['HTTP_ORIGIN'])) {
 
       $this->origin = new Uri($environment['HTTP_ORIGIN']);
+
       $this->isCrossOrigin = $this->origin->getScheme() != $this->destination->getScheme() ||
         $this->origin->getHostname() != $this->destination->getHostname() ||
         $this->origin->getPort() != $this->destination->getPort();
+
       $this->hasCredentials = isset($environment['HTTP_COOKIE']) ||
         isset($environment['HTTP_AUTHORIZATION']) ||
         isset($environment['SSL_CLIENT_VERIFY']) && $environment['SSL_CLIENT_VERIFY'] !== 'NONE';
+
+      $this->isPreflight = $environment['REQUEST_METHOD'] == 'OPTIONS';
+
+      if ($this->isPreflight) {
+
+        if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+
+          $this->requestMethod = $environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
+        }
+
+        if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+
+          $this->requestHeaders = GeneralUtility::trimExplode(',', $environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+        }
+      }
     }
   }
 
@@ -110,5 +172,15 @@ class Request {
   public function hasCredentials() {
 
     return $this->hasCredentials;
+  }
+
+  /**
+   * Returns TRUE if the current request is a preflight request, FALSE otherwise
+   *
+   * @return boolean
+   */
+  public function isPreflight() {
+
+    return $this->isPreflight;
   }
 }

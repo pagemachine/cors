@@ -9,8 +9,8 @@ All configuration options can be set via TypoScript setup in `config` or per pag
 | Option | Type | Description |
 |-|-|-|
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
-| `allowHeaders` | string |  List of allowed headers |
-| `allowMethods` | string |  List of allowed methods (GET, POST, ...) |
+| `allowHeaders` | string |  List of allowed headers (X-Foo, ...), [simple headers](http://www.w3.org/TR/2014/REC-cors-20140116/#simple-header) are always allowed |
+| `allowMethods` | string |  List of allowed methods (PUT, DELETE, ...), [simple methods](http://www.w3.org/TR/2014/REC-cors-20140116/#simple-method) are always allowed |
 | `allowOrigin` | string |  List of allowed origins |
 | `allowOrigin.pattern` | string |  Regular expression for matching origins, make sure to escape as necessary |
 | `exposeHeaders` | string |  List of headers exposed to clients |

@@ -49,6 +49,20 @@ class Response {
   public function setHeader($name, $value) {
     $this->headers[$name] = $value;
   }
+
+  /**
+   * @param string $name
+   * @param mixed $value
+   */
+  public function appendHeader($name, $value) {
+
+    if (isset($this->headers[$name])) {
+
+      $this->headers[$name] = (array) $this->headers[$name];
+    }
+
+    $this->headers[$name][] = $value;
+  }
   
   /**
    * @param array $headers

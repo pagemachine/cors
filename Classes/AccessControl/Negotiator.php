@@ -31,6 +31,28 @@ namespace PAGEmachine\CORS\AccessControl;
 class Negotiator {
 
   /**
+   * List of simple methods
+   *
+   * @var array
+   */
+  protected $simpleMethods = array(
+    'GET',
+    'HEAD',
+    'POST',
+  );
+
+  /**
+   * List of simple headers
+   *
+   * @var array
+   */
+  protected $simpleHeaders = array(
+    'Accept',
+    'Accept-Language',
+    'Content-Language',
+  );
+
+  /**
    * @var boolean $allowCredentials
    */
   protected $allowCredentials = FALSE;
@@ -185,7 +207,38 @@ class Negotiator {
 
       return $response;
     }
-    
+
+    if ($request->isPreflight()) {
+
+      if (!$request->getRequestMethod()) {
+
+        throw new Exception\AccessDeniedException('Missing request method', 1413983849);
+      }
+
+      if (!$this->isMethodAllowed($request->getRequestMethod())) {
+
+        throw new Exception\AccessDeniedException('Request method "' . $request->getRequestMethod() . '" not allowed', 1413983927);
+      }
+
+      $response->setHeader('Access-Control-Allow-Methods', $request->getRequestMethod());
+
+      foreach ($request->getRequestHeaders() as $header) {
+        
+        if ($this->isHeaderAllowed($header)) {
+
+          $response->appendHeader('Access-Control-Allow-Headers', $header);
+        } else {
+
+          throw new Exception\AccessDeniedException('Request header "' . $header . '" not allowed', 1413988013);
+        }
+      }
+
+      if ($this->getMaximumAge()) {
+
+        $response->setHeader('Access-Control-Max-Age', $this->getMaximumAge());
+      }
+    }
+
     $originUri = $request->getOrigin()->getScheme() . '://' . $request->getOrigin()->getHostname();
 
     if ($this->isOriginUriAllowed('*') && !$request->hasCredentials()) {
@@ -204,24 +257,9 @@ class Negotiator {
       $response->setHeader('Access-Control-Allow-Credentials', 'true');
     }
 
-    if (count($this->getAllowedHeaders())) {
-
-      $response->setHeader('Access-Control-Allow-Headers', $this->getAllowedHeaders());
-    }
-
-    if (count($this->getAllowedMethods())) {
-
-      $response->setHeader('Access-Control-Allow-Methods', $this->getAllowedMethods());
-    }
-
     if (count($this->getExposedHeaders())) {
 
       $response->setHeader('Access-Control-Expose-Headers', $this->getExposedHeaders());
-    }
-
-    if ($this->getMaximumAge()) {
-
-      $response->setHeader('Access-Control-Max-Age', $this->getMaximumAge());
     }
 
     return $response;
@@ -252,5 +290,35 @@ class Negotiator {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Returns TRUE, if a request method is allowed, FALSE otherwise
+   *
+   * Note that simple methods are always allowed
+   *
+   * @param string $method The HTTP method (POST/PUT/...)
+   * @return boolean
+   */
+  protected function isMethodAllowed($method) {
+
+    return in_array($method, $this->simpleMethods, TRUE) ||
+           in_array($method, $this->allowedMethods, TRUE);
+  }
+
+  /**
+   * Returns TRUE, if a request header is allowed, FALSE otherwise
+   *
+   * Note that simple headers are always allowed
+   *
+   * @param string $header The HTTP header (X-Foo/...)
+   * @return boolean
+   */
+  protected function isHeaderAllowed($header) {
+
+    $header = strtolower($header);
+
+    return in_array($header, array_map('strtolower', $this->simpleHeaders), TRUE) ||
+           in_array($header, array_map('strtolower', $this->allowedHeaders), TRUE);
   }
 }
