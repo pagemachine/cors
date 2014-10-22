@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS;
+namespace PAGEmachine\CORS\AccessControl;
 
 /***************************************************************
  *  Copyright notice
@@ -25,9 +25,10 @@ namespace PAGEmachine\CORS;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PAGEmachine\CORS\Http\Uri;
-
-class AccessController {
+/**
+ * Negotiator for access control requests
+ */
+class Negotiator {
 
   /**
    * @var boolean $allowCredentials
@@ -170,19 +171,59 @@ class AccessController {
   }
 
   /**
-   * Returns TRUE, if the current request is cross origin, FALSE otherwise
+   * Processes an access control request
    *
-   * A request is cross origin one of scheme, host or protocol does not match
-   *
-   * @param Uri $origin The origin
-   * @param Uri $request The current request
-   * @return boolean
+   * @param Request $request Access control request to process
+   * @return Response Access control response
    */
-  public function isCrossOriginRequest(Uri $origin, Uri $request) {
+  public function processRequest(Request $request) {
 
-    return $origin->getScheme() != $request->getScheme() ||
-           $origin->getHostname() != $request->getHostname() ||
-           $origin->getPort() != $request->getPort();
+    $response = new Response();
+
+    if (!$request->isCrossOrigin()) {
+
+      return $response;
+    }
+    
+    $originUri = $request->getOrigin()->getScheme() . '://' . $request->getOrigin()->getHostname();
+
+    if ($this->isOriginUriAllowed('*')) {
+
+      $response->setHeader('Access-Control-Allow-Origin', '*');
+    } elseif ($this->isOriginUriAllowed($originUri)) {
+
+      $response->setHeader('Access-Control-Allow-Origin', $originUri);
+    } else {
+
+      return $response;
+    }
+
+    if ($this->getAllowCredentials()) {
+
+      $response->setHeader('Access-Control-Allow-Credentials', 'true');
+    }
+
+    if (count($this->getAllowedHeaders())) {
+
+      $response->setHeader('Access-Control-Allow-Headers', $this->getAllowedHeaders());
+    }
+
+    if (count($this->getAllowedMethods())) {
+
+      $response->setHeader('Access-Control-Allow-Methods', $this->getAllowedMethods());
+    }
+
+    if (count($this->getExposedHeaders())) {
+
+      $response->setHeader('Access-Control-Expose-Headers', $this->getExposedHeaders());
+    }
+
+    if ($this->getMaximumAge()) {
+
+      $response->setHeader('Access-Control-Max-Age', $this->getMaximumAge());
+    }
+
+    return $response;
   }
 
   /**
@@ -191,7 +232,7 @@ class AccessController {
    * @param string $originUri The origin URI
    * @return boolean
    */
-  public function isOriginUriAllowed($originUri) {
+  protected function isOriginUriAllowed($originUri) {
 
     // Check for exact match
     if (in_array($originUri, $this->allowedOrigins)) {
@@ -210,63 +251,5 @@ class AccessController {
     }
 
     return FALSE;
-  }
-
-  /**
-   * Sends all access control HTTP headers for an origin
-   *
-   * @param Uri $origin The origin
-   * @return void
-   */
-  public function sendHeadersForOrigin(Uri $origin) {
-
-    $originUri = $origin->getScheme() . '://' . $origin->getHostname();
-    $headers = array();
-
-    if ($this->isOriginUriAllowed('*')) {
-
-      $headers['Access-Control-Allow-Origin'] = '*';
-    } elseif ($this->isOriginUriAllowed($originUri)) {
-
-      $headers['Access-Control-Allow-Origin'] = $originUri;
-    } else {
-
-      return;
-    }
-
-    if ($this->getAllowCredentials()) {
-
-      $headers['Access-Control-Allow-Credentials'] = 'true';
-    }
-
-    if (count($this->getAllowedHeaders())) {
-
-      $headers['Access-Control-Allow-Headers'] = $this->getAllowedHeaders();
-    }
-
-    if (count($this->getAllowedMethods())) {
-
-      $headers['Access-Control-Allow-Methods'] = $this->getAllowedMethods();
-    }
-
-    if (count($this->getExposedHeaders())) {
-
-      $headers['Access-Control-Expose-Headers'] = $this->getExposedHeaders();
-    }
-
-    if ($this->getMaximumAge()) {
-
-      $headers['Access-Control-Max-Age'] = $this->getMaximumAge();
-    }
-
-    foreach ($headers as $name => $value) {
-
-      if (is_array($value)) {
-
-        $value = implode(', ', $value);
-      }
-
-      header($name . ': ' . $value);
-    }
   }
 }

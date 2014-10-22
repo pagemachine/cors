@@ -28,8 +28,8 @@ namespace PAGEmachine\CORS\Hooks;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use PAGEmachine\CORS\AccessController;
-use PAGEmachine\CORS\Http\Uri;
+use PAGEmachine\CORS\AccessControl\Negotiator;
+use PAGEmachine\CORS\AccessControl\Request;
 
 /**
  * Sends CORS-related headers as configured
@@ -50,59 +50,47 @@ class ContentPostProcessorHook {
    */
   public function process(array $parameters, TypoScriptFrontendController $frontendController) {
 
-    if (!isset($_SERVER['HTTP_ORIGIN'])) {
-
-      return;
-    }
-
-    $origin = new Uri($_SERVER['HTTP_ORIGIN']);
-    $request = Uri::fromEnvironment($_SERVER);
-    $accessController = new AccessController();
-
-    if (!$accessController->isCrossOriginRequest($origin, $request)) {
-
-      return;
-    }
-
+    $negotiator = new Negotiator();
     $this->frontendController = $frontendController;
     $configuration = $this->getConfiguration($frontendController->config['config']);
 
     if (isset($configuration['allowCredentials'])) {
 
-      $accessController->setAllowCredentials($configuration['allowCredentials']);
+      $negotiator->setAllowCredentials($configuration['allowCredentials']);
     }
 
     if (isset($configuration['allowHeaders'])) {
 
-      $accessController->setAllowedHeaders($configuration['allowHeaders']);
+      $negotiator->setAllowedHeaders($configuration['allowHeaders']);
     }
 
     if (isset($configuration['allowMethods'])) {
 
-      $accessController->setAllowedMethods($configuration['allowMethods']);
+      $negotiator->setAllowedMethods($configuration['allowMethods']);
     }
 
     if (isset($configuration['allowOrigin'])) {
 
-      $accessController->setAllowedOrigins($configuration['allowOrigin']);
+      $negotiator->setAllowedOrigins($configuration['allowOrigin']);
     }
 
     if (isset($configuration['allowOriginPattern'])) {
 
-      $accessController->setAllowedOriginsPattern($configuration['allowOriginPattern']);
+      $negotiator->setAllowedOriginsPattern($configuration['allowOriginPattern']);
     }
 
     if (isset($configuration['exposeHeaders'])) {
 
-      $accessController->setExposedHeaders($configuration['exposeHeaders']);
+      $negotiator->setExposedHeaders($configuration['exposeHeaders']);
     }
 
     if (isset($configuration['maxAge'])) {
 
-      $accessController->setMaximumAge($configuration['maxAge']);
+      $negotiator->setMaximumAge($configuration['maxAge']);
     }
 
-    $accessController->sendHeadersForOrigin($origin);
+    $response = $negotiator->processRequest(new Request($_SERVER));
+    $response->send();
   }
 
   /**
