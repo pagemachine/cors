@@ -89,7 +89,14 @@ class ContentPostProcessorHook {
       $negotiator->setMaximumAge($configuration['maxAge']);
     }
 
-    $response = $negotiator->processRequest(new Request($_SERVER));
+    try {
+      
+      $response = $negotiator->processRequest(new Request($_SERVER));
+    } catch (\PAGEmachine\CORS\AccessControl\Exception $e) {
+      
+      return;
+    }
+
     $response->send();
   }
 

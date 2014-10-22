@@ -175,6 +175,7 @@ class Negotiator {
    *
    * @param Request $request Access control request to process
    * @return Response Access control response
+   * @throws Exception\AccessDeniedException If access is not allowed
    */
   public function processRequest(Request $request) {
 
@@ -195,7 +196,7 @@ class Negotiator {
       $response->setHeader('Access-Control-Allow-Origin', $originUri);
     } else {
 
-      return $response;
+      throw new Exception\AccessDeniedException('Access not allowed for origin "' . $originUri . '"', 1413983266);
     }
 
     if ($request->hasCredentials() && $this->getAllowCredentials()) {
