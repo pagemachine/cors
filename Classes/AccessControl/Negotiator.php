@@ -188,7 +188,7 @@ class Negotiator {
     
     $originUri = $request->getOrigin()->getScheme() . '://' . $request->getOrigin()->getHostname();
 
-    if ($this->isOriginUriAllowed('*')) {
+    if ($this->isOriginUriAllowed('*') && !$request->hasCredentials()) {
 
       $response->setHeader('Access-Control-Allow-Origin', '*');
     } elseif ($this->isOriginUriAllowed($originUri)) {
