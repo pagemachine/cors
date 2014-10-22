@@ -53,7 +53,7 @@ class Negotiator {
   /**
    * @var array $allowedHeaders
    */
-  protected $allowedHeaders;
+  protected $allowedHeaders = array();
   
   /**
    * @return array
@@ -73,7 +73,7 @@ class Negotiator {
   /**
    * @var array $allowedMethods
    */
-  protected $allowedMethods;
+  protected $allowedMethods = array();
   
   /**
    * @return array
@@ -133,7 +133,7 @@ class Negotiator {
   /**
    * @var array $exposedHeaders
    */
-  protected $exposedHeaders;
+  protected $exposedHeaders = array();
   
   /**
    * @return array
