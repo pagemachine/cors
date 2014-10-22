@@ -198,7 +198,7 @@ class Negotiator {
       return $response;
     }
 
-    if ($this->getAllowCredentials()) {
+    if ($request->hasCredentials() && $this->getAllowCredentials()) {
 
       $response->setHeader('Access-Control-Allow-Credentials', 'true');
     }

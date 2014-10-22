@@ -38,6 +38,12 @@ class Request {
   protected $isCrossOrigin = FALSE;
 
   /**
+  /**
+   * @var boolean
+   */
+  protected $hasCredentials = FALSE;
+
+  /**
    * @var Uri $origin
    */
   protected $origin;
@@ -76,6 +82,9 @@ class Request {
       $this->isCrossOrigin = $this->origin->getScheme() != $this->destination->getScheme() ||
         $this->origin->getHostname() != $this->destination->getHostname() ||
         $this->origin->getPort() != $this->destination->getPort();
+      $this->hasCredentials = isset($environment['HTTP_COOKIE']) ||
+        isset($environment['HTTP_AUTHORIZATION']) ||
+        isset($environment['SSL_CLIENT_VERIFY']) && $environment['SSL_CLIENT_VERIFY'] !== 'NONE';
     }
   }
 
@@ -89,5 +98,17 @@ class Request {
   public function isCrossOrigin() {
 
     return $this->isCrossOrigin;
+  }
+
+  /**
+   * Returns TRUE, if the current request has credentials, FALSE otherwise
+   *
+   * Credentials include cookies, HTTP authentication data and SSL client certificates
+   *
+   * @return boolean
+   */
+  public function hasCredentials() {
+
+    return $this->hasCredentials;
   }
 }
