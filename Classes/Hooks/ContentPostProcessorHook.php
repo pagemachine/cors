@@ -26,6 +26,7 @@ namespace PAGEmachine\CORS\Hooks;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use PAGEmachine\CORS\AccessControl\Negotiator;
@@ -94,7 +95,8 @@ class ContentPostProcessorHook {
       $response = $negotiator->processRequest(new Request($_SERVER));
     } catch (\PAGEmachine\CORS\AccessControl\Exception $e) {
       
-      return;
+      // No need to go any further since the client will abort anyways
+      HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
     }
 
     $response->send();

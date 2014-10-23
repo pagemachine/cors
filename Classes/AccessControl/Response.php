@@ -25,6 +25,8 @@ namespace PAGEmachine\CORS\AccessControl;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\HttpUtility;
+
 /**
  * Represents a HTTP response
  */
@@ -73,6 +75,26 @@ class Response {
   }
 
   /**
+   * @var boolean $skipBody
+   */
+  protected $skipBody = FALSE;
+  
+  /**
+   * @return boolean
+   */
+  public function getSkipBody() {
+    return $this->skipBody;
+  }
+  
+  /**
+   * @param boolean $skipBody
+   * @return void
+   */
+  public function setSkipBody($skipBody) {
+    $this->skipBody = $skipBody;
+  }
+
+  /**
    * Sends all HTTP headers and the body as necessary
    *
    * @return void
@@ -87,6 +109,11 @@ class Response {
       }
 
       header($name . ': ' . $value);
+    }
+
+    if ($this->skipBody) {
+
+      HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
     }
   }
 }

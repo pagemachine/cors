@@ -237,6 +237,9 @@ class Negotiator {
 
         $response->setHeader('Access-Control-Max-Age', $this->getMaximumAge());
       }
+
+      // No need for a body in a preflight request
+      $response->setSkipBody(TRUE);
     }
 
     $originUri = $request->getOrigin()->getScheme() . '://' . $request->getOrigin()->getHostname();
