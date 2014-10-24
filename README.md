@@ -89,3 +89,9 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
             value = 600
           }
         }
+
+## Unit Tests
+
+Run the following from the document root of your TYPO3 CMS installation:
+
+    /path/to/phpunit -c typo3/sysext/core/Build/UnitTests.xml path/to/cors/Tests/Unit
