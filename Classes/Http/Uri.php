@@ -224,12 +224,12 @@ class Uri {
     $uri->setUsername(isset($environment['PHP_AUTH_USER']) ? $environment['PHP_AUTH_USER'] : NULL);
     $uri->setPassword(isset($environment['PHP_AUTH_PW']) ? $environment['PHP_AUTH_PW'] : NULL);
 
-    $requestUriParts = explode('?', $environment['REQUEST_URI'], 1);
+    $requestUriParts = explode('?', $environment['REQUEST_URI'], 2);
     $uri->setPath($requestUriParts[0]);
 
     if (isset($requestUriParts[1])) {
 
-      $queryParts = explode('#', $requestUriParts[1], 1);
+      $queryParts = explode('#', $requestUriParts[1], 2);
       $uri->setQuery($queryParts[0]);
       $uri->setFragment(isset($queryParts[1]) ? $queryParts[1] : NULL);
     }
