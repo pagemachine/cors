@@ -133,9 +133,9 @@ class Request {
         isset($environment['HTTP_AUTHORIZATION']) ||
         isset($environment['SSL_CLIENT_VERIFY']) && $environment['SSL_CLIENT_VERIFY'] !== 'NONE';
 
-      $this->isPreflight = $environment['REQUEST_METHOD'] == 'OPTIONS';
+      if ($environment['REQUEST_METHOD'] == 'OPTIONS') {
 
-      if ($this->isPreflight) {
+        $this->isPreflight = TRUE;
 
         if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
 
