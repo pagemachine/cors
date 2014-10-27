@@ -181,29 +181,29 @@ class Response {
 
     if ($this->getAllowedOrigin()) {
 
-      $this->sendHeader('Access-Control-Allow-Origin', $this->getAllowedOrigin());
+      $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Origin', $this->getAllowedOrigin()));
     }
 
     if ($this->getAllowCredentials()) {
 
-      $this->sendHeader('Access-Control-Allow-Credentials', 'true');
+      $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Credentials', 'true'));
     }
 
     if (count($this->getExposedHeaders())) {
 
-      $this->sendHeader('Access-Control-Expose-Headers', $this->getExposedHeaders());
+      $this->sendHeader($this->buildHeaderString('Access-Control-Expose-Headers', $this->getExposedHeaders()));
     }
 
     if ($this->isPreflight()) {
 
       if (count($this->getAllowedMethods())) {
 
-        $this->sendHeader('Access-Control-Allow-Methods', $this->getAllowedMethods());
+        $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Methods', $this->getAllowedMethods()));
       }
 
       if (count($this->getAllowedHeaders())) {
 
-        $this->sendHeader('Access-Control-Allow-Headers', $this->getAllowedHeaders());
+        $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Headers', $this->getAllowedHeaders()));
       }
 
       // No need for a body in a preflight response
@@ -212,21 +212,32 @@ class Response {
   }
 
   /**
-   * Sends an HTTP response header
+   * Builds an HTTP response header
    *
-   * Array values are imploded like "foo, bar"
+   * Multiple values are joined like "foo, bar"
    *
    * @param string $name Name of an HTTP header
-   * @param mixed $value HTTP header value
-   * @return void
+   * @param mixed $value Simple or multivalued value
+   * @return string
    */
-  protected function sendHeader($name, $value) {
+  protected function buildHeaderString($name, $value) {
 
     if (is_array($value)) {
 
       $value = implode(', ', $value);
     }
 
-    header($name . ': ' . $value);
+    return $name . ': ' . $value;
+  }
+
+  /**
+   * Sends an HTTP response header
+   *
+   * @param string $header HTTP header
+   * @return void
+   */
+  protected function sendHeader($header) {
+
+    header($header);
   }
 }
