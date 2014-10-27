@@ -31,6 +31,7 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use PAGEmachine\CORS\AccessControl\Negotiator;
 use PAGEmachine\CORS\AccessControl\Request;
+use PAGEmachine\CORS\AccessControl\Response;
 
 /**
  * Sends CORS-related headers as configured
@@ -90,13 +91,15 @@ class ContentPostProcessorHook {
       $negotiator->setMaximumAge($configuration['maxAge']);
     }
 
+    $response = new Response();
+
     try {
       
-      $response = $negotiator->processRequest(new Request($_SERVER));
+      $negotiator->processRequest(new Request($_SERVER), $response);
     } catch (\PAGEmachine\CORS\AccessControl\Exception $e) {
       
       // No need to go any further since the client will abort anyways
-      HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
+      $response->skipBodyAndExit();
     }
 
     $response->send();

@@ -196,16 +196,14 @@ class Negotiator {
    * Processes an access control request
    *
    * @param Request $request Access control request to process
-   * @return Response Access control response
+   * @return void
    * @throws Exception\AccessDeniedException If access is not allowed
    */
-  public function processRequest(Request $request) {
-
-    $response = new Response();
+  public function processRequest(Request $request, Response $response) {
 
     if (!$request->isCrossOrigin()) {
 
-      return $response;
+      return;
     }
 
     if ($request->isPreflight()) {
@@ -253,8 +251,6 @@ class Negotiator {
     }
 
     $response->setExposedHeaders($this->getExposedHeaders());
-
-    return $response;
   }
 
   /**
