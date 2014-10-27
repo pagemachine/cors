@@ -207,7 +207,7 @@ class Response {
       }
 
       // No need for a body in a preflight response
-      HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
+      $this->skipBodyAndExit();
     }
   }
 
@@ -239,5 +239,16 @@ class Response {
   protected function sendHeader($header) {
 
     header($header);
+  }
+
+  /**
+   * Skips the HTTP response body, sends an according
+   * header (status 204) and stops script execution
+   *
+   * @return void
+   */
+  protected function skipBodyAndExit() {
+
+    HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
   }
 }
