@@ -220,50 +220,39 @@ class Negotiator {
         throw new Exception\AccessDeniedException('Request method "' . $request->getRequestMethod() . '" not allowed', 1413983927);
       }
 
-      $response->setHeader('Access-Control-Allow-Methods', $request->getRequestMethod());
-
       foreach ($request->getRequestHeaders() as $header) {
         
-        if ($this->isHeaderAllowed($header)) {
-
-          $response->appendHeader('Access-Control-Allow-Headers', $header);
-        } else {
+        if (!$this->isHeaderAllowed($header)) {
 
           throw new Exception\AccessDeniedException('Request header "' . $header . '" not allowed', 1413988013);
         }
       }
 
-      if ($this->getMaximumAge()) {
-
-        $response->setHeader('Access-Control-Max-Age', $this->getMaximumAge());
-      }
-
-      // No need for a body in a preflight request
-      $response->setSkipBody(TRUE);
+      $response->setIsPreflight(TRUE);
+      $response->setAllowedMethods(array($request->getRequestMethod()));
+      $response->setAllowedHeaders($request->getRequestHeaders());
+      $response->setMaximumAge($this->getMaximumAge());
     }
 
     $originUri = $request->getOrigin()->getScheme() . '://' . $request->getOrigin()->getHostname();
 
     if ($this->isOriginUriAllowed('*') && !$request->hasCredentials()) {
 
-      $response->setHeader('Access-Control-Allow-Origin', '*');
+      $response->setAllowedOrigin('*');
     } elseif ($this->isOriginUriAllowed($originUri)) {
 
-      $response->setHeader('Access-Control-Allow-Origin', $originUri);
+      $response->setAllowedOrigin($originUri);
     } else {
 
       throw new Exception\AccessDeniedException('Access not allowed for origin "' . $originUri . '"', 1413983266);
     }
 
-    if ($request->hasCredentials() && $this->getAllowCredentials()) {
+    if ($request->hasCredentials()) {
 
-      $response->setHeader('Access-Control-Allow-Credentials', 'true');
+      $response->setAllowCredentials($this->getAllowCredentials());
     }
 
-    if (count($this->getExposedHeaders())) {
-
-      $response->setHeader('Access-Control-Expose-Headers', $this->getExposedHeaders());
-    }
+    $response->setExposedHeaders($this->getExposedHeaders());
 
     return $response;
   }
