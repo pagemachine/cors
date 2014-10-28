@@ -59,6 +59,14 @@ class Request {
   public function getOrigin() {
     return $this->origin;
   }
+  
+  /**
+   * @param Uri $origin
+   * @return void
+   */
+  public function setOrigin(Uri $origin) {
+    $this->origin = $origin;
+  }
 
   /**
    * @var Uri $destination
@@ -70,6 +78,14 @@ class Request {
    */
   public function getDestination() {
     return $this->destination;
+  }
+  
+  /**
+   * @param Uri $destination
+   * @return void
+   */
+  public function setDestination(Uri $destination) {
+    $this->destination = $destination;
   }
 
   /**
@@ -158,8 +174,15 @@ class Request {
    * @return boolean
    */
   public function isCrossOrigin() {
-
     return $this->isCrossOrigin;
+  }
+  
+  /**
+   * @param bool $isCrossOrigin
+   * @return void
+   */
+  public function setIsCrossOrigin($isCrossOrigin) {
+    $this->isCrossOrigin = $isCrossOrigin;
   }
 
   /**
@@ -170,8 +193,15 @@ class Request {
    * @return boolean
    */
   public function hasCredentials() {
-
     return $this->hasCredentials;
+  }
+  
+  /**
+   * @param bool $hasCredentials
+   * @return void
+   */
+  public function setHasCredentials($hasCredentials) {
+    $this->hasCredentials = $hasCredentials;
   }
 
   /**
@@ -180,7 +210,14 @@ class Request {
    * @return boolean
    */
   public function isPreflight() {
-
     return $this->isPreflight;
+  }
+  
+  /**
+   * @param boo $isPreflight
+   * @return void
+   */
+  public function setIsPreflight($isPreflight) {
+    $this->isPreflight = $isPreflight;
   }
 }
