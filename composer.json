@@ -11,6 +11,9 @@
   "require": {
     "php": ">=5.3"
   },
+  "require-dev": {
+    "phpunit/phpunit": "~4.1.0"
+  },
   "autoload": {
     "__comment": "XXX: Change this to properly indicate psr-4 as soon as the package manager of TYPO3 supports it. See: https://forge.typo3.org/issues/57604",
     "psr-0": {
