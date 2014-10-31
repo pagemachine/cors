@@ -213,23 +213,23 @@ class Uri {
 
     $uri = new self();
     $uri->setScheme(
-      isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)
+      isset($environment['HTTPS']) && ($environment['HTTPS'] == 'on' || $environment['HTTPS'] == 1)
       ||
-      isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+      isset($environment['HTTP_X_FORWARDED_PROTO']) && $environment['HTTP_X_FORWARDED_PROTO'] == 'https'
       ? 'https'
       : 'http'
     );
-    $uri->setHostname($_SERVER['HTTP_HOST']);
-    $uri->setPort(isset($_SERVER['SERVER_PORT']) ? (int) $_SERVER['SERVER_PORT'] : NULL);
-    $uri->setUsername(isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : NULL);
-    $uri->setPassword(isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : NULL);
+    $uri->setHostname($environment['HTTP_HOST']);
+    $uri->setPort(isset($environment['SERVER_PORT']) ? (int) $environment['SERVER_PORT'] : NULL);
+    $uri->setUsername(isset($environment['PHP_AUTH_USER']) ? $environment['PHP_AUTH_USER'] : NULL);
+    $uri->setPassword(isset($environment['PHP_AUTH_PW']) ? $environment['PHP_AUTH_PW'] : NULL);
 
-    $requestUriParts = explode('?', $_SERVER['REQUEST_URI'], 1);
+    $requestUriParts = explode('?', $environment['REQUEST_URI'], 2);
     $uri->setPath($requestUriParts[0]);
 
     if (isset($requestUriParts[1])) {
 
-      $queryParts = explode('#', $requestUriParts[1], 1);
+      $queryParts = explode('#', $requestUriParts[1], 2);
       $uri->setQuery($queryParts[0]);
       $uri->setFragment(isset($queryParts[1]) ? $queryParts[1] : NULL);
     }

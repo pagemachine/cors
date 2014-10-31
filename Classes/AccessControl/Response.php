@@ -33,65 +33,143 @@ use TYPO3\CMS\Core\Utility\HttpUtility;
 class Response {
 
   /**
-   * @var array $headers
+   * @var string $allowedOrigin
    */
-  protected $headers = array();
+  protected $allowedOrigin;
   
   /**
-   * @return array
+   * @return string
    */
-  public function getHeaders() {
-    return $this->headers;
+  public function getAllowedOrigin() {
+    return $this->allowedOrigin;
   }
 
   /**
-   * @param string $name
-   * @param mixed $value
-   */
-  public function setHeader($name, $value) {
-    $this->headers[$name] = $value;
-  }
-
-  /**
-   * @param string $name
-   * @param mixed $value
-   */
-  public function appendHeader($name, $value) {
-
-    if (isset($this->headers[$name])) {
-
-      $this->headers[$name] = (array) $this->headers[$name];
-    }
-
-    $this->headers[$name][] = $value;
-  }
-  
-  /**
-   * @param array $headers
+   * @param string $allowedOrigin
    * @return void
    */
-  public function setHeaders(array $headers) {
-    $this->headers = $headers;
+  public function setAllowedOrigin($allowedOrigin) {
+    $this->allowedOrigin = $allowedOrigin;
   }
 
   /**
-   * @var boolean $skipBody
+   * @var boolean $allowCredentials
    */
-  protected $skipBody = FALSE;
-  
+  protected $allowCredentials = FALSE;
+
   /**
    * @return boolean
    */
-  public function getSkipBody() {
-    return $this->skipBody;
+  public function getAllowCredentials() {
+    return $this->allowCredentials;
   }
-  
+
   /**
-   * @param boolean $skipBody
+   * @param boolean $allowCredentials
    * @return void
    */
-  public function setSkipBody($skipBody) {
-    $this->skipBody = $skipBody;
+  public function setAllowCredentials($allowCredentials) {
+    $this->allowCredentials = $allowCredentials;
+  }
+
+  /**
+   * @var array $exposedHeaders
+   */
+  protected $exposedHeaders = array();
+
+  /**
+   * @return array
+   */
+  public function getExposedHeaders() {
+    return $this->exposedHeaders;
+  }
+
+  /**
+   * @param array $exposedHeaders
+   * @return void
+   */
+  public function setExposedHeaders(array $exposedHeaders) {
+    $this->exposedHeaders = $exposedHeaders;
+  }
+
+  /**
+   * @var boolean $isPreflight
+   */
+  protected $isPreflight = FALSE;
+
+  /**
+   * @return boolean
+   */
+  public function isPreflight() {
+    return $this->isPreflight;
+  }
+
+  /**
+   * @param boolean $isPreflight
+   * @return void
+   */
+  public function setIsPreflight($isPreflight) {
+    $this->isPreflight = $isPreflight;
+  }
+
+  /**
+   * @var array $allowedMethods
+   */
+  protected $allowedMethods = array();
+
+  /**
+   * @return array
+   */
+  public function getAllowedMethods() {
+    return $this->allowedMethods;
+  }
+
+  /**
+   * @param array $allowedMethods
+   * @return void
+   */
+  public function setAllowedMethods(array $allowedMethods) {
+    $this->allowedMethods = $allowedMethods;
+  }
+
+  /**
+   * @var array $allowedHeaders
+   */
+  protected $allowedHeaders = array();
+
+  /**
+   * @return array
+   */
+  public function getAllowedHeaders() {
+    return $this->allowedHeaders;
+  }
+
+  /**
+   * @param array $allowedHeaders
+   * @return void
+   */
+  public function setAllowedHeaders(array $allowedHeaders) {
+    $this->allowedHeaders = $allowedHeaders;
+  }
+
+  /**
+   * @var integer $maximumAge
+   */
+  protected $maximumAge;
+
+  /**
+   * @return integer
+   */
+  public function getMaximumAge() {
+    return $this->maximumAge;
+  }
+
+  /**
+   * @param integer $maximumAge
+   * @return void
+   */
+  public function setMaximumAge($maximumAge) {
+    $this->maximumAge = $maximumAge;
   }
 
   /**
@@ -101,19 +179,76 @@ class Response {
    */
   public function send() {
 
-    foreach ($this->headers as $name => $value) {
-      
-      if (is_array($value)) {
+    if ($this->getAllowedOrigin()) {
 
-        $value = implode(', ', $value);
+      $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Origin', $this->getAllowedOrigin()));
+    }
+
+    if ($this->getAllowCredentials()) {
+
+      $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Credentials', 'true'));
+    }
+
+    if (count($this->getExposedHeaders())) {
+
+      $this->sendHeader($this->buildHeaderString('Access-Control-Expose-Headers', $this->getExposedHeaders()));
+    }
+
+    if ($this->isPreflight()) {
+
+      if (count($this->getAllowedMethods())) {
+
+        $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Methods', $this->getAllowedMethods()));
       }
 
-      header($name . ': ' . $value);
+      if (count($this->getAllowedHeaders())) {
+
+        $this->sendHeader($this->buildHeaderString('Access-Control-Allow-Headers', $this->getAllowedHeaders()));
+      }
+
+      // No need for a body in a preflight response
+      $this->skipBodyAndExit();
+    }
+  }
+
+  /**
+   * Builds an HTTP response header
+   *
+   * Multiple values are joined like "foo, bar"
+   *
+   * @param string $name Name of an HTTP header
+   * @param mixed $value Simple or multivalued value
+   * @return string
+   */
+  protected function buildHeaderString($name, $value) {
+
+    if (is_array($value)) {
+
+      $value = implode(', ', $value);
     }
 
-    if ($this->skipBody) {
+    return $name . ': ' . $value;
+  }
 
-      HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
-    }
+  /**
+   * Sends an HTTP response header
+   *
+   * @param string $header HTTP header
+   * @return void
+   */
+  protected function sendHeader($header) {
+
+    header($header);
+  }
+
+  /**
+   * Skips the HTTP response body, sends an according
+   * header (status 204) and stops script execution
+   *
+   * @return void
+   */
+  protected function skipBodyAndExit() {
+
+    HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
   }
 }
