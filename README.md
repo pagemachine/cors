@@ -2,6 +2,15 @@
 
 [Cross Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) for TYPO3 CMS.
 
+## Installation
+
+This extension is installable from various sources:
+
+1. From [Bitbucket](https://bitbucket.org/pagemachineag/cors/downloads)
+2. Via [Composer](https://packagist.org/packages/pagemachine/cors):
+        
+        composer require pagemachine/cors
+
 ## Configuration
 
 All configuration options can be set via TypoScript setup in `config` or per page object in `page.config`. The following options are available:
@@ -95,3 +104,7 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 Run the following from the document root of your TYPO3 CMS installation:
 
     /path/to/phpunit -c typo3/sysext/core/Build/UnitTests.xml path/to/cors/Tests/Unit
+
+## Issues
+
+Found a bug? Need a feature? Let us know through our [issue tracker](https://bitbucket.org/pagemachineag/cors/issues).
