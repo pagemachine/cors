@@ -8,6 +8,7 @@
       "email": "mbrodala@pagemachine.de"
     }
   ],
+  "type": "typo3-cms-extension",
   "require": {
     "php": ">=5.3"
   },
