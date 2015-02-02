@@ -1,5 +1,7 @@
 # CORS
 
+[![Build Status](https://travis-ci.org/pagemachine/cors.svg)](https://travis-ci.org/pagemachine/cors)
+
 [Cross Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) for TYPO3 CMS.
 
 ## Installation
