@@ -1,0 +1,27 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  - TYPO3_BRANCH=TYPO3_6-2
+
+matrix:
+  include:
+    - php: 5.5
+      env: TYPO3_BRANCH=master
+
+before_script:
+  - cd ..
+  - git clone --single-branch --branch $TYPO3_BRANCH --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
+  - mv typo3_core/* .
+  - sudo apt-get install parallel
+  - composer self-update
+  - composer install
+  - mkdir -p uploads typo3temp typo3conf/ext
+  - mv cors typo3conf/ext/
+
+script:
+  - ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/cors/Tests/Unit
