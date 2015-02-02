@@ -16,7 +16,7 @@ This extension is installable from various sources:
 All configuration options can be set via TypoScript setup in `config` or per page object in `page.config`. The following options are available:
 
 | Option | Type | Description |
-|-|-|-|
+| --- | --- | --- |
 | `allowCredentials` | int/boolean | Processing of the `credentials` flag |
 | `allowHeaders` | string |  List of allowed headers (X-Foo, ...), [simple headers](http://www.w3.org/TR/2014/REC-cors-20140116/#simple-header) are always allowed |
 | `allowMethods` | string |  List of allowed methods (PUT, DELETE, ...), [simple methods](http://www.w3.org/TR/2014/REC-cors-20140116/#simple-method) are always allowed |
