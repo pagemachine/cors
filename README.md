@@ -6,8 +6,8 @@
 
 This extension is installable from various sources:
 
-1. From [Bitbucket](https://bitbucket.org/pagemachineag/cors/downloads)
-2. Via [Composer](https://packagist.org/packages/pagemachine/cors):
+1. From [Github](https://github.com/pagemachine/cors/releases)
+2. Via [Composer](https://github.com/pagemachine/cors/issues):
         
         composer require pagemachine/cors
 
@@ -107,4 +107,4 @@ Run the following from the document root of your TYPO3 CMS installation:
 
 ## Issues
 
-Found a bug? Need a feature? Let us know through our [issue tracker](https://bitbucket.org/pagemachineag/cors/issues).
+Found a bug? Need a feature? Let us know through our [issue tracker](https://github.com/pagemachine/cors/issues).
