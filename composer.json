@@ -20,7 +20,7 @@
   "vendor-dir": ".build/vendor",
   "bin-dir": ".build/bin",
   "autoload": {
-    "psr-0": {
+    "psr-4": {
       "PAGEmachine\\CORS\\": "Classes/"
     }
   }
