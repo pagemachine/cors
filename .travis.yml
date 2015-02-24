@@ -9,6 +9,7 @@ env:
   global:
     - TYPO3_ORG_USERNAME=pagemachine
     - secure: qC9zPay5rnMaQlf2dTX6agQSPr4e/pnuUGbMwbdqm3ayxb57Oo2cA89qwhPyjTnBQ68uELm86P3d5+qp9+KJkYgLlX7q7LD3LmXOjVwohsgrIZNVjOGrvgI6SQUJtRu3ySTfuecf4Zb0dq6LPLj7MR4TxHkf2FdukdFLk6zdF0M=
+    - secure: SD2d0GCZUSJoeYXCNNC9JW4tiKwNkWlyWdREXmb/WRKwLebceWBAvn6Q25NW0tAZWmyQG6HWTgPaS4eFxO0DD7TnCghd9SmJhbXu2NCdi3IoXDLwwUrvasP0K2k/Lb2pbCKjv4EQRTnbuNjJqddNxaELzoWsir3PU3MnfXnIEh8=
   matrix:
     - TYPO3_BRANCH=TYPO3_6-2
 
@@ -23,6 +24,7 @@ before_script:
   - mv typo3_core/* .
   - sudo apt-get install parallel
   - composer self-update
+  - composer config github-oauth.github.com "$GITHUB_OAUTH_TOKEN"
   - composer install
   - mkdir -p uploads typo3temp typo3conf/ext
   - mv cors typo3conf/ext/
