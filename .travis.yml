@@ -6,7 +6,11 @@ php:
   - 5.5
 
 env:
-  - TYPO3_BRANCH=TYPO3_6-2
+  global:
+    - TYPO3_ORG_USERNAME=pagemachine
+    - secure: qC9zPay5rnMaQlf2dTX6agQSPr4e/pnuUGbMwbdqm3ayxb57Oo2cA89qwhPyjTnBQ68uELm86P3d5+qp9+KJkYgLlX7q7LD3LmXOjVwohsgrIZNVjOGrvgI6SQUJtRu3ySTfuecf4Zb0dq6LPLj7MR4TxHkf2FdukdFLk6zdF0M=
+  matrix:
+    - TYPO3_BRANCH=TYPO3_6-2
 
 matrix:
   include:
@@ -25,3 +29,15 @@ before_script:
 
 script:
   - ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/cors/Tests/Unit
+
+after_success:
+  - >
+    if [ -n "$TRAVIS_TAG" ]; then
+      TAG_ANNOTATION="$(git tag -n -l $TRAVIS_TAG)"
+      TAG_MESSAGE="${TAG_ANNOTATION#* }"
+      cd typo3conf/ext/cors/
+      echo;
+      echo "Uploading release ${TRAVIS_TAG} to TER"
+      composer install && \
+      .build/bin/upload . $TYPO3_ORG_USERNAME $TYPO3_ORG_PASSWORD "$TAG_MESSAGE"
+    fi
