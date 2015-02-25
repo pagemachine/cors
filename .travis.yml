@@ -33,4 +33,5 @@ script:
   - ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/cors/Tests/Unit
 
 after_success:
+  - cd typo3conf/ext/cors/
   - curl -s "http://www.deployasaur.us/deploy.sh" | bash
