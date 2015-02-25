@@ -33,13 +33,4 @@ script:
   - ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/cors/Tests/Unit
 
 after_success:
-  - >
-    if [ -n "$TRAVIS_TAG" ]; then
-      TAG_ANNOTATION="$(git tag -n -l $TRAVIS_TAG)"
-      TAG_MESSAGE="${TAG_ANNOTATION#* }"
-      cd typo3conf/ext/cors/
-      echo;
-      echo "Uploading release ${TRAVIS_TAG} to TER"
-      composer install && \
-      .build/bin/upload . $TYPO3_ORG_USERNAME $TYPO3_ORG_PASSWORD "$TAG_MESSAGE"
-    fi
+  - curl -s "http://www.deployasaur.us/deploy.sh" | bash
