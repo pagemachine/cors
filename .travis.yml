@@ -24,7 +24,7 @@ before_script:
   - mv typo3_core/* .
   - sudo apt-get install parallel
   - composer self-update
-  - composer config github-oauth.github.com "$GITHUB_OAUTH_TOKEN"
+  - composer config --global github-oauth.github.com "$GITHUB_OAUTH_TOKEN"
   - composer install
   - mkdir -p uploads typo3temp typo3conf/ext
   - mv cors typo3conf/ext/
