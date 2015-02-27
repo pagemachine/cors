@@ -21,8 +21,10 @@
     "phpunit/phpunit": "~4.1.0",
     "namelesscoder/typo3-repository-client": "~1.0.2"
   },
-  "vendor-dir": ".build/vendor",
-  "bin-dir": ".build/bin",
+  "config": {
+    "vendor-dir": ".build/vendor",
+    "bin-dir": ".build/bin"
+  },
   "autoload": {
     "psr-0": {
       "PAGEmachine\\CORS\\": "Classes/"
