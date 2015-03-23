@@ -15,7 +15,7 @@ This extension is installable from various sources:
 
 ## Configuration
 
-All configuration options can be set via TypoScript setup in `config` or per page object in `page.config`. The following options are available:
+All configuration options can be set via TypoScript setup in `config.cors` or per page object in `page.config.cors`. The following options are available:
 
 | Option | Type | Description |
 | --- | --- | --- |
@@ -33,13 +33,13 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 
 * Origin wildcarding:
 
-        config {
+        config.cors {
           allowOrigin = *
         }
 
 * Simple list of origins:
 
-        config {
+        config.cors {
           allowOrigin = http://example.org, http://example.com
           // More readable version
           allowOrigin (
@@ -50,19 +50,19 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 
 * Matching origins via regular expressions:
 
-        config {
+        config.cors {
           allowOrigin.pattern = https?://example\.(org|com)
         }
 
 * Allow specific methods:
 
-        config {
+        config.cors {
           allowMethods = GET, POST, PUT, DELETE
         }
 
 * Allow headers:
 
-        config {
+        config.cors {
           allowHeaders = (
             Content-Type,
             ...
@@ -71,14 +71,14 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 
 * Allow `credential` flag processing:
 
-        config {
+        config.cors {
           // Set to 1/true to enable
           allowCredentials = 1
         }
 
 *  Expose headers:
 
-        config {
+        config.cors {
           exposeHeaders (
             X-My-Custom-Header,
             X-Another-Custom-Header
@@ -87,14 +87,14 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 
 * Set maximum age of preflight request result:
 
-        config {
+        config.cors {
           // 10 minutes
           maxAge = 600
         }
 
 * Set maximum age via some `stdWrap` processing:
 
-        config {
+        config.cors {
           maxAge.stdWrap.cObject = TEXT
           maxAge.stdWrap.cObject {
             value = 600
