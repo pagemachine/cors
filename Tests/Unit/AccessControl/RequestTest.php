@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\Tests\AccessControl;
+namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
 
 /***************************************************************
  *  Copyright notice
