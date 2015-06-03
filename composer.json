@@ -29,5 +29,10 @@
     "psr-4": {
       "PAGEmachine\\CORS\\": "Classes/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PAGEmachine\\CORS\\Tests\\": "Tests/"
+    }
   }
 }
