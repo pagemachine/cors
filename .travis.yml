@@ -22,6 +22,13 @@ matrix:
     - php: 5.5
       env: TYPO3_VERSION=dev-master
 
+sudo: false
+
+cache:
+  directories:
+    - typo3/contrib/vendor
+    - $HOME/.composer/cache
+
 before_install:
   - composer self-update
   - composer config --global github-oauth.github.com "$GITHUB_OAUTH_TOKEN"
