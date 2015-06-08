@@ -101,12 +101,6 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
           }
         }
 
-## Unit Tests
-
-Run the following from the document root of your TYPO3 CMS installation:
-
-    /path/to/phpunit -c typo3/sysext/core/Build/UnitTests.xml path/to/cors/Tests/Unit
-
 ## Issues
 
 Found a bug? Need a feature? Let us know through our [issue tracker](https://github.com/pagemachine/cors/issues).
