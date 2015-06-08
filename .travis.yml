@@ -24,6 +24,11 @@ matrix:
 
 sudo: false
 
+addons:
+  apt:
+    packages:
+      - parallel
+
 cache:
   directories:
     - typo3/contrib/vendor
@@ -41,6 +46,7 @@ before_script:
   - mv cors typo3conf/ext/
 
 script:
+  - find typo3conf/ext/cors/ -name \*.php | parallel php -l {} >/dev/null \;
   - bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/cors/Tests/Unit
 
 after_success:
