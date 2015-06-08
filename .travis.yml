@@ -46,7 +46,7 @@ before_script:
 
 script:
   - find . -name \*.php -not -path "./Packages/Libraries/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
-  - bin/phpunit -c phpunit.xml
+  - bin/phpunit
 
 after_success:
   - curl -s "http://www.deployasaur.us/deploy.sh" | bash
