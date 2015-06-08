@@ -39,15 +39,13 @@ before_install:
 
 before_script:
   # Keep typo3/cms in vendor-dir
-  - php -r '$c=json_decode(file_get_contents("composer.json"), TRUE); $c["autoload"]["classmap"][] = "vendor/typo3/cms/typo3/sysext"; $c["replace"]["typo3/cms-composer-installers"] = "*"; file_put_contents("composer.json", json_encode($c));'
+  - php -r '$c=json_decode(file_get_contents("composer.json"), TRUE); $c["autoload"]["classmap"][] = "Packages/Libraries/typo3/cms/typo3/sysext"; $c["replace"]["typo3/cms-composer-installers"] = "*"; file_put_contents("composer.json", json_encode($c));'
   - composer require typo3/cms $TYPO3_VERSION
-  # Fix "Calculated absolute path to tslib directory does not exist" error
-  - ln -s vendor/typo3/cms/typo3
   # Fix "No class loading information found for TYPO3 CMS."
-  - ln -sf $PWD/vendor vendor/typo3/cms/typo3/contrib/vendor
+  - ln -sf $PWD/Packages/Libraries Packages/Libraries/typo3/cms/typo3/contrib/vendor
 
 script:
-  - find . -name \*.php -not -path "./vendor/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+  - find . -name \*.php -not -path "./Packages/Libraries/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
   - bin/phpunit -c phpunit.xml
 
 after_success:
