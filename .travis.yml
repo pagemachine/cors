@@ -31,7 +31,6 @@ addons:
 
 cache:
   directories:
-    - vendor
     - $HOME/.composer/cache
 
 before_install:
