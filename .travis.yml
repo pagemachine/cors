@@ -42,8 +42,7 @@ before_script:
   - php -r '$c=json_decode(file_get_contents("composer.json"), TRUE); $c["autoload"]["classmap"][] = "Packages/Libraries/typo3/cms/typo3/sysext"; $c["replace"]["typo3/cms-composer-installers"] = "*"; file_put_contents("composer.json", json_encode($c));'
   - composer require typo3/cms $TYPO3_VERSION
   # Fix "No class loading information found for TYPO3 CMS."
-  - mkdir -p Packages/Libraries/typo3/cms/typo3/contrib/vendor
-  - ln -sf Packages/Libraries/autoload.php Packages/Libraries/typo3/cms/typo3/contrib/vendor
+  - mkdir -p Packages/Libraries/typo3/cms/typo3/contrib/vendor && ln -sf $PWD/Packages/Libraries/autoload.php Packages/Libraries/typo3/cms/typo3/contrib/vendor
 
 script:
   - find . -name \*.php -not -path "./Packages/Libraries/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
