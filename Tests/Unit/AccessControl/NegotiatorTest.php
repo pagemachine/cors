@@ -1,29 +1,16 @@
 <?php
 namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the PAGEmachine CORS project.
  *
- *  (c) 2014 Mathias Brodala <mbrodala@pagemachine.de>, PAGEmachine AG
- *  
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 3
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/ 
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 use PAGEmachine\CORS\AccessControl\Negotiator;
 
@@ -130,12 +117,12 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   public function allowsOriginByPattern($pattern, $origin) {
 
     $this->request->setIsCrossOrigin(TRUE);
-      
+
     $scheme = parse_url($origin, PHP_URL_SCHEME);
     $this->request->getOrigin()->setScheme($scheme);
     $host = parse_url($origin, PHP_URL_HOST);
     $this->request->getOrigin()->setHostname($host);
-  
+
     $this->negotiator->setAllowedOriginsPattern($pattern);
     $this->negotiator->processRequest($this->request, $this->response);
 
@@ -224,7 +211,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->assertContains($requestMethod, $this->response->getAllowedMethods());
 
     foreach ($requestHeaders as $requestHeader) {
-      
+
       $this->assertContains($requestHeader, $this->response->getAllowedHeaders());
     }
   }

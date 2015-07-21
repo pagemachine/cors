@@ -1,29 +1,16 @@
 <?php
 namespace PAGEmachine\CORS\Http;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the PAGEmachine CORS project.
  *
- *  (c) 2014 Mathias Brodala <mbrodala@pagemachine.de>, PAGEmachine AG
- *  
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 3
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 /**
  * Represents a URI as object
@@ -34,14 +21,14 @@ class Uri {
    * @var string $scheme
    */
   protected $scheme;
-  
+
   /**
    * @return string
    */
   public function getScheme() {
     return $this->scheme;
   }
-  
+
   /**
    * @param string $scheme
    * @return void
@@ -54,14 +41,14 @@ class Uri {
    * @var string $hostname
    */
   protected $hostname;
-  
+
   /**
    * @return string
    */
   public function getHostname() {
     return $this->hostname;
   }
-  
+
   /**
    * @param string $hostname
    * @return void
@@ -74,14 +61,14 @@ class Uri {
    * @var integer $port
    */
   protected $port;
-  
+
   /**
    * @return integer
    */
   public function getPort() {
     return $this->port;
   }
-  
+
   /**
    * @param integer $port
    * @return void
@@ -94,14 +81,14 @@ class Uri {
    * @var string $username
    */
   protected $username;
-  
+
   /**
    * @return string
    */
   public function getUsername() {
     return $this->username;
   }
-  
+
   /**
    * @param string $username
    * @return void
@@ -114,14 +101,14 @@ class Uri {
    * @var string $password
    */
   protected $password;
-  
+
   /**
    * @return string
    */
   public function getPassword() {
     return $this->password;
   }
-  
+
   /**
    * @param string $password
    * @return void
@@ -134,14 +121,14 @@ class Uri {
    * @var string $path
    */
   protected $path;
-  
+
   /**
    * @return string
    */
   public function getPath() {
     return $this->path;
   }
-  
+
   /**
    * @param string $path
    * @return void
@@ -154,14 +141,14 @@ class Uri {
    * @var string $query
    */
   protected $query;
-  
+
   /**
    * @return string
    */
   public function getQuery() {
     return $this->query;
   }
-  
+
   /**
    * @param string $query
    * @return void
@@ -174,14 +161,14 @@ class Uri {
    * @var string $fragment
    */
   protected $fragment;
-  
+
   /**
    * @return string
    */
   public function getFragment() {
     return $this->fragment;
   }
-  
+
   /**
    * @param string $fragment
    * @return void
@@ -259,7 +246,7 @@ class Uri {
       switch ($uriComponents['scheme']) {
 
         case 'http':
-        
+
           $uriComponents['port'] = 80;
           break;
 

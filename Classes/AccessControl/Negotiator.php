@@ -1,29 +1,16 @@
 <?php
 namespace PAGEmachine\CORS\AccessControl;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the PAGEmachine CORS project.
  *
- *  (c) 2014 Mathias Brodala <mbrodala@pagemachine.de>, PAGEmachine AG
- *  
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 3
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 /**
  * Negotiator for access control requests
@@ -56,14 +43,14 @@ class Negotiator {
    * @var boolean $allowCredentials
    */
   protected $allowCredentials = FALSE;
-  
+
   /**
    * @return boolean
    */
   public function getAllowCredentials() {
     return $this->allowCredentials;
   }
-  
+
   /**
    * @param boolean $allowCredentials
    * @return void
@@ -76,14 +63,14 @@ class Negotiator {
    * @var array $allowedHeaders
    */
   protected $allowedHeaders = array();
-  
+
   /**
    * @return array
    */
   public function getAllowedHeaders() {
     return $this->allowedHeaders;
   }
-  
+
   /**
    * @param array $allowedHeaders
    * @return void
@@ -96,14 +83,14 @@ class Negotiator {
    * @var array $allowedMethods
    */
   protected $allowedMethods = array();
-  
+
   /**
    * @return array
    */
   public function getAllowedMethods() {
     return $this->allowedMethods;
   }
-  
+
   /**
    * @param array $allowedMethods
    * @return void
@@ -116,14 +103,14 @@ class Negotiator {
    * @var array $allowedOrigins
    */
   protected $allowedOrigins = array();
-  
+
   /**
    * @return array
    */
   public function getAllowedOrigins() {
     return $this->allowedOrigins;
   }
-  
+
   /**
    * @param array $allowedOrigins
    * @return void
@@ -136,14 +123,14 @@ class Negotiator {
    * @var string $allowedOriginsPattern
    */
   protected $allowedOriginsPattern;
-  
+
   /**
    * @return string
    */
   public function getAllowedOriginsPattern() {
     return $this->allowedOriginsPattern;
   }
-  
+
   /**
    * @param string $allowedOriginsPattern
    * @return void
@@ -156,14 +143,14 @@ class Negotiator {
    * @var array $exposedHeaders
    */
   protected $exposedHeaders = array();
-  
+
   /**
    * @return array
    */
   public function getExposedHeaders() {
     return $this->exposedHeaders;
   }
-  
+
   /**
    * @param array $exposedHeaders
    * @return void
@@ -176,14 +163,14 @@ class Negotiator {
    * @var integer $maximumAge
    */
   protected $maximumAge;
-  
+
   /**
    * @return integer
    */
   public function getMaximumAge() {
     return $this->maximumAge;
   }
-  
+
   /**
    * @param integer $maximumAge
    * @return void
@@ -219,7 +206,7 @@ class Negotiator {
       }
 
       foreach ($request->getRequestHeaders() as $header) {
-        
+
         if (!$this->isHeaderAllowed($header)) {
 
           throw new Exception\AccessDeniedException('Request header "' . $header . '" not allowed', 1413988013);
