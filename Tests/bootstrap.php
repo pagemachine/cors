@@ -2,17 +2,28 @@
 
 // Register composer autoloader
 if (!file_exists(__DIR__ . '/../Packages/Libraries/autoload.php')) {
-
   throw new \RuntimeException('Could not find Packages/Libraries/autoload.php, make sure you ran composer.');
 }
 
-require_once __DIR__ . '/../Packages/Libraries/autoload.php';
-
 define('PATH_thisScript', realpath('Packages/Libraries/typo3/cms/typo3/index.php'));
 define('TYPO3_MODE', 'BE');
+define('TYPO3_COMPOSER_MODE', TRUE);
 putenv('TYPO3_CONTEXT=Testing');
 
-\TYPO3\CMS\Core\Core\Bootstrap::getInstance()
-  ->baseSetup('typo3/')
-  ->disableCoreAndClassesCache();
+call_user_func(function($composerClassLoader, $bootstrap) {
+  // Use old setup order for TYPO3 < 7.3
+  if (method_exists($bootstrap, 'unregisterClassLoader')) {
+    $bootstrap->baseSetup('typo3/');
+    $bootstrap->initializeClassLoader();
+  } else {
+    $bootstrap->initializeClassLoader($composerClassLoader);
+    $bootstrap->baseSetup('typo3/');
+  }
 
+  // Backwards compatibility with TYPO3 < 7.3
+  if (method_exists($bootstrap, 'disableCoreAndClassesCache')) {
+    $bootstrap->disableCoreAndClassesCache();
+  } else {
+    $bootstrap->disableCoreCache();
+  }
+}, require_once __DIR__ . '/../Packages/Libraries/autoload.php', \TYPO3\CMS\Core\Core\Bootstrap::getInstance());
