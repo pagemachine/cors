@@ -11,8 +11,8 @@ env:
     - secure: qC9zPay5rnMaQlf2dTX6agQSPr4e/pnuUGbMwbdqm3ayxb57Oo2cA89qwhPyjTnBQ68uELm86P3d5+qp9+KJkYgLlX7q7LD3LmXOjVwohsgrIZNVjOGrvgI6SQUJtRu3ySTfuecf4Zb0dq6LPLj7MR4TxHkf2FdukdFLk6zdF0M=
     - secure: SD2d0GCZUSJoeYXCNNC9JW4tiKwNkWlyWdREXmb/WRKwLebceWBAvn6Q25NW0tAZWmyQG6HWTgPaS4eFxO0DD7TnCghd9SmJhbXu2NCdi3IoXDLwwUrvasP0K2k/Lb2pbCKjv4EQRTnbuNjJqddNxaELzoWsir3PU3MnfXnIEh8=
   matrix:
-    - TYPO3_VERSION=6.2.0
-    - TYPO3_VERSION=~6.2
+    - TYPO3_VERSION=6.2.0 TYPO3_SIX=1
+    - TYPO3_VERSION=~6.2 TYPO3_SIX=1
 
 matrix:
   include:
@@ -38,11 +38,12 @@ before_install:
   - composer config --global github-oauth.github.com "$GITHUB_OAUTH_TOKEN"
 
 before_script:
-  # Keep typo3/cms in vendor-dir
-  - php -r '$c=json_decode(file_get_contents("composer.json"), TRUE); $c["autoload"]["classmap"][] = "vendor/typo3/cms/typo3/sysext"; $c["replace"]["typo3/cms-composer-installers"] = "*"; file_put_contents("composer.json", json_encode($c));'
+  # Make sure TYPO3 6.2 uses the latest installers package
+  - >
+    if [[ -n "$TYPO3_SIX" ]]; then
+      composer require typo3/cms-composer-installers "1.2.2 as 1.1.4"
+    fi;
   - composer require typo3/cms $TYPO3_VERSION
-  # Fix "No class loading information found for TYPO3 CMS."
-  - mkdir -p vendor/typo3/cms/typo3/contrib/vendor && ln -sf $PWD/vendor/autoload.php vendor/typo3/cms/typo3/contrib/vendor
 
 script:
   - find . -name \*.php ! -path "./bin/*" ! -path "./vendor/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;

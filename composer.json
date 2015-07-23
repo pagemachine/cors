@@ -24,6 +24,12 @@
   "config": {
     "bin-dir": "bin"
   },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": "web"
+    }
+  },
   "autoload": {
     "psr-4": {
       "PAGEmachine\\CORS\\": "Classes/"
@@ -31,7 +37,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "PAGEmachine\\CORS\\Tests\\": "Tests/"
+      "PAGEmachine\\CORS\\Tests\\": "Tests/",
+      "TYPO3\\CMS\\Core\\Tests\\": "vendor/typo3/cms/typo3/sysext/core/Tests/"
     }
   }
 }

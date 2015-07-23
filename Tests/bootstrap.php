@@ -7,7 +7,6 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
 
 define('PATH_thisScript', realpath('vendor/typo3/cms/typo3/index.php'));
 define('TYPO3_MODE', 'BE');
-define('TYPO3_COMPOSER_MODE', TRUE);
 putenv('TYPO3_CONTEXT=Testing');
 
 call_user_func(function($composerClassLoader, $bootstrap) {
