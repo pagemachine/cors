@@ -45,7 +45,7 @@ before_script:
   - mkdir -p Packages/Libraries/typo3/cms/typo3/contrib/vendor && ln -sf $PWD/Packages/Libraries/autoload.php Packages/Libraries/typo3/cms/typo3/contrib/vendor
 
 script:
-  - find . -name \*.php -not -path "./Packages/Libraries/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+  - find . -name \*.php ! -path "./bin/*" ! -path "./Packages/Libraries/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
   - bin/phpunit
 
 after_success:
