@@ -54,8 +54,7 @@ script:
 after_script:
   - >
     if [ -n "$TRAVIS_TAG" ]; then
-      echo "Preparing upload of release ${TRAVIS_TAG} to TER"
-      echo;
+      echo -e "Preparing upload of release ${TRAVIS_TAG} to TER\n"
       travis-after-all;
       if [ $? -eq 0 ]; then
         TAG_ANNOTATION="$(git tag -n -l $TRAVIS_TAG)"
