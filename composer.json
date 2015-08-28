@@ -22,7 +22,7 @@
     "namelesscoder/typo3-repository-client": "~1.0.2"
   },
   "config": {
-    "bin-dir": "bin"
+    "vendor-dir": ".vendor"
   },
   "extra": {
     "typo3/cms": {

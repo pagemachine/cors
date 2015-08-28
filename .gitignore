@@ -1,5 +1,4 @@
-/bin
+/.vendor
 /node_modules
-/vendor
 /web
 /composer.lock
