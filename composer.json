@@ -21,6 +21,10 @@
     "phpunit/phpunit": "~4.0",
     "namelesscoder/typo3-repository-client": "~1.0.2"
   },
+  "replace": {
+    "cors": "self.version",
+    "typo3-ter/cors": "self.version"
+  },
   "config": {
     "vendor-dir": ".vendor"
   },
