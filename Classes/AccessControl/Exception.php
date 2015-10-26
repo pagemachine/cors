@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\AccessControl;
+namespace PAGEmachine\Cors\AccessControl;
 
 /*
  * This file is part of the PAGEmachine CORS project.

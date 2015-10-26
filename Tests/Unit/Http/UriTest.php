@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\Tests\Unit\Http;
+namespace PAGEmachine\Cors\Tests\Unit\Http;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -12,10 +12,10 @@ namespace PAGEmachine\CORS\Tests\Unit\Http;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use PAGEmachine\CORS\Http\Uri;
+use PAGEmachine\Cors\Http\Uri;
 
 /**
- * Testcase for PAGEmachine\CORS\Http\Uri
+ * Testcase for PAGEmachine\Cors\Http\Uri
  */
 class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 

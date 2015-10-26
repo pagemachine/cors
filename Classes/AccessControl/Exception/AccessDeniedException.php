@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\AccessControl\Exception;
+namespace PAGEmachine\Cors\AccessControl\Exception;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -15,4 +15,4 @@ namespace PAGEmachine\CORS\AccessControl\Exception;
 /**
  * An exception indicating a denial of access
  */
-class AccessDeniedException extends \PAGEmachine\CORS\AccessControl\Exception {}
+class AccessDeniedException extends \PAGEmachine\Cors\AccessControl\Exception {}

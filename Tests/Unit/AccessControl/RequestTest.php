@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
+namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -12,10 +12,10 @@ namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use PAGEmachine\CORS\AccessControl\Request;
+use PAGEmachine\Cors\AccessControl\Request;
 
 /**
- * Testcase for PAGEmachine\CORS\AccessControl\Request
+ * Testcase for PAGEmachine\Cors\AccessControl\Request
  */
 class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 

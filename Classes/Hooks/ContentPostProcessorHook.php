@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\Hooks;
+namespace PAGEmachine\Cors\Hooks;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -16,9 +16,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use PAGEmachine\CORS\AccessControl\Negotiator;
-use PAGEmachine\CORS\AccessControl\Request;
-use PAGEmachine\CORS\AccessControl\Response;
+use PAGEmachine\Cors\AccessControl\Negotiator;
+use PAGEmachine\Cors\AccessControl\Request;
+use PAGEmachine\Cors\AccessControl\Response;
 
 /**
  * Sends CORS-related headers as configured
@@ -83,7 +83,7 @@ class ContentPostProcessorHook {
     try {
 
       $negotiator->processRequest(new Request($_SERVER), $response);
-    } catch (\PAGEmachine\CORS\AccessControl\Exception $e) {
+    } catch (\PAGEmachine\Cors\AccessControl\Exception $e) {
 
       // No need to go any further since the client will abort anyways
       $response->skipBodyAndExit();

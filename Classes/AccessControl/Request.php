@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\AccessControl;
+namespace PAGEmachine\Cors\AccessControl;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -13,7 +13,7 @@ namespace PAGEmachine\CORS\AccessControl;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use PAGEmachine\CORS\Http\Uri;
+use PAGEmachine\Cors\Http\Uri;
 
 /**
  * Represents a HTTP request

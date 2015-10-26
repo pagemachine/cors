@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
+namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -12,25 +12,25 @@ namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use PAGEmachine\CORS\AccessControl\Negotiator;
+use PAGEmachine\Cors\AccessControl\Negotiator;
 
 /**
- * Testcase for PAGEmachine\CORS\AccessControl\Negotiator
+ * Testcase for PAGEmachine\Cors\AccessControl\Negotiator
  */
 class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
-   * @var \PAGEmachine\CORS\AccessControl\Request
+   * @var \PAGEmachine\Cors\AccessControl\Request
    */
   protected $request;
 
   /**
-   * @var \PAGEmachine\CORS\AccessControl\Response
+   * @var \PAGEmachine\Cors\AccessControl\Response
    */
   protected $response;
 
   /**
-   * @var \PAGEmachine\CORS\AccessControl\Negotiator
+   * @var \PAGEmachine\Cors\AccessControl\Negotiator
    */
   protected $negotiator;
 
@@ -39,10 +39,10 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function setUp() {
 
-    $origin = $this->getMockBuilder('PAGEmachine\\CORS\\Http\\Uri')
+    $origin = $this->getMockBuilder('PAGEmachine\\Cors\\Http\\Uri')
       ->setMethods(NULL)
       ->getMock();
-    $this->request = $this->getMockBuilder('PAGEmachine\\CORS\\AccessControl\\Request')
+    $this->request = $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Request')
       ->disableOriginalConstructor()
       ->setMethods(NULL)
       ->getMock();
@@ -80,7 +80,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
    * @test
-   * @expectedException PAGEmachine\CORS\AccessControl\Exception\AccessDeniedException
+   * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
    * @expectedExceptionCode 1413983266
    */
   public function throwsExceptionForWildcardOriginWithCredentials() {
@@ -131,7 +131,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
    * @test
-   * @expectedException PAGEmachine\CORS\AccessControl\Exception\AccessDeniedException
+   * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
    * @expectedExceptionCode 1413983266
    */
   public function throwsExceptionIfOriginIsNotAllowed() {
@@ -218,7 +218,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
    * @test
-   * @expectedException PAGEmachine\CORS\AccessControl\Exception\AccessDeniedException
+   * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
    * @expectedExceptionCode 1413983849
    */
   public function throwsExceptionForPreflightWithoutRequestMethod() {
@@ -231,7 +231,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
    * @test
-   * @expectedException PAGEmachine\CORS\AccessControl\Exception\AccessDeniedException
+   * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
    * @expectedExceptionCode 1413983927
    */
   public function throwsExceptionForPreflightWithNotAllowedRequestMethod() {
@@ -246,7 +246,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
    * @test
-   * @expectedException PAGEmachine\CORS\AccessControl\Exception\AccessDeniedException
+   * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
    * @expectedExceptionCode 1413988013
    */
   public function throwsExceptionForPreflightWithNotAllowedRequestHeaders() {
@@ -350,11 +350,11 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   /**
    * Builds a mocked response object
    *
-   * @return \PAGEmachine\CORS\AccessControl\Response
+   * @return \PAGEmachine\Cors\AccessControl\Response
    */
   protected function getResponseMock() {
 
-    return $this->getMockBuilder('PAGEmachine\\CORS\\AccessControl\\Response')
+    return $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Response')
       ->setMethods(NULL)
       ->getMock();
   }

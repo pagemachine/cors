@@ -1,5 +1,5 @@
 <?php
-namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
+namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
 
 /*
  * This file is part of the PAGEmachine CORS project.
@@ -12,10 +12,10 @@ namespace PAGEmachine\CORS\Tests\Unit\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use PAGEmachine\CORS\AccessControl\Response;
+use PAGEmachine\Cors\AccessControl\Response;
 
 /**
- * Testcase for PAGEmachine\CORS\AccessControl\Response
+ * Testcase for PAGEmachine\Cors\AccessControl\Response
  */
 class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
@@ -38,7 +38,7 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $headers = array();
     $skipBodyAndExit = FALSE;
 
-    $response = $this->getMockBuilder('PAGEmachine\\CORS\\AccessControl\\Response')
+    $response = $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Response')
       ->setMethods(array('sendHeader', 'skipBodyAndExit'))
       ->getMock();
     $response->expects($this->any())
