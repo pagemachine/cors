@@ -1,4 +1,8 @@
-# CORS [![Build Status](https://travis-ci.org/pagemachine/cors.svg)](https://travis-ci.org/pagemachine/cors)
+# CORS
+
+[![Latest Version](https://img.shields.io/packagist/v/pagemachine/cors.svg?style=flat-square)](https://packagist.org/packages/pagemachine/cors)
+[![Build Status](https://img.shields.io/travis/pagemachine/cors/master.svg?style=flat-square)](https://travis-ci.org/pagemachine/cors)
+[![Code quality](https://img.shields.io/scrutinizer/g/pagemachine/cors.svg?style=flat-square)](https://scrutinizer-ci.com/b/pagemachine/cors/?branch=master)
 
 [Cross Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) for TYPO3 CMS.
 
