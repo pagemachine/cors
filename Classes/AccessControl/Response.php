@@ -234,7 +234,7 @@ class Response {
    *
    * @return void
    */
-  protected function skipBodyAndExit() {
+  public function skipBodyAndExit() {
 
     HttpUtility::setResponseCodeAndExit(HttpUtility::HTTP_STATUS_204);
   }
