@@ -72,6 +72,16 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   }
 
   /**
+   * @test
+   * @expectedException InvalidArgumentException
+   * @expectedExceptionCode 1446565362
+   */
+  public function throwsExceptionOnInvalidUri() {
+
+    new Uri('javascript://');
+  }
+
+  /**
    * @return array
    */
   public function uris() {

@@ -181,12 +181,20 @@ class Uri {
    * Builds a new Uri object
    *
    * @param string $uri A full request URI
+   * @throws \InvalidArgumentException if a passed URI could not be parsed
    */
   public function __construct($uri = NULL) {
 
     if ($uri !== NULL) {
 
-      $this->setPropertiesFromUriComponents(parse_url($uri));
+      $uriComponents = parse_url($uri);
+
+      if ($uriComponents === FALSE) {
+
+        throw new \InvalidArgumentException(sprintf('Failed to parse URI "%s"', $uri), 1446565362);
+      }
+
+      $this->setPropertiesFromUriComponents($uriComponents);
     }
   }
 
