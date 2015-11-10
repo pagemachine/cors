@@ -17,9 +17,6 @@ matrix:
   include:
     - php: 5.5
       env: TYPO3_VERSION=^7.6
-  allow_failures:
-    - php: 5.5
-      env: TYPO3_VERSION=^7.6
 
 sudo: false
 
