@@ -40,8 +40,8 @@ before_script:
       composer require typo3/cms-composer-installers "1.2.2 as 1.1.4"
     fi;
   - composer require typo3/cms $TYPO3_VERSION
-  - npm install
-  - export PATH="$(npm bin):$PATH"
+#  - npm install
+#  - export PATH="$(npm bin):$PATH"
 
 script:
   - find . -name \*.php ! -path "./.vendor/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
