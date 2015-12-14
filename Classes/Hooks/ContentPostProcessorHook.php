@@ -13,7 +13,6 @@ namespace PAGEmachine\Cors\Hooks;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use PAGEmachine\Cors\AccessControl\Negotiator;
