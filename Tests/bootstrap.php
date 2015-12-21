@@ -1,11 +1,11 @@
 <?php
 
 // Register composer autoloader
-if (!file_exists(__DIR__ . '/../.vendor/autoload.php')) {
-  throw new \RuntimeException('Could not find .vendor/autoload.php, make sure you ran composer.');
+if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+  throw new \RuntimeException('Could not find vendor/autoload.php, make sure you ran composer.');
 }
 
-define('PATH_thisScript', realpath(__DIR__ . '/../.vendor/typo3/cms/typo3/index.php'));
+define('PATH_thisScript', realpath(__DIR__ . '/../vendor/typo3/cms/typo3/index.php'));
 define('TYPO3_MODE', 'BE');
 putenv('TYPO3_CONTEXT=Testing');
 
@@ -25,4 +25,4 @@ call_user_func(function($composerClassLoader, $bootstrap) {
   } else {
     $bootstrap->disableCoreCache();
   }
-}, require_once __DIR__ . '/../.vendor/autoload.php', \TYPO3\CMS\Core\Core\Bootstrap::getInstance());
+}, require_once __DIR__ . '/../vendor/autoload.php', \TYPO3\CMS\Core\Core\Bootstrap::getInstance());
