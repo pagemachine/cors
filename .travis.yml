@@ -45,7 +45,7 @@ before_script:
 
 script:
   - bin/parallel-lint --exclude bin --exclude vendor --exclude web .
-  - vendor/bin/phpunit
+  - bin/phpunit
 
 after_script:
   - >
