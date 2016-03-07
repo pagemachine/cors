@@ -37,7 +37,7 @@ before_script:
   # Make sure TYPO3 6.2 uses the latest installers package
   - >
     if [[ -n "$TYPO3_SIX" ]]; then
-      composer require typo3/cms-composer-installers "1.2.2 as 1.1.4"
+      composer require typo3/cms-composer-installers "1.2.5 as 1.1.4"
     fi;
   - composer require typo3/cms $TYPO3_VERSION
   - npm install
