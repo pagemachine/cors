@@ -50,8 +50,8 @@ after_script:
     if [ -n "$TRAVIS_TAG" ]; then
       echo -e "Preparing upload of release ${TRAVIS_TAG} to TER\n"
 
+      export PATH=$HOME/.composer/vendor/bin:$(npm bin):$PATH
       npm install
-      export PATH=$(npm bin):$PATH
       travis-after-all;
 
       if [ $? -eq 0 ]; then
