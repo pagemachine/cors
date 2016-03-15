@@ -168,7 +168,7 @@ class Request {
    * @param bool $isCrossOrigin
    * @return void
    */
-  public function setIsCrossOrigin($isCrossOrigin) {
+  public function setCrossOrigin($isCrossOrigin) {
     $this->isCrossOrigin = $isCrossOrigin;
   }
 

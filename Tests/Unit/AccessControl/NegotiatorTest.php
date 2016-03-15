@@ -70,7 +70,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function allowsWildcardOriginWithoutCredentials() {
 
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
 
     $this->negotiator->setAllowedOrigins(array('*'));
     $this->negotiator->processRequest($this->request, $this->response);
@@ -85,7 +85,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function throwsExceptionForWildcardOriginWithCredentials() {
 
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
     $this->request->setHasCredentials(TRUE);
 
     $this->negotiator->setAllowedOrigins(array('*'));
@@ -99,7 +99,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
     $this->request->getOrigin()->setScheme('http');
     $this->request->getOrigin()->setHostname('example.org');
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
 
     $this->negotiator->setAllowedOrigins(array('http://example.org', 'http://example.com'));
     $this->negotiator->processRequest($this->request, $this->response);
@@ -116,7 +116,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function allowsOriginByPattern($pattern, $origin) {
 
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
 
     $scheme = parse_url($origin, PHP_URL_SCHEME);
     $this->request->getOrigin()->setScheme($scheme);
@@ -138,7 +138,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
     $this->request->getOrigin()->setScheme('http');
     $this->request->getOrigin()->setHostname('example.org');
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
 
     $this->negotiator->processRequest($this->request, $this->response);
   }
@@ -155,7 +155,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
     $this->request->getOrigin()->setScheme('http');
     $this->request->getOrigin()->setHostname('example.org');
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
     $this->request->setHasCredentials($requestHasCredentials);
 
     $this->negotiator->setAllowedOrigins(array('http://example.org', 'http://example.com'));
@@ -176,7 +176,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
     $this->request->getOrigin()->setScheme('http');
     $this->request->getOrigin()->setHostname('example.org');
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
 
     $this->negotiator->setAllowedOrigins(array('http://example.org', 'http://example.com'));
     $this->negotiator->setExposedHeaders($exposedHeaders);
@@ -198,7 +198,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
     $this->request->getOrigin()->setScheme('http');
     $this->request->getOrigin()->setHostname('example.org');
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
     $this->request->setIsPreflight(TRUE);
     $this->request->setRequestMethod($requestMethod);
     $this->request->setRequestHeaders($requestHeaders);
@@ -223,7 +223,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function throwsExceptionForPreflightWithoutRequestMethod() {
 
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
     $this->request->setIsPreflight(TRUE);
 
     $this->negotiator->processRequest($this->request, $this->response);
@@ -236,7 +236,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function throwsExceptionForPreflightWithNotAllowedRequestMethod() {
 
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
     $this->request->setIsPreflight(TRUE);
     $this->request->setRequestMethod('DELETE');
 
@@ -251,7 +251,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function throwsExceptionForPreflightWithNotAllowedRequestHeaders() {
 
-    $this->request->setIsCrossOrigin(TRUE);
+    $this->request->setCrossOrigin(TRUE);
     $this->request->setIsPreflight(TRUE);
     $this->request->setRequestMethod('POST');
     $this->request->setRequestHeaders(array('X-Foo'));
