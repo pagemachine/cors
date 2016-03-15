@@ -2,6 +2,7 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/pagemachine/cors.svg?style=flat-square)](https://packagist.org/packages/pagemachine/cors)
 [![Build Status](https://img.shields.io/travis/pagemachine/cors/master.svg?style=flat-square)](https://travis-ci.org/pagemachine/cors)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/90bcae4a-6a46-4f1c-9746-2458f4ea978d.svg?style=flat-square)](https://insight.sensiolabs.com/projects/90bcae4a-6a46-4f1c-9746-2458f4ea978d)
 [![Code quality](https://img.shields.io/scrutinizer/g/pagemachine/cors.svg?style=flat-square)](https://scrutinizer-ci.com/g/pagemachine/cors/?branch=master)
 
 [Cross Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) for TYPO3 CMS.
