@@ -199,7 +199,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->getOrigin()->setScheme('http');
     $this->request->getOrigin()->setHostname('example.org');
     $this->request->setCrossOrigin(TRUE);
-    $this->request->setIsPreflight(TRUE);
+    $this->request->setPreflight(TRUE);
     $this->request->setRequestMethod($requestMethod);
     $this->request->setRequestHeaders($requestHeaders);
 
@@ -224,7 +224,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   public function throwsExceptionForPreflightWithoutRequestMethod() {
 
     $this->request->setCrossOrigin(TRUE);
-    $this->request->setIsPreflight(TRUE);
+    $this->request->setPreflight(TRUE);
 
     $this->negotiator->processRequest($this->request, $this->response);
   }
@@ -237,7 +237,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   public function throwsExceptionForPreflightWithNotAllowedRequestMethod() {
 
     $this->request->setCrossOrigin(TRUE);
-    $this->request->setIsPreflight(TRUE);
+    $this->request->setPreflight(TRUE);
     $this->request->setRequestMethod('DELETE');
 
     $this->negotiator->setAllowedMethods(array('PUT'));
@@ -252,7 +252,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   public function throwsExceptionForPreflightWithNotAllowedRequestHeaders() {
 
     $this->request->setCrossOrigin(TRUE);
-    $this->request->setIsPreflight(TRUE);
+    $this->request->setPreflight(TRUE);
     $this->request->setRequestMethod('POST');
     $this->request->setRequestHeaders(array('X-Foo'));
 

@@ -213,7 +213,7 @@ class Negotiator {
         }
       }
 
-      $response->setIsPreflight(TRUE);
+      $response->setPreflight(TRUE);
       $response->setAllowedMethods(array($request->getRequestMethod()));
       $response->setAllowedHeaders($request->getRequestHeaders());
       $response->setMaximumAge($this->getMaximumAge());

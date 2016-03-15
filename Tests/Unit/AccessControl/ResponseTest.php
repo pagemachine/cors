@@ -57,7 +57,7 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $response->setAllowedOrigin($allowedOrigin);
     $response->setAllowCredentials($allowCredentials);
     $response->setExposedHeaders($exposedHeaders);
-    $response->setIsPreflight($isPreflight);
+    $response->setPreflight($isPreflight);
     $response->setAllowedMethods($allowedMethods);
     $response->setAllowedHeaders($allowedHeaders);
     $response->send();

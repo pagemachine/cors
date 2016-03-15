@@ -204,7 +204,7 @@ class Request {
    * @param boolean $isPreflight
    * @return void
    */
-  public function setIsPreflight($isPreflight) {
+  public function setPreflight($isPreflight) {
     $this->isPreflight = $isPreflight;
   }
 }
