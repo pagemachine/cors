@@ -219,7 +219,8 @@ class Negotiator {
       $response->setMaximumAge($this->getMaximumAge());
     }
 
-    $originUri = $request->getOrigin()->getScheme() . '://' . $request->getOrigin()->getHostname();
+    $origin = $request->getOrigin();
+    $originUri = $origin->getScheme() . '://' . $origin->getHostname() . ($origin->getPort() ? ':' . $origin->getPort() : '');
 
     if ($this->isOriginUriAllowed('*') && !$request->hasCredentials()) {
 

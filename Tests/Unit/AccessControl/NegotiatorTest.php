@@ -145,6 +145,22 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
   /**
    * @test
+   * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
+   * @expectedExceptionCode 1413983266
+   */
+  public function throwsExceptionIfOriginPortIsNotAllowed() {
+
+    $this->request->getOrigin()->setScheme('http');
+    $this->request->getOrigin()->setHostname('example.org');
+    $this->request->getOrigin()->setPort(80);
+    $this->request->setCrossOrigin(TRUE);
+
+    $this->negotiator->setAllowedOrigins(array('http://example.org:8080'));
+    $this->negotiator->processRequest($this->request, $this->response);
+  }
+
+  /**
+   * @test
    * @dataProvider credentialRequests
    *
    * @param boolean $requestHasCredentials
