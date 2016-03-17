@@ -73,7 +73,6 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
       'Regular' => array(
         array(
           'HTTP_HOST' => 'example.org',
-          'SERVER_PORT' => 80,
         ),
         FALSE,
       ),
@@ -81,7 +80,6 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
         array(
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.org',
-          'SERVER_PORT' => 80,
         ),
         FALSE,
       ),
@@ -90,7 +88,6 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.org',
           'HTTPS' => 'on',
-          'SERVER_PORT' => 443,
         ),
         TRUE,
       ),
@@ -98,7 +95,6 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
         array(
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
-          'SERVER_PORT' => 80,
         ),
         TRUE,
       ),

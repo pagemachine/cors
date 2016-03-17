@@ -90,7 +90,7 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
       'Basic' => array('http://example.org/', array(
         'scheme' => 'http',
         'hostname' => 'example.org',
-        'port' => 80,
+        'port' => NULL,
         'username' => NULL,
         'password' => NULL,
         'path' => '/',
@@ -100,7 +100,7 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
       'Authentication' => array('http://foo:bar@example.org/', array(
         'scheme' => 'http',
         'hostname' => 'example.org',
-        'port' => 80,
+        'port' => NULL,
         'username' => 'foo',
         'password' => 'bar',
         'path' => '/',
@@ -110,7 +110,7 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
       'Query and tricky fragment' => array('http://example.org/?foo=bar#?baz=qux', array(
         'scheme' => 'http',
         'hostname' => 'example.org',
-        'port' => 80,
+        'port' => NULL,
         'username' => NULL,
         'password' => NULL,
         'path' => '/',
@@ -120,7 +120,7 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
       'HTTPS' => array('https://example.org/', array(
         'scheme' => 'https',
         'hostname' => 'example.org',
-        'port' => 443,
+        'port' => NULL,
         'username' => NULL,
         'password' => NULL,
         'path' => '/',
