@@ -204,7 +204,7 @@ class Uri {
    * @param array $environment Server environment (e.g. $_SERVER)
    * @return Uri
    */
-  public function fromEnvironment(array $environment) {
+  static public function fromEnvironment(array $environment) {
 
     $uri = new self();
     $uri->setScheme(
