@@ -22,22 +22,22 @@ class Negotiator {
    *
    * @var array
    */
-  protected $simpleMethods = array(
+  protected $simpleMethods = [
     'GET',
     'HEAD',
     'POST',
-  );
+  ];
 
   /**
    * List of simple headers
    *
    * @var array
    */
-  protected $simpleHeaders = array(
+  protected $simpleHeaders = [
     'Accept',
     'Accept-Language',
     'Content-Language',
-  );
+  ];
 
   /**
    * @var boolean $allowCredentials
@@ -62,7 +62,7 @@ class Negotiator {
   /**
    * @var array $allowedHeaders
    */
-  protected $allowedHeaders = array();
+  protected $allowedHeaders = [];
 
   /**
    * @return array
@@ -82,7 +82,7 @@ class Negotiator {
   /**
    * @var array $allowedMethods
    */
-  protected $allowedMethods = array();
+  protected $allowedMethods = [];
 
   /**
    * @return array
@@ -102,7 +102,7 @@ class Negotiator {
   /**
    * @var array $allowedOrigins
    */
-  protected $allowedOrigins = array();
+  protected $allowedOrigins = [];
 
   /**
    * @return array
@@ -142,7 +142,7 @@ class Negotiator {
   /**
    * @var array $exposedHeaders
    */
-  protected $exposedHeaders = array();
+  protected $exposedHeaders = [];
 
   /**
    * @return array
@@ -214,7 +214,7 @@ class Negotiator {
       }
 
       $response->setPreflight(TRUE);
-      $response->setAllowedMethods(array($request->getRequestMethod()));
+      $response->setAllowedMethods([$request->getRequestMethod()]);
       $response->setAllowedHeaders($request->getRequestHeaders());
       $response->setMaximumAge($this->getMaximumAge());
     }

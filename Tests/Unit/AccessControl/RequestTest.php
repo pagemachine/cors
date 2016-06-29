@@ -69,44 +69,44 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function crossOriginEnvironments() {
 
-    return array(
-      'Regular' => array(
-        array(
+    return [
+      'Regular' => [
+        [
           'HTTP_HOST' => 'example.org',
-        ),
+        ],
         FALSE,
-      ),
-      'Origin but regular' => array(
-        array(
+      ],
+      'Origin but regular' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.org',
-        ),
+        ],
         FALSE,
-      ),
-      'Different scheme' => array(
-        array(
+      ],
+      'Different scheme' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.org',
           'HTTPS' => 'on',
-        ),
+        ],
         TRUE,
-      ),
-      'Different host' => array(
-        array(
+      ],
+      'Different host' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
-        ),
+        ],
         TRUE,
-      ),
-      'Different port' => array(
-        array(
+      ],
+      'Different port' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.org',
           'SERVER_PORT' => 8080,
-        ),
+        ],
         TRUE,
-      ),
-    );
+      ],
+    ];
   }
 
   /**
@@ -114,47 +114,47 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function credentialEnvironments() {
 
-    return array(
-      'Regular' => array(
-        array(
+    return [
+      'Regular' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
-        ),
+        ],
         FALSE,
-      ),
-      'Cookie' => array(
-        array(
+      ],
+      'Cookie' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'HTTP_COOKIE' => 'foo=bar',
-        ),
+        ],
         TRUE,
-      ),
-      'HTTP authentication' => array(
-        array(
+      ],
+      'HTTP authentication' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'HTTP_AUTHORIZATION' => 'Authorization: Basic d2lraTpwZWRpYQ==', // wiki:pedia
-        ),
+        ],
         TRUE,
-      ),
-      'Without SSL client certificate' => array(
-        array(
+      ],
+      'Without SSL client certificate' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'SSL_CLIENT_VERIFY' => 'NONE',
-        ),
+        ],
         FALSE,
-      ),
-      'With SSL client certificate' => array(
-        array(
+      ],
+      'With SSL client certificate' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'SSL_CLIENT_VERIFY' => 'SUCCESS',
-        ),
+        ],
         TRUE,
-      ),
-    );
+      ],
+    ];
   }
 
   /**
@@ -162,49 +162,49 @@ class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function preflightEnvironments() {
 
-    return array(
-      'No preflight' => array(
-        array(
+    return [
+      'No preflight' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'REQUEST_METHOD' => 'GET',
-        ),
+        ],
         FALSE,
         NULL,
-        array(),
-      ),
-      'Regular' => array(
-        array(
+        [],
+      ],
+      'Regular' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'REQUEST_METHOD' => 'OPTIONS',
-        ),
+        ],
         TRUE,
         NULL,
-        array(),
-      ),
-      'Request method' => array(
-        array(
+        [],
+      ],
+      'Request method' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'REQUEST_METHOD' => 'OPTIONS',
           'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'PUT',
-        ),
+        ],
         TRUE,
         'PUT',
-        array(),
-      ),
-      'Request headers' => array(
-        array(
+        [],
+      ],
+      'Request headers' => [
+        [
           'HTTP_ORIGIN' => 'http://example.org',
           'HTTP_HOST' => 'example.com',
           'REQUEST_METHOD' => 'OPTIONS',
           'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Requested-With, Foo',
-        ),
+        ],
         TRUE,
         NULL,
-        array('X-Requested-With', 'Foo'),
-      ),
-    );
+        ['X-Requested-With', 'Foo'],
+      ],
+    ];
   }
 }

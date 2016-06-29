@@ -62,7 +62,7 @@ class Response {
   /**
    * @var array $exposedHeaders
    */
-  protected $exposedHeaders = array();
+  protected $exposedHeaders = [];
 
   /**
    * @return array
@@ -102,7 +102,7 @@ class Response {
   /**
    * @var array $allowedMethods
    */
-  protected $allowedMethods = array();
+  protected $allowedMethods = [];
 
   /**
    * @return array
@@ -122,7 +122,7 @@ class Response {
   /**
    * @var array $allowedHeaders
    */
-  protected $allowedHeaders = array();
+  protected $allowedHeaders = [];
 
   /**
    * @return array

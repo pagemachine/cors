@@ -98,7 +98,7 @@ class Request {
   /**
    * @var array $requestHeaders
    */
-  protected $requestHeaders = array();
+  protected $requestHeaders = [];
 
   /**
    * @return array

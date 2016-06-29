@@ -24,7 +24,7 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    *
    * @var array
    */
-  protected $properties = array(
+  protected $properties = [
     'scheme',
     'hostname',
     'port',
@@ -33,7 +33,7 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     'path',
     'query',
     'fragment',
-  );
+  ];
 
   /**
    * @test
@@ -86,8 +86,8 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function uris() {
 
-    return array(
-      'Basic' => array('http://example.org/', array(
+    return [
+      'Basic' => ['http://example.org/', [
         'scheme' => 'http',
         'hostname' => 'example.org',
         'port' => NULL,
@@ -96,8 +96,8 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
         'path' => '/',
         'query' => NULL,
         'fragment' => NULL,
-      )),
-      'Authentication' => array('http://foo:bar@example.org/', array(
+      ]],
+      'Authentication' => ['http://foo:bar@example.org/', [
         'scheme' => 'http',
         'hostname' => 'example.org',
         'port' => NULL,
@@ -106,8 +106,8 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
         'path' => '/',
         'query' => NULL,
         'fragment' => NULL,
-      )),
-      'Query and tricky fragment' => array('http://example.org/?foo=bar#?baz=qux', array(
+      ]],
+      'Query and tricky fragment' => ['http://example.org/?foo=bar#?baz=qux', [
         'scheme' => 'http',
         'hostname' => 'example.org',
         'port' => NULL,
@@ -116,8 +116,8 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
         'path' => '/',
         'query' => 'foo=bar',
         'fragment' => '?baz=qux',
-      )),
-      'HTTPS' => array('https://example.org/', array(
+      ]],
+      'HTTPS' => ['https://example.org/', [
         'scheme' => 'https',
         'hostname' => 'example.org',
         'port' => NULL,
@@ -126,8 +126,8 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
         'path' => '/',
         'query' => NULL,
         'fragment' => NULL,
-      )),
-    );
+      ]],
+    ];
   }
 
   /**
@@ -135,14 +135,14 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function environments() {
 
-    return array(
-      'Basic' => array(
-        array(
+    return [
+      'Basic' => [
+        [
           'HTTP_HOST' => 'example.org',
           'SERVER_PORT' => 80,
           'REQUEST_URI' => '/',
-        ),
-        array(
+        ],
+        [
           'scheme' => 'http',
           'hostname' => 'example.org',
           'port' => 80,
@@ -151,17 +151,17 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
           'path' => '/',
           'query' => NULL,
           'fragment' => NULL,
-        ),
-      ),
-      'Authentication' => array(
-        array(
+        ],
+      ],
+      'Authentication' => [
+        [
           'HTTP_HOST' => 'example.org',
           'SERVER_PORT' => 80,
           'REQUEST_URI' => '/',
           'PHP_AUTH_USER' => 'foo',
           'PHP_AUTH_PW' => 'bar',
-        ),
-        array(
+        ],
+        [
           'scheme' => 'http',
           'hostname' => 'example.org',
           'port' => 80,
@@ -170,15 +170,15 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
           'path' => '/',
           'query' => NULL,
           'fragment' => NULL,
-        ),
-      ),
-      'Query and tricky fragment' => array(
-        array(
+        ],
+      ],
+      'Query and tricky fragment' => [
+        [
           'HTTP_HOST' => 'example.org',
           'SERVER_PORT' => 80,
           'REQUEST_URI' => '/?foo=bar#?baz=qux',
-        ),
-        array(
+        ],
+        [
           'scheme' => 'http',
           'hostname' => 'example.org',
           'port' => 80,
@@ -187,16 +187,16 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
           'path' => '/',
           'query' => 'foo=bar',
           'fragment' => '?baz=qux',
-        ),
-      ),
-      'HTTPS' => array(
-        array(
+        ],
+      ],
+      'HTTPS' => [
+        [
           'HTTP_HOST' => 'example.org',
           'HTTPS' => 'on',
           'SERVER_PORT' => 443,
           'REQUEST_URI' => '/',
-        ),
-        array(
+        ],
+        [
           'scheme' => 'https',
           'hostname' => 'example.org',
           'port' => 443,
@@ -205,16 +205,16 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
           'path' => '/',
           'query' => NULL,
           'fragment' => NULL,
-        ),
-      ),
-      'HTTPS through proxy' => array(
-        array(
+        ],
+      ],
+      'HTTPS through proxy' => [
+        [
           'HTTP_HOST' => 'example.org',
           'HTTP_X_FORWARDED_PROTO' => 'https',
           'SERVER_PORT' => 443,
           'REQUEST_URI' => '/',
-        ),
-        array(
+        ],
+        [
           'scheme' => 'https',
           'hostname' => 'example.org',
           'port' => 443,
@@ -223,8 +223,8 @@ class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
           'path' => '/',
           'query' => NULL,
           'fragment' => NULL,
-        ),
-      ),
-    );
+        ],
+      ],
+    ];
   }
 }

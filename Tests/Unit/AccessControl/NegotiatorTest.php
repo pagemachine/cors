@@ -72,7 +72,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
     $this->request->setCrossOrigin(TRUE);
 
-    $this->negotiator->setAllowedOrigins(array('*'));
+    $this->negotiator->setAllowedOrigins(['*']);
     $this->negotiator->processRequest($this->request, $this->response);
 
     $this->assertEquals('*', $this->response->getAllowedOrigin());
@@ -88,7 +88,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->setCrossOrigin(TRUE);
     $this->request->setHasCredentials(TRUE);
 
-    $this->negotiator->setAllowedOrigins(array('*'));
+    $this->negotiator->setAllowedOrigins(['*']);
     $this->negotiator->processRequest($this->request, $this->response);
   }
 
@@ -101,7 +101,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->getOrigin()->setHostname('example.org');
     $this->request->setCrossOrigin(TRUE);
 
-    $this->negotiator->setAllowedOrigins(array('http://example.org', 'http://example.com'));
+    $this->negotiator->setAllowedOrigins(['http://example.org', 'http://example.com']);
     $this->negotiator->processRequest($this->request, $this->response);
 
     $this->assertEquals('http://example.org', $this->response->getAllowedOrigin());
@@ -155,7 +155,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->getOrigin()->setPort(80);
     $this->request->setCrossOrigin(TRUE);
 
-    $this->negotiator->setAllowedOrigins(array('http://example.org:8080'));
+    $this->negotiator->setAllowedOrigins(['http://example.org:8080']);
     $this->negotiator->processRequest($this->request, $this->response);
   }
 
@@ -174,7 +174,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->setCrossOrigin(TRUE);
     $this->request->setHasCredentials($requestHasCredentials);
 
-    $this->negotiator->setAllowedOrigins(array('http://example.org', 'http://example.com'));
+    $this->negotiator->setAllowedOrigins(['http://example.org', 'http://example.com']);
     $this->negotiator->setAllowCredentials($allowCredentials);
     $this->negotiator->processRequest($this->request, $this->response);
 
@@ -194,7 +194,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->getOrigin()->setHostname('example.org');
     $this->request->setCrossOrigin(TRUE);
 
-    $this->negotiator->setAllowedOrigins(array('http://example.org', 'http://example.com'));
+    $this->negotiator->setAllowedOrigins(['http://example.org', 'http://example.com']);
     $this->negotiator->setExposedHeaders($exposedHeaders);
     $this->negotiator->processRequest($this->request, $this->response);
 
@@ -219,7 +219,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->setRequestMethod($requestMethod);
     $this->request->setRequestHeaders($requestHeaders);
 
-    $this->negotiator->setAllowedOrigins(array('http://example.org'));
+    $this->negotiator->setAllowedOrigins(['http://example.org']);
     $this->negotiator->setAllowedMethods($allowedMethods);
     $this->negotiator->setAllowedHeaders($allowedHeaders);
     $this->negotiator->processRequest($this->request, $this->response);
@@ -256,7 +256,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->setPreflight(TRUE);
     $this->request->setRequestMethod('DELETE');
 
-    $this->negotiator->setAllowedMethods(array('PUT'));
+    $this->negotiator->setAllowedMethods(['PUT']);
     $this->negotiator->processRequest($this->request, $this->response);
   }
 
@@ -270,7 +270,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $this->request->setCrossOrigin(TRUE);
     $this->request->setPreflight(TRUE);
     $this->request->setRequestMethod('POST');
-    $this->request->setRequestHeaders(array('X-Foo'));
+    $this->request->setRequestHeaders(['X-Foo']);
 
     $this->negotiator->processRequest($this->request, $this->response);
   }
@@ -280,16 +280,16 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function originPatternRequests() {
 
-    return array(
-      array(
+    return [
+      [
         'http:\/\/example\.(org|com)',
         'http://example.org',
-      ),
-      array(
+      ],
+      [
         'http:\/\/example\.(org|com)',
         'http://example.com',
-      ),
-    );
+      ],
+    ];
   }
 
   /**
@@ -297,28 +297,28 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function credentialRequests() {
 
-    return array(
-      'No credentials, not allowed' => array(
+    return [
+      'No credentials, not allowed' => [
         FALSE,
         FALSE,
         FALSE,
-      ),
-      'No credentials, allowed' => array(
+      ],
+      'No credentials, allowed' => [
         FALSE,
         TRUE,
         FALSE,
-      ),
-      'Credentials, not allowed' => array(
+      ],
+      'Credentials, not allowed' => [
         TRUE,
         FALSE,
         FALSE,
-      ),
-      'Credentials, allowed' => array(
+      ],
+      'Credentials, allowed' => [
         TRUE,
         TRUE,
         TRUE,
-      ),
-    );
+      ],
+    ];
   }
 
   /**
@@ -326,14 +326,14 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function exposedHeaderRequests() {
 
-    return array(
-      'No headers' => array(
-        array(),
-      ),
-      'Exposed headers' => array(
-        array('X-Foo', 'X-Bar'),
-      ),
-    );
+    return [
+      'No headers' => [
+        [],
+      ],
+      'Exposed headers' => [
+        ['X-Foo', 'X-Bar'],
+      ],
+    ];
   }
 
   /**
@@ -341,26 +341,26 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function preflightRequests() {
 
-    return array(
-      'Simple method with custom header' => array(
+    return [
+      'Simple method with custom header' => [
         'POST',
-        array('X-Foo'),
-        array(),
-        array('X-Foo', 'X-Bar'),
-      ),
-      'Non-simple method' => array(
+        ['X-Foo'],
+        [],
+        ['X-Foo', 'X-Bar'],
+      ],
+      'Non-simple method' => [
         'PUT',
-        array(),
-        array('PUT'),
-        array(),
-      ),
-      'Non-simple method with custom header' => array(
+        [],
+        ['PUT'],
+        [],
+      ],
+      'Non-simple method with custom header' => [
         'DELETE',
-        array('X-Bar'),
-        array('PUT', 'DELETE'),
-        array('X-Bar'),
-      ),
-    );
+        ['X-Bar'],
+        ['PUT', 'DELETE'],
+        ['X-Bar'],
+      ],
+    ];
   }
 
   /**

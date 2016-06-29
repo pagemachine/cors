@@ -242,11 +242,11 @@ class Uri {
   protected function setPropertiesFromUriComponents(array $uriComponents) {
 
     // Map some component names to more readable properties
-    static $componentPropertyMapping = array(
+    static $componentPropertyMapping = [
       'host' => 'hostname',
       'user' => 'username',
       'pass' => 'password',
-    );
+    ];
 
     foreach ($uriComponents as $component => $value) {
 

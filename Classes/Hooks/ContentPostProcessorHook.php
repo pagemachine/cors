@@ -99,7 +99,7 @@ class ContentPostProcessorHook {
    */
   protected function getConfiguration(array $rawConfiguration) {
 
-    $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : array();
+    $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : [];
 
     foreach ($configuration as $option => $value) {
 
@@ -115,7 +115,7 @@ class ContentPostProcessorHook {
 
         case 'allowCredentials':
 
-          $value = in_array($value, array('1', 'true'), TRUE);
+          $value = in_array($value, ['1', 'true'], TRUE);
           break;
 
         case 'allowHeaders':

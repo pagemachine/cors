@@ -35,11 +35,11 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function sendsCorrectHeaders($allowedOrigin, $allowCredentials, array $exposedHeaders, $isPreflight, array $allowedMethods, array $allowedHeaders, array $expectedHeaders, $expectedSkipBodyAndExit) {
 
-    $headers = array();
+    $headers = [];
     $skipBodyAndExit = FALSE;
 
     $response = $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Response')
-      ->setMethods(array('sendHeader', 'skipBodyAndExit'))
+      ->setMethods(['sendHeader', 'skipBodyAndExit'])
       ->getMock();
     $response->expects($this->any())
       ->method('sendHeader')
@@ -71,83 +71,83 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function properties() {
 
-    return array(
-      'Basic' => array(
+    return [
+      'Basic' => [
         'http://example.org',
         FALSE,
-        array(),
+        [],
         FALSE,
-        array(),
-        array(),
-        array(
+        [],
+        [],
+        [
           'Access-Control-Allow-Origin: http://example.org',
-        ),
+        ],
         FALSE,
-      ),
-      'Credentials' => array(
+      ],
+      'Credentials' => [
         'http://example.org',
         TRUE,
-        array(),
+        [],
         FALSE,
-        array(),
-        array(),
-        array(
+        [],
+        [],
+        [
           'Access-Control-Allow-Origin: http://example.org',
           'Access-Control-Allow-Credentials: true',
-        ),
+        ],
         FALSE,
-      ),
-      'Exposed headers' => array(
+      ],
+      'Exposed headers' => [
         'http://example.org',
         FALSE,
-        array('X-Foo', 'X-Bar'),
+        ['X-Foo', 'X-Bar'],
         FALSE,
-        array(),
-        array(),
-        array(
+        [],
+        [],
+        [
           'Access-Control-Allow-Origin: http://example.org',
           'Access-Control-Expose-Headers: X-Foo, X-Bar',
-        ),
+        ],
         FALSE,
-      ),
-      'Preflight' => array(
+      ],
+      'Preflight' => [
         'http://example.org',
         FALSE,
-        array(),
+        [],
         TRUE,
-        array(),
-        array(),
-        array(
+        [],
+        [],
+        [
           'Access-Control-Allow-Origin: http://example.org',
-        ),
+        ],
         TRUE,
-      ),
-      'Preflight method' => array(
+      ],
+      'Preflight method' => [
         'http://example.org',
         FALSE,
-        array(),
+        [],
         TRUE,
-        array('PUT'),
-        array(),
-        array(
+        ['PUT'],
+        [],
+        [
           'Access-Control-Allow-Origin: http://example.org',
           'Access-Control-Allow-Methods: PUT',
-        ),
+        ],
         TRUE,
-      ),
-      'Preflight headers' => array(
+      ],
+      'Preflight headers' => [
         'http://example.org',
         FALSE,
-        array(),
+        [],
         TRUE,
-        array(),
-        array('X-Foo'),
-        array(
+        [],
+        ['X-Foo'],
+        [
           'Access-Control-Allow-Origin: http://example.org',
           'Access-Control-Allow-Headers: X-Foo',
-        ),
+        ],
         TRUE,
-      ),
-    );
+      ],
+    ];
   }
 }

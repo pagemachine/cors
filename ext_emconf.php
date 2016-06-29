@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
   'title' => 'CORS',
   'description' => 'Cross Origin Resource Sharing for TYPO3 CMS.',
   'category' => 'fe',
@@ -9,13 +9,13 @@ $EM_CONF[$_EXTKEY] = array(
   'author_company' => 'PAGEmachine AG',
   'state' => 'stable',
   'version' => '2.0.0',
-  'constraints' => array(
-    'depends' => array(
+  'constraints' => [
+    'depends' => [
       'typo3' => '6.2.0-7.6.99',
-    ),
-    'conflicts' => array(
-    ),
-    'suggests' => array(
-    ),
-  ),
-);
+    ],
+    'conflicts' => [
+    ],
+    'suggests' => [
+    ],
+  ],
+];
