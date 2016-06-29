@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.3
   - 5.5
   - 5.6
 
@@ -12,13 +11,10 @@ env:
     - secure: SD2d0GCZUSJoeYXCNNC9JW4tiKwNkWlyWdREXmb/WRKwLebceWBAvn6Q25NW0tAZWmyQG6HWTgPaS4eFxO0DD7TnCghd9SmJhbXu2NCdi3IoXDLwwUrvasP0K2k/Lb2pbCKjv4EQRTnbuNjJqddNxaELzoWsir3PU3MnfXnIEh8=
   matrix:
     - TYPO3_VERSION=^6.2.20
+    - TYPO3_VERSION=^7.6
 
 matrix:
   include:
-    - php: 5.5
-      env: TYPO3_VERSION=^7.6
-    - php: 5.6
-      env: TYPO3_VERSION=^7.6
     - php: 7.0
       env: TYPO3_VERSION=^7.6
 
