@@ -13,6 +13,9 @@ namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
  */
 
 use PAGEmachine\Cors\AccessControl\Negotiator;
+use PAGEmachine\Cors\AccessControl\Request;
+use PAGEmachine\Cors\AccessControl\Response;
+use PAGEmachine\Cors\Http\Uri;
 
 /**
  * Testcase for PAGEmachine\Cors\AccessControl\Negotiator
@@ -39,10 +42,10 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   public function setUp() {
 
-    $origin = $this->getMockBuilder('PAGEmachine\\Cors\\Http\\Uri')
+    $origin = $this->getMockBuilder(Uri::class)
       ->setMethods(NULL)
       ->getMock();
-    $this->request = $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Request')
+    $this->request = $this->getMockBuilder(Request::class)
       ->disableOriginalConstructor()
       ->setMethods(NULL)
       ->getMock();
@@ -370,7 +373,7 @@ class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
    */
   protected function getResponseMock() {
 
-    return $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Response')
+    return $this->getMockBuilder(Response::class)
       ->setMethods(NULL)
       ->getMock();
   }

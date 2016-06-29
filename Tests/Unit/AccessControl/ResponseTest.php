@@ -38,7 +38,7 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
     $headers = [];
     $skipBodyAndExit = FALSE;
 
-    $response = $this->getMockBuilder('PAGEmachine\\Cors\\AccessControl\\Response')
+    $response = $this->getMockBuilder(Response::class)
       ->setMethods(['sendHeader', 'skipBodyAndExit'])
       ->getMock();
     $response->expects($this->any())
