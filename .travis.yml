@@ -4,9 +4,6 @@ php:
   - 5.6
 
 env:
-  global:
-    - TYPO3_ORG_USERNAME=pagemachine
-    - secure: SD2d0GCZUSJoeYXCNNC9JW4tiKwNkWlyWdREXmb/WRKwLebceWBAvn6Q25NW0tAZWmyQG6HWTgPaS4eFxO0DD7TnCghd9SmJhbXu2NCdi3IoXDLwwUrvasP0K2k/Lb2pbCKjv4EQRTnbuNjJqddNxaELzoWsir3PU3MnfXnIEh8=
   matrix:
     - TYPO3_VERSION=^6.2.20
     - TYPO3_VERSION=^7.6
