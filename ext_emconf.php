@@ -2,7 +2,7 @@
 
 $EM_CONF['cors'] = [
   'title' => 'CORS',
-  'description' => 'Cross Origin Resource Sharing for TYPO3 CMS.',
+  'description' => 'Cross Origin Resource Sharing for TYPO3',
   'category' => 'fe',
   'author' => 'Mathias Brodala',
   'author_email' => 'mbrodala@pagemachine.de',
