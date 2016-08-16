@@ -12,12 +12,14 @@ namespace PAGEmachine\Cors\Hooks;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use PAGEmachine\Cors\AccessControl\Negotiator;
 use PAGEmachine\Cors\AccessControl\Request;
 use PAGEmachine\Cors\AccessControl\Response;
+use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Sends CORS-related headers as configured
@@ -28,6 +30,22 @@ class ContentPostProcessorHook {
    * @var TypoScriptFrontendController
    */
   protected $frontendController;
+
+  /**
+   * @var LoggerInterface
+   */
+  protected $logger;
+
+  /**
+   * Set up this hook
+   *
+   * @param LogManager|null $logManager
+   */
+  public function __construct(LogManager $logManager = NULL) {
+
+    $logManager = $logManager ?: GeneralUtility::makeInstance(LogManager::class);
+    $this->logger = $logManager->getLogger(__CLASS__);
+  }
 
   /**
    * Processes configuration and sends headers
@@ -84,6 +102,7 @@ class ContentPostProcessorHook {
       $negotiator->processRequest(new Request($_SERVER), $response);
     } catch (\PAGEmachine\Cors\AccessControl\Exception $e) {
 
+      $this->logger->error(sprintf('Error processing CORS request: %s', $e->getMessage()), $e);
       // No need to go any further since the client will abort anyways
       $response->skipBodyAndExit();
     }
