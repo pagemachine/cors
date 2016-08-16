@@ -102,7 +102,7 @@ class ContentPostProcessorHook {
       $negotiator->processRequest(new Request($_SERVER), $response);
     } catch (\PAGEmachine\Cors\AccessControl\Exception $e) {
 
-      $this->logger->error(sprintf('Error processing CORS request: %s', $e->getMessage()), $e);
+      $this->logger->error(sprintf('Error processing CORS request: %s', $e->getMessage()), ['exception' => $e]);
       // No need to go any further since the client will abort anyways
       $response->skipBodyAndExit();
     }
