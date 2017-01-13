@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF['cors'] = [
+$EM_CONF[$_EXTKEY] = [
   'title' => 'CORS',
   'description' => 'Cross Origin Resource Sharing for TYPO3',
   'category' => 'fe',
