@@ -123,7 +123,12 @@ class ContentPostProcessorHook {
     foreach ($configuration as $option => $value) {
 
       // Perform stdWrap processing on all options
-      if (StringUtility::isLastPartOfString($option, '.') && isset($value['stdWrap.'])) {
+      if (version_compare(TYPO3_version, '7.0', '>=')) {
+        $endsWith = StringUtility::endsWith($option, '.');
+      } else {
+        $endsWith = StringUtility::isLastPartOfString($option, '.');
+      }
+      if ($endsWith && isset($value['stdWrap.'])) {
 
         unset($configuration[$option]);
         $option = substr($option, 0, -1);
