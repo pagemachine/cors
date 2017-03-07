@@ -34,7 +34,6 @@ before_install:
   - composer self-update
 
 before_script:
-  - composer install
   - travis_retry composer require --update-with-dependencies typo3/cms $TYPO3_VERSION
 
 script:
