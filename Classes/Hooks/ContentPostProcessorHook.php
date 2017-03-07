@@ -119,11 +119,12 @@ class ContentPostProcessorHook {
   protected function getConfiguration(array $rawConfiguration) {
 
     $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : [];
+    $typo3SevenOrNewer = version_compare(TYPO3_version, '7.0', '>=');
 
     foreach ($configuration as $option => $value) {
 
       // Perform stdWrap processing on all options
-      if (version_compare(TYPO3_version, '7.0', '>=')) {
+      if ($typo3SevenOrNewer) {
         $endsWith = StringUtility::endsWith($option, '.');
       } else {
         $endsWith = StringUtility::isLastPartOfString($option, '.');
