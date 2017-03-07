@@ -1,7 +1,7 @@
 <phpunit
   backupGlobals="true"
   backupStaticAttributes="false"
-  bootstrap="Tests/bootstrap.php"
+  bootstrap="vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php"
   colors="true"
   convertErrorsToExceptions="true"
   convertWarningsToExceptions="true"
@@ -12,6 +12,10 @@
   stopOnIncomplete="false"
   stopOnSkipped="false"
   verbose="false">
+
+  <php>
+    <env name="TYPO3_PATH_WEB" value="web"/>
+  </php>
 
   <testsuites>
     <testsuite name="Unit tests">
