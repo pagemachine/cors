@@ -34,7 +34,8 @@ before_install:
   - composer self-update
 
 before_script:
-  - composer require typo3/cms $TYPO3_VERSION
+  - composer install
+  - travis_retry composer require --update-with-dependencies typo3/cms $TYPO3_VERSION
 
 script:
   - bin/parallel-lint --exclude bin --exclude vendor --exclude web .
