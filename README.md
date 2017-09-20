@@ -11,10 +11,12 @@
 
 This extension is installable from various sources:
 
-1. From [Github](https://github.com/pagemachine/cors/releases)
-2. Via [Composer](https://github.com/pagemachine/cors/issues):
+1. Via [Composer](https://packagist.org/packages/pagemachine/cors):
         
         composer require pagemachine/cors
+       
+2. From the [TYPO3 Extension Repository](https://extensions.typo3.org/extension/cors/) 
+3. From [Github](https://github.com/pagemachine/cors/releases)
 
 ## Configuration
 
