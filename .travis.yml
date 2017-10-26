@@ -1,59 +1,53 @@
 language: php
 
-php:
-  - 7.0
-  - 7.1
-
-env:
-  matrix:
-    - TYPO3_VERSION=^7.6
-    - TYPO3_VERSION=^8.7
-
-matrix:
-  include:
-    - php: 5.6
-      env: TYPO3_VERSION=^7.6
-    - php: 5.6
-      env: TYPO3_VERSION=^6.2.20
-
 sudo: false
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-before_install:
-  - composer self-update
-
-before_script:
+install:
   - travis_retry composer require --update-with-dependencies typo3/cms $TYPO3_VERSION
 
 script:
   - bin/parallel-lint --exclude bin --exclude vendor --exclude web .
   - bin/phpunit
 
-after_script:
-  - >
-    if [ -n "$TRAVIS_TAG" ]; then
-      echo -e "Preparing upload of release ${TRAVIS_TAG} to TER\n"
+jobs:
+  include:
+    - php: 5.6
+      env: TYPO3_VERSION=^7.6
+    - php: 7.0
+      env: TYPO3_VERSION=^7.6
+    - php: 7.1
+      env: TYPO3_VERSION=^7.6
+    - php: 7.0
+      env: TYPO3_VERSION=^8.7
+    - php: 7.1
+      env: TYPO3_VERSION=^8.7
 
-      export PATH=$HOME/.composer/vendor/bin:$(npm bin):$PATH
-      npm install
-      travis-after-all;
+    - stage: deploy
+      php: 7.1
+      before_install: skip
+      install: skip
+      before_script: skip
+      script: >
+        if [ -n "$TRAVIS_TAG" ]; then
+          echo -e "Preparing upload of release ${TRAVIS_TAG} to TER\n"
 
-      if [ $? -eq 0 ]; then
-        TAG_ANNOTATION="$(git tag -n -l $TRAVIS_TAG)"
-        TAG_MESSAGE="${TAG_ANNOTATION#* }"
+          if [ $? -eq 0 ]; then
+            TAG_ANNOTATION="$(git tag -n -l $TRAVIS_TAG)"
+            TAG_MESSAGE="${TAG_ANNOTATION#* }"
 
-        git reset --hard
-        git clean -xfd
+            git reset --hard
+            git clean -xfd
 
-        composer global require helhum/ter-client dev-master
+            composer global require helhum/ter-client dev-master
 
-        echo "Uploading release ${TRAVIS_TAG} to TER"
-        $HOME/.composer/vendor/bin/ter-client upload $(composer config extra.typo3/cms.extension-key) . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE"
-      fi;
-    fi;
+            echo "Uploading release ${TRAVIS_TAG} to TER"
+            $HOME/.composer/vendor/bin/ter-client upload $(composer config extra.typo3/cms.extension-key) . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE"
+          fi;
+        fi;
 
 notifications:
   slack:
