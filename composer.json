@@ -42,12 +42,12 @@
   "scripts": {
     "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
     "lint": [
-      "@lint:php",
+      "@lint:php"
     ],
     "test:unit": "phpunit",
     "test": [
       "@test:unit"
-    ],
+    ]
   },
   "autoload": {
     "psr-4": {
