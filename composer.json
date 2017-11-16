@@ -39,6 +39,16 @@
       "web-dir": "web"
     }
   },
+  "scripts": {
+    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint": [
+      "@lint:php"
+    ],
+    "test:unit": "phpunit",
+    "test": [
+      "@test:unit"
+    ]
+  },
   "autoload": {
     "psr-4": {
       "PAGEmachine\\Cors\\": "Classes/"
