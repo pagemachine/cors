@@ -12,12 +12,13 @@ namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PAGEmachine\Cors\AccessControl\Request;
 
 /**
  * Testcase for PAGEmachine\Cors\AccessControl\Request
  */
-class RequestTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class RequestTest extends UnitTestCase {
 
   /**
    * @test
