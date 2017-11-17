@@ -12,12 +12,13 @@ namespace PAGEmachine\Cors\Tests\Unit\Http;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PAGEmachine\Cors\Http\Uri;
 
 /**
  * Testcase for PAGEmachine\Cors\Http\Uri
  */
-class UriTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class UriTest extends UnitTestCase {
 
   /**
    * List of URI object properties
