@@ -12,6 +12,7 @@ namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PAGEmachine\Cors\AccessControl\Negotiator;
 use PAGEmachine\Cors\AccessControl\Request;
 use PAGEmachine\Cors\AccessControl\Response;
@@ -20,7 +21,7 @@ use PAGEmachine\Cors\Http\Uri;
 /**
  * Testcase for PAGEmachine\Cors\AccessControl\Negotiator
  */
-class NegotiatorTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class NegotiatorTest extends UnitTestCase {
 
   /**
    * @var \PAGEmachine\Cors\AccessControl\Request
