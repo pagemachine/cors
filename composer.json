@@ -2,7 +2,7 @@
   "name": "pagemachine/cors",
   "description": "Cross Origin Resource Sharing for TYPO3 CMS.",
   "keywords": ["typo3", "cors"],
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Mathias Brodala",
