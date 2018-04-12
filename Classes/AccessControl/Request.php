@@ -130,7 +130,7 @@ class Request {
 
       $this->isCrossOrigin = $this->origin->getScheme() != $this->destination->getScheme() ||
         $this->origin->getHostname() != $this->destination->getHostname() ||
-        $this->origin->getPort() != $this->destination->getPort();
+        $this->origin->getNormalizedPort() !== $this->destination->getNormalizedPort();
 
       $this->hasCredentials = isset($environment['HTTP_COOKIE']) ||
         isset($environment['HTTP_AUTHORIZATION']) ||
