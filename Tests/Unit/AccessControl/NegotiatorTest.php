@@ -24,17 +24,17 @@ use PAGEmachine\Cors\Http\Uri;
 class NegotiatorTest extends UnitTestCase
 {
     /**
-     * @var \PAGEmachine\Cors\AccessControl\Request
+     * @var Request|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $request;
 
     /**
-     * @var \PAGEmachine\Cors\AccessControl\Response
+     * @var Response|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $response;
 
     /**
-     * @var \PAGEmachine\Cors\AccessControl\Negotiator
+     * @var Negotiator
      */
     protected $negotiator;
 
@@ -369,7 +369,7 @@ class NegotiatorTest extends UnitTestCase
     /**
      * Builds a mocked response object
      *
-     * @return \PAGEmachine\Cors\AccessControl\Response
+     * @return Response|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getResponseMock()
     {

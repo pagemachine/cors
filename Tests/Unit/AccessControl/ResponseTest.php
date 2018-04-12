@@ -39,6 +39,7 @@ class ResponseTest extends UnitTestCase
         $headers = [];
         $skipBodyAndExit = false;
 
+        /** @var Response|\PHPUnit_Framework_MockObject_MockObject */
         $response = $this->getMockBuilder(Response::class)
             ->setMethods(['sendHeader', 'skipBodyAndExit'])
             ->getMock();
