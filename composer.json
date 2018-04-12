@@ -42,6 +42,8 @@
   },
   "scripts": {
     "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint:style": "phpcs",
+    "fix:style": "phpcbf",
     "lint": [
       "@lint:php"
     ],
