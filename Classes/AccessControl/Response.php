@@ -64,12 +64,12 @@ class Response
     }
 
     /**
-     * @var array $exposedHeaders
+     * @var string[] $exposedHeaders
      */
     protected $exposedHeaders = [];
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getExposedHeaders()
     {
@@ -77,7 +77,7 @@ class Response
     }
 
     /**
-     * @param array $exposedHeaders
+     * @param string[] $exposedHeaders
      * @return void
      */
     public function setExposedHeaders(array $exposedHeaders)
@@ -108,12 +108,12 @@ class Response
     }
 
     /**
-     * @var array $allowedMethods
+     * @var string[] $allowedMethods
      */
     protected $allowedMethods = [];
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getAllowedMethods()
     {
@@ -121,7 +121,7 @@ class Response
     }
 
     /**
-     * @param array $allowedMethods
+     * @param string[] $allowedMethods
      * @return void
      */
     public function setAllowedMethods(array $allowedMethods)
@@ -130,12 +130,12 @@ class Response
     }
 
     /**
-     * @var array $allowedHeaders
+     * @var string[] $allowedHeaders
      */
     protected $allowedHeaders = [];
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getAllowedHeaders()
     {
@@ -143,7 +143,7 @@ class Response
     }
 
     /**
-     * @param array $allowedHeaders
+     * @param string[] $allowedHeaders
      * @return void
      */
     public function setAllowedHeaders(array $allowedHeaders)
