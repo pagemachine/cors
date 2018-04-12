@@ -31,7 +31,7 @@ class ContentPostProcessorHook
     protected $frontendController;
 
     /**
-     * @var LoggerInterface
+     * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
 
@@ -42,6 +42,7 @@ class ContentPostProcessorHook
      */
     public function __construct(LogManager $logManager = null)
     {
+        /** @var LogManager */
         $logManager = $logManager ?: GeneralUtility::makeInstance(LogManager::class);
         $this->logger = $logManager->getLogger(__CLASS__);
     }
