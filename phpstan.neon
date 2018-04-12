@@ -1,0 +1,10 @@
+parameters:
+  ignoreErrors:
+    - '#Constant TYPO3_MODE not found#'
+    - '#Constant TYPO3_version not found#'
+    - '#Undefined variable: \$_EXTKEY#'
+    - '#Call to an undefined static method .+StringUtility::isLastPartOfString.+#'
+    - '#Property.+&PHPUnit_Framework_MockObject_MockObject.+ does not accept.+#'
+    - '#Call to an undefined method PHPUnit_Framework_MockObject_MockObject::setOrigin.+#'
+    - '#Method.+should return .+ but returns PHPUnit_Framework_MockObject_MockObject#'
+  reportUnmatchedIgnoredErrors: false

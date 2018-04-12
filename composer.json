@@ -41,6 +41,7 @@
     }
   },
   "scripts": {
+    "analyze:php": "phpstan analyse --ansi --no-progress --configuration=phpstan.neon --level=5 *.php Classes Tests",
     "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
     "lint:style": "phpcs",
     "fix:style": "phpcbf",

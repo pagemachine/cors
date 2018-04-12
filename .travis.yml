@@ -44,6 +44,12 @@ jobs:
         - composer require --dev cakephp/cakephp-codesniffer slevomat/coding-standard squizlabs/php_codesniffer
         - composer lint:style
 
+    - php: 7.1
+      env: Static analysis
+      script:
+        - composer require --dev phpstan/phpstan
+        - composer analyze:php
+
     - stage: deploy
       if: tag IS present
       php: 7.1
