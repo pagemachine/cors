@@ -38,6 +38,12 @@ jobs:
     - <<: *lint
       php: 7.1
 
+    - php: 7.1
+      env: Codestyle
+      script:
+        - composer require --dev cakephp/cakephp-codesniffer slevomat/coding-standard squizlabs/php_codesniffer
+        - composer lint:style
+
     - stage: deploy
       if: tag IS present
       php: 7.1
