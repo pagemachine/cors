@@ -15,4 +15,6 @@ namespace PAGEmachine\Cors\AccessControl\Exception;
 /**
  * An exception indicating a denial of access
  */
-class AccessDeniedException extends \PAGEmachine\Cors\AccessControl\Exception {}
+class AccessDeniedException extends \PAGEmachine\Cors\AccessControl\Exception
+{
+}

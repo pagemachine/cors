@@ -15,4 +15,6 @@ namespace PAGEmachine\Cors\AccessControl;
 /**
  * A generic access control exception
  */
-class Exception extends \Exception {}
+class Exception extends \Exception
+{
+}

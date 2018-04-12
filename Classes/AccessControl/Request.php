@@ -12,199 +12,209 @@ namespace PAGEmachine\Cors\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use PAGEmachine\Cors\Http\Uri;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Represents a HTTP request
  */
-class Request {
+class Request
+{
+    /**
+     * @var bool
+     */
+    protected $isCrossOrigin = false;
 
-  /**
-   * @var boolean
-   */
-  protected $isCrossOrigin = FALSE;
+    /**
+     * @var bool
+     */
+    protected $isPreflight = false;
 
-  /**
-   * @var boolean
-   */
-  protected $isPreflight = FALSE;
+    /**
+     * @var bool
+     */
+    protected $hasCredentials = false;
 
-  /**
-   * @var boolean
-   */
-  protected $hasCredentials = FALSE;
+    /**
+     * @var Uri $origin
+     */
+    protected $origin;
 
-  /**
-   * @var Uri $origin
-   */
-  protected $origin;
-
-  /**
-   * @return Uri
-   */
-  public function getOrigin() {
-    return $this->origin;
-  }
-
-  /**
-   * @param Uri $origin
-   * @return void
-   */
-  public function setOrigin(Uri $origin) {
-    $this->origin = $origin;
-  }
-
-  /**
-   * @var Uri $destination
-   */
-  protected $destination;
-
-  /**
-   * @return Uri
-   */
-  public function getDestination() {
-    return $this->destination;
-  }
-
-  /**
-   * @param Uri $destination
-   * @return void
-   */
-  public function setDestination(Uri $destination) {
-    $this->destination = $destination;
-  }
-
-  /**
-   * @var string $requestMethod
-   */
-  protected $requestMethod;
-
-  /**
-   * @return string
-   */
-  public function getRequestMethod() {
-    return $this->requestMethod;
-  }
-
-  /**
-   * @param string $requestMethod
-   * @return void
-   */
-  public function setRequestMethod($requestMethod) {
-    $this->requestMethod = $requestMethod;
-  }
-
-  /**
-   * @var array $requestHeaders
-   */
-  protected $requestHeaders = [];
-
-  /**
-   * @return array
-   */
-  public function getRequestHeaders() {
-    return $this->requestHeaders;
-  }
-
-  /**
-   * @param array $requestHeaders
-   * @return void
-   */
-  public function setRequestHeaders(array $requestHeaders) {
-    $this->requestHeaders = $requestHeaders;
-  }
-
-  /**
-   * Constructs a new request object
-   *
-   * @param array $environment Server environment (from $_SERVER)
-   */
-  public function __construct(array $environment) {
-
-    $this->destination = Uri::fromEnvironment($environment);
-
-    if (isset($environment['HTTP_ORIGIN'])) {
-
-      $this->origin = new Uri($environment['HTTP_ORIGIN']);
-
-      $this->isCrossOrigin = $this->origin->getScheme() != $this->destination->getScheme() ||
-        $this->origin->getHostname() != $this->destination->getHostname() ||
-        $this->origin->getNormalizedPort() !== $this->destination->getNormalizedPort();
-
-      $this->hasCredentials = isset($environment['HTTP_COOKIE']) ||
-        isset($environment['HTTP_AUTHORIZATION']) ||
-        isset($environment['SSL_CLIENT_VERIFY']) && $environment['SSL_CLIENT_VERIFY'] !== 'NONE';
-
-      if ($environment['REQUEST_METHOD'] == 'OPTIONS') {
-
-        $this->isPreflight = TRUE;
-
-        if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
-
-          $this->requestMethod = $environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
-        }
-
-        if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
-
-          $this->requestHeaders = GeneralUtility::trimExplode(',', $environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
-        }
-      }
+    /**
+     * @return Uri
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
     }
-  }
 
-  /**
-   * Returns TRUE, if the current request is cross origin, FALSE otherwise
-   *
-   * A request is cross origin if one of scheme, host or protocol does not match
-   *
-   * @return boolean
-   */
-  public function isCrossOrigin() {
-    return $this->isCrossOrigin;
-  }
+    /**
+     * @param Uri $origin
+     * @return void
+     */
+    public function setOrigin(Uri $origin)
+    {
+        $this->origin = $origin;
+    }
 
-  /**
-   * @param bool $isCrossOrigin
-   * @return void
-   */
-  public function setCrossOrigin($isCrossOrigin) {
-    $this->isCrossOrigin = $isCrossOrigin;
-  }
+    /**
+     * @var Uri $destination
+     */
+    protected $destination;
 
-  /**
-   * Returns TRUE, if the current request has credentials, FALSE otherwise
-   *
-   * Credentials include cookies, HTTP authentication data and SSL client certificates
-   *
-   * @return boolean
-   */
-  public function hasCredentials() {
-    return $this->hasCredentials;
-  }
+    /**
+     * @return Uri
+     */
+    public function getDestination()
+    {
+        return $this->destination;
+    }
 
-  /**
-   * @param bool $hasCredentials
-   * @return void
-   */
-  public function setHasCredentials($hasCredentials) {
-    $this->hasCredentials = $hasCredentials;
-  }
+    /**
+     * @param Uri $destination
+     * @return void
+     */
+    public function setDestination(Uri $destination)
+    {
+        $this->destination = $destination;
+    }
 
-  /**
-   * Returns TRUE if the current request is a preflight request, FALSE otherwise
-   *
-   * @return boolean
-   */
-  public function isPreflight() {
-    return $this->isPreflight;
-  }
+    /**
+     * @var string $requestMethod
+     */
+    protected $requestMethod;
 
-  /**
-   * @param boolean $isPreflight
-   * @return void
-   */
-  public function setPreflight($isPreflight) {
-    $this->isPreflight = $isPreflight;
-  }
+    /**
+     * @return string
+     */
+    public function getRequestMethod()
+    {
+        return $this->requestMethod;
+    }
+
+    /**
+     * @param string $requestMethod
+     * @return void
+     */
+    public function setRequestMethod($requestMethod)
+    {
+        $this->requestMethod = $requestMethod;
+    }
+
+    /**
+     * @var array $requestHeaders
+     */
+    protected $requestHeaders = [];
+
+    /**
+     * @return array
+     */
+    public function getRequestHeaders()
+    {
+        return $this->requestHeaders;
+    }
+
+    /**
+     * @param array $requestHeaders
+     * @return void
+     */
+    public function setRequestHeaders(array $requestHeaders)
+    {
+        $this->requestHeaders = $requestHeaders;
+    }
+
+    /**
+     * Constructs a new request object
+     *
+     * @param array $environment Server environment (from $_SERVER)
+     */
+    public function __construct(array $environment)
+    {
+        $this->destination = Uri::fromEnvironment($environment);
+
+        if (isset($environment['HTTP_ORIGIN'])) {
+            $this->origin = new Uri($environment['HTTP_ORIGIN']);
+
+            $this->isCrossOrigin = $this->origin->getScheme() != $this->destination->getScheme() ||
+                                   $this->origin->getHostname() != $this->destination->getHostname() ||
+                                   $this->origin->getNormalizedPort() !== $this->destination->getNormalizedPort();
+
+            $this->hasCredentials = isset($environment['HTTP_COOKIE']) ||
+                                    isset($environment['HTTP_AUTHORIZATION']) ||
+                                    isset($environment['SSL_CLIENT_VERIFY']) && $environment['SSL_CLIENT_VERIFY'] !== 'NONE';
+
+            if ($environment['REQUEST_METHOD'] == 'OPTIONS') {
+                $this->isPreflight = true;
+
+                if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+                    $this->requestMethod = $environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
+                }
+
+                if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+                    $this->requestHeaders = GeneralUtility::trimExplode(',', $environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns TRUE, if the current request is cross origin, FALSE otherwise
+     *
+     * A request is cross origin if one of scheme, host or protocol does not match
+     *
+     * @return bool
+     */
+    public function isCrossOrigin()
+    {
+        return $this->isCrossOrigin;
+    }
+
+    /**
+     * @param bool $isCrossOrigin
+     * @return void
+     */
+    public function setCrossOrigin($isCrossOrigin)
+    {
+        $this->isCrossOrigin = $isCrossOrigin;
+    }
+
+    /**
+     * Returns TRUE, if the current request has credentials, FALSE otherwise
+     *
+     * Credentials include cookies, HTTP authentication data and SSL client certificates
+     *
+     * @return bool
+     */
+    public function hasCredentials()
+    {
+        return $this->hasCredentials;
+    }
+
+    /**
+     * @param bool $hasCredentials
+     * @return void
+     */
+    public function setHasCredentials($hasCredentials)
+    {
+        $this->hasCredentials = $hasCredentials;
+    }
+
+    /**
+     * Returns TRUE if the current request is a preflight request, FALSE otherwise
+     *
+     * @return bool
+     */
+    public function isPreflight()
+    {
+        return $this->isPreflight;
+    }
+
+    /**
+     * @param bool $isPreflight
+     * @return void
+     */
+    public function setPreflight($isPreflight)
+    {
+        $this->isPreflight = $isPreflight;
+    }
 }
