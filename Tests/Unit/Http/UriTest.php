@@ -74,6 +74,52 @@ class UriTest extends UnitTestCase {
 
   /**
    * @test
+   * @dataProvider environmentsWithoutPort
+   *
+   * @param array $environment
+   * @param int $expectedPort
+   */
+  public function returnsNormalizedPort(array $environment, $expectedPort) {
+
+    $uri = Uri::fromEnvironment($environment);
+
+    $this->assertEquals($expectedPort, $uri->getNormalizedPort());
+  }
+
+  /**
+   * @return array
+   */
+  public function environmentsWithoutPort() {
+
+    return [
+      'HTTPS' => [
+        [
+          'HTTP_HOST' => 'example.org',
+          'HTTPS' => 'on',
+          'REQUEST_URI' => '/',
+        ],
+        443,
+      ],
+      'HTTP' => [
+        [
+          'HTTP_HOST' => 'example.org',
+          'REQUEST_URI' => '/',
+        ],
+        80,
+      ],
+      'HTTP with custom port' => [
+        [
+          'HTTP_HOST' => 'example.org',
+          'SERVER_PORT' => 8080,
+          'REQUEST_URI' => '/',
+        ],
+        8080,
+      ],
+    ];
+  }
+
+  /**
+   * @test
    * @expectedException InvalidArgumentException
    * @expectedExceptionCode 1446565362
    */

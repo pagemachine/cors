@@ -107,6 +107,23 @@ class RequestTest extends UnitTestCase {
         ],
         TRUE,
       ],
+      'Implicit origin port' => [
+        [
+          'HTTP_ORIGIN' => 'https://example.org',
+          'HTTP_HOST' => 'example.org',
+          'HTTPS' => 'on',
+          'SERVER_PORT' => 443,
+        ],
+        FALSE,
+      ],
+      'Implicit destination port' => [
+        [
+          'HTTP_ORIGIN' => 'https://example.org:443',
+          'HTTP_HOST' => 'example.org',
+          'HTTPS' => 'on',
+        ],
+        FALSE,
+      ],
     ];
   }
 

@@ -63,10 +63,35 @@ class Uri {
   protected $port;
 
   /**
-   * @return integer
+   * @return integer|null
    */
   public function getPort() {
     return $this->port;
+  }
+
+  /**
+   * The normalized port, 443 for HTTPS and 80 for HTTP unless explicitly set
+   *
+   * @return integer|null
+   */
+  public function getNormalizedPort() {
+    $normalizedPort = $this->getPort();
+
+    if (empty($normalizedPort)) {
+
+      switch ($this->getScheme()) {
+
+        case 'https':
+          $normalizedPort = 443;
+          break;
+
+        case 'http':
+          $normalizedPort = 80;
+          break;
+      }
+    }
+
+    return $normalizedPort;
   }
 
   /**
