@@ -226,6 +226,25 @@ class UriTest extends UnitTestCase
                     'fragment' => null,
                 ],
             ],
+            'HTTPS through proxy with forwarded proto' => [
+                [
+                    'HTTP_HOST' => 'example.org',
+                    'HTTP_X_FORWARDED_PROTO' => 'https',
+                    'HTTP_X_FORWARDED_PORT' => 443,
+                    'SERVER_PORT' => 81,
+                    'REQUEST_URI' => '/',
+                ],
+                [
+                    'scheme' => 'https',
+                    'hostname' => 'example.org',
+                    'port' => 443,
+                    'username' => null,
+                    'password' => null,
+                    'path' => '/',
+                    'query' => null,
+                    'fragment' => null,
+                ],
+            ],
         ];
     }
 
