@@ -253,7 +253,13 @@ class Uri
             : 'http'
         );
         $uri->setHostname($environment['HTTP_HOST']);
-        $uri->setPort(isset($environment['SERVER_PORT']) ? (int) $environment['SERVER_PORT'] : null);
+        $uri->setPort(
+            isset($environment['HTTP_X_FORWARDED_PORT'])
+            ? (int) $environment['HTTP_X_FORWARDED_PORT']
+            : (
+                isset($environment['SERVER_PORT']) ? (int) $environment['SERVER_PORT'] : null
+            )
+        );
         $uri->setUsername(isset($environment['PHP_AUTH_USER']) ? $environment['PHP_AUTH_USER'] : null);
         $uri->setPassword(isset($environment['PHP_AUTH_PW']) ? $environment['PHP_AUTH_PW'] : null);
 
