@@ -296,11 +296,12 @@ class UriTest extends UnitTestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1446565362
      */
     public function throwsExceptionOnInvalidUri()
     {
-        new Uri('javascript://');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(1446565362);
+        
+        $uri = new Uri('javascript://');
     }
 }
