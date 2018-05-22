@@ -13,6 +13,7 @@ namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException;
 use PAGEmachine\Cors\AccessControl\Negotiator;
 use PAGEmachine\Cors\AccessControl\Request;
 use PAGEmachine\Cors\AccessControl\Response;
@@ -84,15 +85,16 @@ class NegotiatorTest extends UnitTestCase
 
     /**
      * @test
-     * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
-     * @expectedExceptionCode 1413983266
      */
     public function throwsExceptionForWildcardOriginWithCredentials()
     {
         $this->request->setCrossOrigin(true);
         $this->request->setHasCredentials(true);
-
         $this->negotiator->setAllowedOrigins(['*']);
+        
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413983266);
+        
         $this->negotiator->processRequest($this->request, $this->response);
     }
 
@@ -135,22 +137,21 @@ class NegotiatorTest extends UnitTestCase
 
     /**
      * @test
-     * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
-     * @expectedExceptionCode 1413983266
      */
     public function throwsExceptionIfOriginIsNotAllowed()
     {
         $this->request->getOrigin()->setScheme('http');
         $this->request->getOrigin()->setHostname('example.org');
         $this->request->setCrossOrigin(true);
+        
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413983266);
 
         $this->negotiator->processRequest($this->request, $this->response);
     }
 
     /**
      * @test
-     * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
-     * @expectedExceptionCode 1413983266
      */
     public function throwsExceptionIfOriginPortIsNotAllowed()
     {
@@ -158,6 +159,9 @@ class NegotiatorTest extends UnitTestCase
         $this->request->getOrigin()->setHostname('example.org');
         $this->request->getOrigin()->setPort(80);
         $this->request->setCrossOrigin(true);
+        
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413983266);
 
         $this->negotiator->setAllowedOrigins(['http://example.org:8080']);
         $this->negotiator->processRequest($this->request, $this->response);
@@ -237,27 +241,29 @@ class NegotiatorTest extends UnitTestCase
 
     /**
      * @test
-     * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
-     * @expectedExceptionCode 1413983849
      */
     public function throwsExceptionForPreflightWithoutRequestMethod()
     {
         $this->request->setCrossOrigin(true);
         $this->request->setPreflight(true);
+        
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413983849);
 
         $this->negotiator->processRequest($this->request, $this->response);
     }
 
     /**
      * @test
-     * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
-     * @expectedExceptionCode 1413983927
      */
     public function throwsExceptionForPreflightWithNotAllowedRequestMethod()
     {
         $this->request->setCrossOrigin(true);
         $this->request->setPreflight(true);
         $this->request->setRequestMethod('DELETE');
+        
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413983927);
 
         $this->negotiator->setAllowedMethods(['PUT']);
         $this->negotiator->processRequest($this->request, $this->response);
@@ -265,8 +271,6 @@ class NegotiatorTest extends UnitTestCase
 
     /**
      * @test
-     * @expectedException PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException
-     * @expectedExceptionCode 1413988013
      */
     public function throwsExceptionForPreflightWithNotAllowedRequestHeaders()
     {
@@ -274,6 +278,9 @@ class NegotiatorTest extends UnitTestCase
         $this->request->setPreflight(true);
         $this->request->setRequestMethod('POST');
         $this->request->setRequestHeaders(['X-Foo']);
+        
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413988013);
 
         $this->negotiator->processRequest($this->request, $this->response);
     }
