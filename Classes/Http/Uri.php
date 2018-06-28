@@ -247,22 +247,16 @@ class Uri
     {
         $uri = new self();
         $uri->setScheme(
-            isset($environment['HTTPS']) && ($environment['HTTPS'] == 'on' || $environment['HTTPS'] == 1)
+            in_array($environment['HTTPS'] ?? null, ['on', 1], true)
             ||
-            isset($environment['HTTP_X_FORWARDED_PROTO']) && $environment['HTTP_X_FORWARDED_PROTO'] == 'https'
+            ($environment['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https'
             ? 'https'
             : 'http'
         );
         $uri->setHostname($environment['HTTP_HOST']);
-        $uri->setPort(
-            isset($environment['HTTP_X_FORWARDED_PORT'])
-            ? (int) $environment['HTTP_X_FORWARDED_PORT']
-            : (
-                isset($environment['SERVER_PORT']) ? (int) $environment['SERVER_PORT'] : 0
-            )
-        );
-        $uri->setUsername(isset($environment['PHP_AUTH_USER']) ? $environment['PHP_AUTH_USER'] : '');
-        $uri->setPassword(isset($environment['PHP_AUTH_PW']) ? $environment['PHP_AUTH_PW'] : '');
+        $uri->setPort((int)($environment['HTTP_X_FORWARDED_PORT'] ?? $environment['SERVER_PORT'] ?? 0));
+        $uri->setUsername($environment['PHP_AUTH_USER'] ?? '');
+        $uri->setPassword($environment['PHP_AUTH_PW'] ?? '');
 
         $requestUriParts = explode('?', $environment['REQUEST_URI'] ?? '', 2);
         $uri->setPath($requestUriParts[0]);
@@ -270,7 +264,7 @@ class Uri
         if (isset($requestUriParts[1])) {
             $queryParts = explode('#', $requestUriParts[1], 2);
             $uri->setQuery($queryParts[0]);
-            $uri->setFragment(isset($queryParts[1]) ? $queryParts[1] : '');
+            $uri->setFragment($queryParts[1] ?? '');
         }
 
         return $uri;
@@ -293,7 +287,7 @@ class Uri
         ];
 
         foreach ($uriComponents as $component => $value) {
-            $property = isset($componentPropertyMapping[$component]) ? $componentPropertyMapping[$component] : $component;
+            $property = $componentPropertyMapping[$component] ?? $component;
             $this->$property = $value;
         }
     }

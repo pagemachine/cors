@@ -110,7 +110,7 @@ class ContentPostProcessorHook
      */
     protected function getConfiguration(array $rawConfiguration): array
     {
-        $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : [];
+        $configuration = $rawConfiguration['cors.'] ?? [];
         $typo3SevenOrNewer = version_compare(TYPO3_version, '7.0', '>=');
 
         foreach ($configuration as $option => $value) {
