@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace PAGEmachine\Cors\Hooks;
+namespace Pagemachine\Cors\Hooks;
 
 /*
- * This file is part of the PAGEmachine CORS project.
+ * This file is part of the Pagemachine CORS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 3
@@ -13,9 +13,9 @@ namespace PAGEmachine\Cors\Hooks;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use PAGEmachine\Cors\AccessControl\Negotiator;
-use PAGEmachine\Cors\AccessControl\Request;
-use PAGEmachine\Cors\AccessControl\Response;
+use Pagemachine\Cors\AccessControl\Negotiator;
+use Pagemachine\Cors\AccessControl\Request;
+use Pagemachine\Cors\AccessControl\Response;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -93,7 +93,7 @@ class ContentPostProcessorHook
 
         try {
             $negotiator->processRequest(new Request($_SERVER), $response);
-        } catch (\PAGEmachine\Cors\AccessControl\Exception $e) {
+        } catch (\Pagemachine\Cors\AccessControl\Exception $e) {
             $this->logger->error(sprintf('Error processing CORS request: %s', $e->getMessage()), ['exception' => $e]);
             // No need to go any further since the client will abort anyways
             $response->skipBodyAndExit();

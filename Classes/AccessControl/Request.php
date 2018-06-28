@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace PAGEmachine\Cors\AccessControl;
+namespace Pagemachine\Cors\AccessControl;
 
 /*
- * This file is part of the PAGEmachine CORS project.
+ * This file is part of the Pagemachine CORS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 3
@@ -13,7 +13,7 @@ namespace PAGEmachine\Cors\AccessControl;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use PAGEmachine\Cors\Http\Uri;
+use Pagemachine\Cors\Http\Uri;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**

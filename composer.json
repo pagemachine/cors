@@ -58,12 +58,12 @@
   },
   "autoload": {
     "psr-4": {
-      "PAGEmachine\\Cors\\": "Classes/"
+      "Pagemachine\\Cors\\": "Classes/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PAGEmachine\\Cors\\Tests\\": "Tests/",
+      "Pagemachine\\Cors\\Tests\\": "Tests/",
       "TYPO3\\CMS\\Core\\": "vendor/typo3/cms/typo3/sysext/core/Classes/",
       "TYPO3\\CMS\\Core\\Tests\\": "vendor/typo3/cms/typo3/sysext/core/Tests/",
       "TYPO3\\CMS\\Frontend\\": "vendor/typo3/cms/typo3/sysext/frontend/Classes/"

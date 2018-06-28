@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
+namespace Pagemachine\Cors\Tests\Unit\AccessControl;
 
 /*
- * This file is part of the PAGEmachine CORS project.
+ * This file is part of the Pagemachine CORS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 3
@@ -14,10 +14,10 @@ namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PAGEmachine\Cors\AccessControl\Request;
+use Pagemachine\Cors\AccessControl\Request;
 
 /**
- * Testcase for PAGEmachine\Cors\AccessControl\Request
+ * Testcase for Pagemachine\Cors\AccessControl\Request
  */
 class RequestTest extends UnitTestCase
 {

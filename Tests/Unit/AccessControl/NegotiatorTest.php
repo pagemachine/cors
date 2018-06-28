@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
+namespace Pagemachine\Cors\Tests\Unit\AccessControl;
 
 /*
- * This file is part of the PAGEmachine CORS project.
+ * This file is part of the Pagemachine CORS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 3
@@ -14,14 +14,14 @@ namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PAGEmachine\Cors\AccessControl\Exception\AccessDeniedException;
-use PAGEmachine\Cors\AccessControl\Negotiator;
-use PAGEmachine\Cors\AccessControl\Request;
-use PAGEmachine\Cors\AccessControl\Response;
-use PAGEmachine\Cors\Http\Uri;
+use Pagemachine\Cors\AccessControl\Exception\AccessDeniedException;
+use Pagemachine\Cors\AccessControl\Negotiator;
+use Pagemachine\Cors\AccessControl\Request;
+use Pagemachine\Cors\AccessControl\Response;
+use Pagemachine\Cors\Http\Uri;
 
 /**
- * Testcase for PAGEmachine\Cors\AccessControl\Negotiator
+ * Testcase for Pagemachine\Cors\AccessControl\Negotiator
  */
 class NegotiatorTest extends UnitTestCase
 {
@@ -92,10 +92,10 @@ class NegotiatorTest extends UnitTestCase
         $this->request->setCrossOrigin(true);
         $this->request->setHasCredentials(true);
         $this->negotiator->setAllowedOrigins(['*']);
-        
+
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983266);
-        
+
         $this->negotiator->processRequest($this->request, $this->response);
     }
 
@@ -144,7 +144,7 @@ class NegotiatorTest extends UnitTestCase
         $this->request->getOrigin()->setScheme('http');
         $this->request->getOrigin()->setHostname('example.org');
         $this->request->setCrossOrigin(true);
-        
+
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983266);
 
@@ -160,7 +160,7 @@ class NegotiatorTest extends UnitTestCase
         $this->request->getOrigin()->setHostname('example.org');
         $this->request->getOrigin()->setPort(80);
         $this->request->setCrossOrigin(true);
-        
+
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983266);
 
@@ -247,7 +247,7 @@ class NegotiatorTest extends UnitTestCase
     {
         $this->request->setCrossOrigin(true);
         $this->request->setPreflight(true);
-        
+
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983849);
 
@@ -262,7 +262,7 @@ class NegotiatorTest extends UnitTestCase
         $this->request->setCrossOrigin(true);
         $this->request->setPreflight(true);
         $this->request->setRequestMethod('DELETE');
-        
+
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983927);
 
@@ -279,7 +279,7 @@ class NegotiatorTest extends UnitTestCase
         $this->request->setPreflight(true);
         $this->request->setRequestMethod('POST');
         $this->request->setRequestHeaders(['X-Foo']);
-        
+
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413988013);
 

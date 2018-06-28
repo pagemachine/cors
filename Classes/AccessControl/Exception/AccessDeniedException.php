@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace PAGEmachine\Cors\AccessControl\Exception;
+namespace Pagemachine\Cors\AccessControl\Exception;
 
 /*
- * This file is part of the PAGEmachine CORS project.
+ * This file is part of the Pagemachine CORS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 3
@@ -16,6 +16,6 @@ namespace PAGEmachine\Cors\AccessControl\Exception;
 /**
  * An exception indicating a denial of access
  */
-class AccessDeniedException extends \PAGEmachine\Cors\AccessControl\Exception
+class AccessDeniedException extends \Pagemachine\Cors\AccessControl\Exception
 {
 }

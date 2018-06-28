@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace PAGEmachine\Cors\Tests\Unit\Http;
+namespace Pagemachine\Cors\Tests\Unit\Http;
 
 /*
- * This file is part of the PAGEmachine CORS project.
+ * This file is part of the Pagemachine CORS project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 3
@@ -14,10 +14,10 @@ namespace PAGEmachine\Cors\Tests\Unit\Http;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PAGEmachine\Cors\Http\Uri;
+use Pagemachine\Cors\Http\Uri;
 
 /**
- * Testcase for PAGEmachine\Cors\Http\Uri
+ * Testcase for Pagemachine\Cors\Http\Uri
  */
 class UriTest extends UnitTestCase
 {
@@ -302,7 +302,7 @@ class UriTest extends UnitTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionCode(1446565362);
-        
+
         $uri = new Uri('javascript://');
     }
 }
