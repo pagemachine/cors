@@ -121,7 +121,7 @@ class NegotiatorTest extends UnitTestCase
      * @param string $pattern
      * @param string $origin
      */
-    public function allowsOriginByPattern($pattern, $origin)
+    public function allowsOriginByPattern(string $pattern, string $origin)
     {
         $this->request->setCrossOrigin(true);
 
@@ -176,7 +176,7 @@ class NegotiatorTest extends UnitTestCase
      * @param bool $allowCredentials
      * @param bool $expectedAllowCredentials
      */
-    public function allowsCredentials($requestHasCredentials, $allowCredentials, $expectedAllowCredentials)
+    public function allowsCredentials(bool $requestHasCredentials, bool $allowCredentials, bool $expectedAllowCredentials)
     {
         $this->request->getOrigin()->setScheme('http');
         $this->request->getOrigin()->setHostname('example.org');
@@ -219,7 +219,7 @@ class NegotiatorTest extends UnitTestCase
      * @param array $allowedMethods
      * @param array $allowedHeaders
      */
-    public function allowsValidPreflightRequests($requestMethod, array $requestHeaders, array $allowedMethods, array $allowedHeaders)
+    public function allowsValidPreflightRequests(string $requestMethod, array $requestHeaders, array $allowedMethods, array $allowedHeaders)
     {
         $this->request->getOrigin()->setScheme('http');
         $this->request->getOrigin()->setHostname('example.org');
@@ -289,7 +289,7 @@ class NegotiatorTest extends UnitTestCase
     /**
      * @return array
      */
-    public function originPatternRequests()
+    public function originPatternRequests(): array
     {
         return [
             [
@@ -306,7 +306,7 @@ class NegotiatorTest extends UnitTestCase
     /**
      * @return array
      */
-    public function credentialRequests()
+    public function credentialRequests(): array
     {
         return [
             'No credentials, not allowed' => [
@@ -335,7 +335,7 @@ class NegotiatorTest extends UnitTestCase
     /**
      * @return array
      */
-    public function exposedHeaderRequests()
+    public function exposedHeaderRequests(): array
     {
         return [
             'No headers' => [
@@ -350,7 +350,7 @@ class NegotiatorTest extends UnitTestCase
     /**
      * @return array
      */
-    public function preflightRequests()
+    public function preflightRequests(): array
     {
         return [
             'Simple method with custom header' => [

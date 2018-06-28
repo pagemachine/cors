@@ -108,7 +108,7 @@ class ContentPostProcessorHook
      * @param array $rawConfiguration Raw configuration from TypoScriptFrontendController::$config['config']
      * @return array
      */
-    protected function getConfiguration(array $rawConfiguration)
+    protected function getConfiguration(array $rawConfiguration): array
     {
         $configuration = isset($rawConfiguration['cors.']) ? $rawConfiguration['cors.'] : [];
         $typo3SevenOrNewer = version_compare(TYPO3_version, '7.0', '>=');

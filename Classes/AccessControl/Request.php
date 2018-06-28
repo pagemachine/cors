@@ -44,7 +44,7 @@ class Request
     /**
      * @return Uri
      */
-    public function getOrigin()
+    public function getOrigin(): Uri
     {
         return $this->origin;
     }
@@ -66,7 +66,7 @@ class Request
     /**
      * @return Uri
      */
-    public function getDestination()
+    public function getDestination(): Uri
     {
         return $this->destination;
     }
@@ -83,12 +83,12 @@ class Request
     /**
      * @var string $requestMethod
      */
-    protected $requestMethod;
+    protected $requestMethod = '';
 
     /**
      * @return string
      */
-    public function getRequestMethod()
+    public function getRequestMethod(): string
     {
         return $this->requestMethod;
     }
@@ -97,7 +97,7 @@ class Request
      * @param string $requestMethod
      * @return void
      */
-    public function setRequestMethod($requestMethod)
+    public function setRequestMethod(string $requestMethod)
     {
         $this->requestMethod = $requestMethod;
     }
@@ -110,7 +110,7 @@ class Request
     /**
      * @return array
      */
-    public function getRequestHeaders()
+    public function getRequestHeaders(): array
     {
         return $this->requestHeaders;
     }
@@ -165,7 +165,7 @@ class Request
      *
      * @return bool
      */
-    public function isCrossOrigin()
+    public function isCrossOrigin(): bool
     {
         return $this->isCrossOrigin;
     }
@@ -174,7 +174,7 @@ class Request
      * @param bool $isCrossOrigin
      * @return void
      */
-    public function setCrossOrigin($isCrossOrigin)
+    public function setCrossOrigin(bool $isCrossOrigin)
     {
         $this->isCrossOrigin = $isCrossOrigin;
     }
@@ -186,7 +186,7 @@ class Request
      *
      * @return bool
      */
-    public function hasCredentials()
+    public function hasCredentials(): bool
     {
         return $this->hasCredentials;
     }
@@ -195,7 +195,7 @@ class Request
      * @param bool $hasCredentials
      * @return void
      */
-    public function setHasCredentials($hasCredentials)
+    public function setHasCredentials(bool $hasCredentials)
     {
         $this->hasCredentials = $hasCredentials;
     }
@@ -205,7 +205,7 @@ class Request
      *
      * @return bool
      */
-    public function isPreflight()
+    public function isPreflight(): bool
     {
         return $this->isPreflight;
     }
@@ -214,7 +214,7 @@ class Request
      * @param bool $isPreflight
      * @return void
      */
-    public function setPreflight($isPreflight)
+    public function setPreflight(bool $isPreflight)
     {
         $this->isPreflight = $isPreflight;
     }

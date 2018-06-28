@@ -35,7 +35,7 @@ class ResponseTest extends UnitTestCase
      * @param array $expectedHeaders
      * @param bool $expectedSkipBodyAndExit
      */
-    public function sendsCorrectHeaders($allowedOrigin, $allowCredentials, array $exposedHeaders, $isPreflight, array $allowedMethods, array $allowedHeaders, array $expectedHeaders, $expectedSkipBodyAndExit)
+    public function sendsCorrectHeaders(string $allowedOrigin, bool $allowCredentials, array $exposedHeaders, bool $isPreflight, array $allowedMethods, array $allowedHeaders, array $expectedHeaders, bool $expectedSkipBodyAndExit)
     {
         $headers = [];
         $skipBodyAndExit = false;
@@ -70,7 +70,7 @@ class ResponseTest extends UnitTestCase
     /**
      * @return array
      */
-    public function properties()
+    public function properties(): array
     {
         return [
             'Basic' => [

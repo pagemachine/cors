@@ -44,7 +44,7 @@ class UriTest extends UnitTestCase
      * @param string $uri
      * @param array $expected
      */
-    public function extractsUriComponents($uri, $expected)
+    public function extractsUriComponents(string $uri, array $expected)
     {
         $uri = new Uri($uri);
 
@@ -57,7 +57,7 @@ class UriTest extends UnitTestCase
     /**
      * @return array
      */
-    public function uris()
+    public function uris(): array
     {
         return [
             'Basic' => [
@@ -122,7 +122,7 @@ class UriTest extends UnitTestCase
      * @param array $environment
      * @param array $expected
      */
-    public function evaluatesEnvironment($environment, $expected)
+    public function evaluatesEnvironment(array $environment, array $expected)
     {
         $uri = Uri::fromEnvironment($environment);
 
@@ -135,7 +135,7 @@ class UriTest extends UnitTestCase
     /**
      * @return array
      */
-    public function environments()
+    public function environments(): array
     {
         return [
             'Basic' => [
@@ -256,7 +256,7 @@ class UriTest extends UnitTestCase
      * @param array $environment
      * @param int $expectedPort
      */
-    public function returnsNormalizedPort(array $environment, $expectedPort)
+    public function returnsNormalizedPort(array $environment, int $expectedPort)
     {
         $uri = Uri::fromEnvironment($environment);
 
@@ -266,7 +266,7 @@ class UriTest extends UnitTestCase
     /**
      * @return array
      */
-    public function environmentsWithoutPort()
+    public function environmentsWithoutPort(): array
     {
         return [
             'HTTPS' => [
