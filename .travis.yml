@@ -18,6 +18,8 @@ jobs:
       env: TYPO3_VERSION=^8.7
     - php: 7.1
       env: TYPO3_VERSION=^8.7
+    - php: 7.2
+      env: TYPO3_VERSION=^9.0
 
     - &lint
       php: 7.0
@@ -28,6 +30,8 @@ jobs:
         - composer lint:php
     - <<: *lint
       php: 7.1
+    - <<: *lint
+      php: 7.2
 
     - php: 7.0
       env: Codestyle
