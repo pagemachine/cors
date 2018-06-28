@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace PAGEmachine\Cors\Tests\Unit\AccessControl;
 
 /*
@@ -27,48 +28,16 @@ class RequestTest extends UnitTestCase
      * @param array $environment
      * @param bool $isCrossOrigin
      */
-    public function detectsCrossOriginRequests(array $environment, $isCrossOrigin)
+    public function detectsCrossOriginRequests(array $environment, bool $isCrossOrigin)
     {
         $request = new Request($environment);
         $this->assertEquals($isCrossOrigin, $request->isCrossOrigin());
     }
 
     /**
-     * @test
-     * @dataProvider credentialEnvironments
-     *
-     * @depends detectsCrossOriginRequests
-     * @param array $environment
-     * @param bool $hasCredentials
-     */
-    public function detectsCredentials(array $environment, $hasCredentials)
-    {
-        $request = new Request($environment);
-        $this->assertEquals($hasCredentials, $request->hasCredentials());
-    }
-
-    /**
-     * @test
-     * @dataProvider preflightEnvironments
-     * @depends detectsCrossOriginRequests
-     *
-     * @param array $environment
-     * @param bool $isPreflight
-     * @param string $requestMethod
-     * @param array $requestHeaders
-     */
-    public function detectsPreflightRequests(array $environment, $isPreflight, $requestMethod, $requestHeaders)
-    {
-        $request = new Request($environment);
-        $this->assertEquals($isPreflight, $request->isPreflight());
-        $this->assertEquals($requestMethod, $request->getRequestMethod());
-        $this->assertEquals($requestHeaders, $request->getRequestHeaders());
-    }
-
-    /**
      * @return array
      */
-    public function crossOriginEnvironments()
+    public function crossOriginEnvironments(): array
     {
         return [
             'Regular' => [
@@ -128,9 +97,23 @@ class RequestTest extends UnitTestCase
     }
 
     /**
+     * @test
+     * @dataProvider credentialEnvironments
+     *
+     * @depends detectsCrossOriginRequests
+     * @param array $environment
+     * @param bool $hasCredentials
+     */
+    public function detectsCredentials(array $environment, bool $hasCredentials)
+    {
+        $request = new Request($environment);
+        $this->assertEquals($hasCredentials, $request->hasCredentials());
+    }
+
+    /**
      * @return array
      */
-    public function credentialEnvironments()
+    public function credentialEnvironments(): array
     {
         return [
             'Regular' => [
@@ -176,9 +159,27 @@ class RequestTest extends UnitTestCase
     }
 
     /**
+     * @test
+     * @dataProvider preflightEnvironments
+     * @depends detectsCrossOriginRequests
+     *
+     * @param array $environment
+     * @param bool $isPreflight
+     * @param string $requestMethod
+     * @param array $requestHeaders
+     */
+    public function detectsPreflightRequests(array $environment, bool $isPreflight, string $requestMethod, array $requestHeaders)
+    {
+        $request = new Request($environment);
+        $this->assertEquals($isPreflight, $request->isPreflight());
+        $this->assertEquals($requestMethod, $request->getRequestMethod());
+        $this->assertEquals($requestHeaders, $request->getRequestHeaders());
+    }
+
+    /**
      * @return array
      */
-    public function preflightEnvironments()
+    public function preflightEnvironments(): array
     {
         return [
             'No preflight' => [
@@ -188,7 +189,7 @@ class RequestTest extends UnitTestCase
                     'REQUEST_METHOD' => 'GET',
                 ],
                 false,
-                null,
+                '',
                 [],
             ],
             'Regular' => [
@@ -198,7 +199,7 @@ class RequestTest extends UnitTestCase
                     'REQUEST_METHOD' => 'OPTIONS',
                 ],
                 true,
-                null,
+                '',
                 [],
             ],
             'Request method' => [
@@ -220,7 +221,7 @@ class RequestTest extends UnitTestCase
                     'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Requested-With, Foo',
                 ],
                 true,
-                null,
+                '',
                 ['X-Requested-With', 'Foo'],
             ],
         ];

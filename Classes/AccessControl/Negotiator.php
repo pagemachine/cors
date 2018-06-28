@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace PAGEmachine\Cors\AccessControl;
 
 /*
@@ -47,7 +48,7 @@ class Negotiator
     /**
      * @return bool
      */
-    public function getAllowCredentials()
+    public function getAllowCredentials(): bool
     {
         return $this->allowCredentials;
     }
@@ -56,7 +57,7 @@ class Negotiator
      * @param bool $allowCredentials
      * @return void
      */
-    public function setAllowCredentials($allowCredentials)
+    public function setAllowCredentials(bool $allowCredentials)
     {
         $this->allowCredentials = $allowCredentials;
     }
@@ -69,7 +70,7 @@ class Negotiator
     /**
      * @return array
      */
-    public function getAllowedHeaders()
+    public function getAllowedHeaders(): array
     {
         return $this->allowedHeaders;
     }
@@ -91,7 +92,7 @@ class Negotiator
     /**
      * @return array
      */
-    public function getAllowedMethods()
+    public function getAllowedMethods(): array
     {
         return $this->allowedMethods;
     }
@@ -113,7 +114,7 @@ class Negotiator
     /**
      * @return array
      */
-    public function getAllowedOrigins()
+    public function getAllowedOrigins(): array
     {
         return $this->allowedOrigins;
     }
@@ -135,7 +136,7 @@ class Negotiator
     /**
      * @return string
      */
-    public function getAllowedOriginsPattern()
+    public function getAllowedOriginsPattern(): string
     {
         return $this->allowedOriginsPattern;
     }
@@ -144,7 +145,7 @@ class Negotiator
      * @param string $allowedOriginsPattern
      * @return void
      */
-    public function setAllowedOriginsPattern($allowedOriginsPattern)
+    public function setAllowedOriginsPattern(string $allowedOriginsPattern)
     {
         $this->allowedOriginsPattern = $allowedOriginsPattern;
     }
@@ -157,7 +158,7 @@ class Negotiator
     /**
      * @return array
      */
-    public function getExposedHeaders()
+    public function getExposedHeaders(): array
     {
         return $this->exposedHeaders;
     }
@@ -174,12 +175,12 @@ class Negotiator
     /**
      * @var int $maximumAge
      */
-    protected $maximumAge;
+    protected $maximumAge = 0;
 
     /**
      * @return int
      */
-    public function getMaximumAge()
+    public function getMaximumAge(): int
     {
         return $this->maximumAge;
     }
@@ -188,7 +189,7 @@ class Negotiator
      * @param int $maximumAge
      * @return void
      */
-    public function setMaximumAge($maximumAge)
+    public function setMaximumAge(int $maximumAge)
     {
         $this->maximumAge = $maximumAge;
     }
@@ -251,7 +252,7 @@ class Negotiator
      * @param string $originUri The origin URI
      * @return bool
      */
-    protected function isOriginUriAllowed($originUri)
+    protected function isOriginUriAllowed(string $originUri): bool
     {
         // Check for exact match
         if (in_array($originUri, $this->allowedOrigins)) {
@@ -277,7 +278,7 @@ class Negotiator
      * @param string $method The HTTP method (POST/PUT/...)
      * @return bool
      */
-    protected function isMethodAllowed($method)
+    protected function isMethodAllowed(string $method): bool
     {
         return in_array($method, $this->simpleMethods, true) ||
                in_array($method, $this->allowedMethods, true);
@@ -291,7 +292,7 @@ class Negotiator
      * @param string $header The HTTP header (X-Foo/...)
      * @return bool
      */
-    protected function isHeaderAllowed($header)
+    protected function isHeaderAllowed(string $header): bool
     {
         $header = strtolower($header);
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace PAGEmachine\Cors\AccessControl;
 
 /*
@@ -27,7 +28,7 @@ class Response
     /**
      * @return string
      */
-    public function getAllowedOrigin()
+    public function getAllowedOrigin(): string
     {
         return $this->allowedOrigin;
     }
@@ -36,7 +37,7 @@ class Response
      * @param string $allowedOrigin
      * @return void
      */
-    public function setAllowedOrigin($allowedOrigin)
+    public function setAllowedOrigin(string $allowedOrigin)
     {
         $this->allowedOrigin = $allowedOrigin;
     }
@@ -49,7 +50,7 @@ class Response
     /**
      * @return bool
      */
-    public function getAllowCredentials()
+    public function getAllowCredentials(): bool
     {
         return $this->allowCredentials;
     }
@@ -58,7 +59,7 @@ class Response
      * @param bool $allowCredentials
      * @return void
      */
-    public function setAllowCredentials($allowCredentials)
+    public function setAllowCredentials(bool $allowCredentials)
     {
         $this->allowCredentials = $allowCredentials;
     }
@@ -93,7 +94,7 @@ class Response
     /**
      * @return bool
      */
-    public function isPreflight()
+    public function isPreflight(): bool
     {
         return $this->isPreflight;
     }
@@ -102,7 +103,7 @@ class Response
      * @param bool $isPreflight
      * @return void
      */
-    public function setPreflight($isPreflight)
+    public function setPreflight(bool $isPreflight)
     {
         $this->isPreflight = $isPreflight;
     }
@@ -159,7 +160,7 @@ class Response
     /**
      * @return int
      */
-    public function getMaximumAge()
+    public function getMaximumAge(): int
     {
         return $this->maximumAge;
     }
@@ -168,7 +169,7 @@ class Response
      * @param int $maximumAge
      * @return void
      */
-    public function setMaximumAge($maximumAge)
+    public function setMaximumAge(int $maximumAge)
     {
         $this->maximumAge = $maximumAge;
     }
@@ -215,7 +216,7 @@ class Response
      * @param mixed $value Simple or multivalued value
      * @return string
      */
-    protected function buildHeaderString($name, $value)
+    protected function buildHeaderString(string $name, $value): string
     {
         if (is_array($value)) {
             $value = implode(', ', $value);
@@ -230,7 +231,7 @@ class Response
      * @param string $header HTTP header
      * @return void
      */
-    protected function sendHeader($header)
+    protected function sendHeader(string $header)
     {
         header($header);
     }

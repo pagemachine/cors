@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace PAGEmachine\Cors\Http;
 
 /*
@@ -20,12 +21,12 @@ class Uri
     /**
      * @var string $scheme
      */
-    protected $scheme;
+    protected $scheme = '';
 
     /**
      * @return string
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return $this->scheme;
     }
@@ -34,7 +35,7 @@ class Uri
      * @param string $scheme
      * @return void
      */
-    public function setScheme($scheme)
+    public function setScheme(string $scheme)
     {
         $this->scheme = $scheme;
     }
@@ -42,12 +43,12 @@ class Uri
     /**
      * @var string $hostname
      */
-    protected $hostname;
+    protected $hostname = '';
 
     /**
      * @return string
      */
-    public function getHostname()
+    public function getHostname(): string
     {
         return $this->hostname;
     }
@@ -56,7 +57,7 @@ class Uri
      * @param string $hostname
      * @return void
      */
-    public function setHostname($hostname)
+    public function setHostname(string $hostname)
     {
         $this->hostname = $hostname;
     }
@@ -64,12 +65,12 @@ class Uri
     /**
      * @var int $port
      */
-    protected $port;
+    protected $port = 0;
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getPort()
+    public function getPort(): int
     {
         return $this->port;
     }
@@ -77,13 +78,13 @@ class Uri
     /**
      * The normalized port, 443 for HTTPS and 80 for HTTP unless explicitly set
      *
-     * @return int|null
+     * @return int
      */
-    public function getNormalizedPort()
+    public function getNormalizedPort(): int
     {
         $normalizedPort = $this->getPort();
 
-        if (empty($normalizedPort)) {
+        if ($normalizedPort === 0) {
             switch ($this->getScheme()) {
                 case 'https':
                     $normalizedPort = 443;
@@ -102,7 +103,7 @@ class Uri
      * @param int $port
      * @return void
      */
-    public function setPort($port)
+    public function setPort(int $port)
     {
         $this->port = $port;
     }
@@ -110,12 +111,12 @@ class Uri
     /**
      * @var string $username
      */
-    protected $username;
+    protected $username = '';
 
     /**
      * @return string
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -124,7 +125,7 @@ class Uri
      * @param string $username
      * @return void
      */
-    public function setUsername($username)
+    public function setUsername(string $username)
     {
         $this->username = $username;
     }
@@ -132,12 +133,12 @@ class Uri
     /**
      * @var string $password
      */
-    protected $password;
+    protected $password = '';
 
     /**
      * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -146,7 +147,7 @@ class Uri
      * @param string $password
      * @return void
      */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $this->password = $password;
     }
@@ -154,12 +155,12 @@ class Uri
     /**
      * @var string $path
      */
-    protected $path;
+    protected $path = '';
 
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -168,7 +169,7 @@ class Uri
      * @param string $path
      * @return void
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = $path;
     }
@@ -176,12 +177,12 @@ class Uri
     /**
      * @var string $query
      */
-    protected $query;
+    protected $query = '';
 
     /**
      * @return string
      */
-    public function getQuery()
+    public function getQuery(): string
     {
         return $this->query;
     }
@@ -190,7 +191,7 @@ class Uri
      * @param string $query
      * @return void
      */
-    public function setQuery($query)
+    public function setQuery(string $query)
     {
         $this->query = $query;
     }
@@ -198,12 +199,12 @@ class Uri
     /**
      * @var string $fragment
      */
-    protected $fragment;
+    protected $fragment = '';
 
     /**
      * @return string
      */
-    public function getFragment()
+    public function getFragment(): string
     {
         return $this->fragment;
     }
@@ -212,7 +213,7 @@ class Uri
      * @param string $fragment
      * @return void
      */
-    public function setFragment($fragment)
+    public function setFragment(string $fragment)
     {
         $this->fragment = $fragment;
     }
@@ -223,7 +224,7 @@ class Uri
      * @param string $uri A full request URI
      * @throws \InvalidArgumentException if a passed URI could not be parsed
      */
-    public function __construct($uri = null)
+    public function __construct(string $uri = null)
     {
         if ($uri !== null) {
             $uriComponents = parse_url($uri);
@@ -242,34 +243,28 @@ class Uri
      * @param array $environment Server environment (e.g. $_SERVER)
      * @return Uri
      */
-    public static function fromEnvironment(array $environment)
+    public static function fromEnvironment(array $environment): Uri
     {
         $uri = new self();
         $uri->setScheme(
-            isset($environment['HTTPS']) && ($environment['HTTPS'] == 'on' || $environment['HTTPS'] == 1)
+            in_array($environment['HTTPS'] ?? null, ['on', 1], true)
             ||
-            isset($environment['HTTP_X_FORWARDED_PROTO']) && $environment['HTTP_X_FORWARDED_PROTO'] == 'https'
+            ($environment['HTTP_X_FORWARDED_PROTO'] ?? null) === 'https'
             ? 'https'
             : 'http'
         );
         $uri->setHostname($environment['HTTP_HOST']);
-        $uri->setPort(
-            isset($environment['HTTP_X_FORWARDED_PORT'])
-            ? (int) $environment['HTTP_X_FORWARDED_PORT']
-            : (
-                isset($environment['SERVER_PORT']) ? (int) $environment['SERVER_PORT'] : null
-            )
-        );
-        $uri->setUsername(isset($environment['PHP_AUTH_USER']) ? $environment['PHP_AUTH_USER'] : null);
-        $uri->setPassword(isset($environment['PHP_AUTH_PW']) ? $environment['PHP_AUTH_PW'] : null);
+        $uri->setPort((int)($environment['HTTP_X_FORWARDED_PORT'] ?? $environment['SERVER_PORT'] ?? 0));
+        $uri->setUsername($environment['PHP_AUTH_USER'] ?? '');
+        $uri->setPassword($environment['PHP_AUTH_PW'] ?? '');
 
-        $requestUriParts = explode('?', $environment['REQUEST_URI'], 2);
+        $requestUriParts = explode('?', $environment['REQUEST_URI'] ?? '', 2);
         $uri->setPath($requestUriParts[0]);
 
         if (isset($requestUriParts[1])) {
             $queryParts = explode('#', $requestUriParts[1], 2);
             $uri->setQuery($queryParts[0]);
-            $uri->setFragment(isset($queryParts[1]) ? $queryParts[1] : null);
+            $uri->setFragment($queryParts[1] ?? '');
         }
 
         return $uri;
@@ -292,7 +287,7 @@ class Uri
         ];
 
         foreach ($uriComponents as $component => $value) {
-            $property = isset($componentPropertyMapping[$component]) ? $componentPropertyMapping[$component] : $component;
+            $property = $componentPropertyMapping[$component] ?? $component;
             $this->$property = $value;
         }
     }

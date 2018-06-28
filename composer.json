@@ -15,15 +15,18 @@
   },
   "type": "typo3-cms-extension",
   "require": {
-    "php": "^5.6 || ^7.0",
-    "typo3/cms-core": "^6.2 || ^7.6 || ^8.7",
-    "typo3/cms-frontend": "^6.2 || ^7.6 || ^8.7"
+    "php": "^7.0",
+    "typo3/cms-core": "^8.7",
+    "typo3/cms-frontend": "^8.7"
   },
   "require-dev": {
+    "cakephp/cakephp-codesniffer": "^3.0",
     "jakub-onderka/php-console-highlighter": "^0.3.2",
     "jakub-onderka/php-parallel-lint": "^0.9.2",
     "nimut/testing-framework": "^1.1",
-    "phpunit/phpunit": "^5.7"
+    "phpunit/phpunit": "^5.7",
+    "slevomat/coding-standard": "^4.0",
+    "squizlabs/php_codesniffer": "^3.3"
   },
   "replace": {
     "cors": "self.version",
