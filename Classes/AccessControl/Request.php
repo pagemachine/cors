@@ -136,22 +136,22 @@ class Request
         if (isset($environment['HTTP_ORIGIN'])) {
             $this->origin = new Uri($environment['HTTP_ORIGIN']);
 
-            $this->isCrossOrigin = $this->origin->getScheme() != $this->destination->getScheme() ||
-                                   $this->origin->getHostname() != $this->destination->getHostname() ||
+            $this->isCrossOrigin = $this->origin->getScheme() !== $this->destination->getScheme() ||
+                                   $this->origin->getHostname() !== $this->destination->getHostname() ||
                                    $this->origin->getNormalizedPort() !== $this->destination->getNormalizedPort();
 
             $this->hasCredentials = isset($environment['HTTP_COOKIE']) ||
                                     isset($environment['HTTP_AUTHORIZATION']) ||
                                     isset($environment['SSL_CLIENT_VERIFY']) && $environment['SSL_CLIENT_VERIFY'] !== 'NONE';
 
-            if ($environment['REQUEST_METHOD'] == 'OPTIONS') {
+            if ($environment['REQUEST_METHOD'] === 'OPTIONS') {
                 $this->isPreflight = true;
 
-                if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+                if (!empty($environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
                     $this->requestMethod = $environment['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
                 }
 
-                if (isset($environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+                if (!empty($environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
                     $this->requestHeaders = GeneralUtility::trimExplode(',', $environment['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
                 }
             }

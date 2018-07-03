@@ -26,16 +26,6 @@ use Pagemachine\Cors\Http\Uri;
 class NegotiatorTest extends UnitTestCase
 {
     /**
-     * @var Request|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $request;
-
-    /**
-     * @var Response|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $response;
-
-    /**
      * @var Negotiator
      */
     protected $negotiator;
@@ -45,17 +35,6 @@ class NegotiatorTest extends UnitTestCase
      */
     public function setUp()
     {
-        $origin = $this->getMockBuilder(Uri::class)
-            ->setMethods(null)
-            ->getMock();
-        $this->request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(null)
-            ->getMock();
-        $this->request->setOrigin($origin);
-
-        $this->response = $this->getResponseMock();
-
         $this->negotiator = new Negotiator();
     }
 
@@ -64,11 +43,17 @@ class NegotiatorTest extends UnitTestCase
      */
     public function doesNothingForSameOriginRequest()
     {
-        $expectedResponse = $this->getResponseMock();
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.org',
+        ]);
+        $response = new Response();
 
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
 
-        $this->assertEquals($expectedResponse, $this->response);
+        $this->assertEquals(new Response(), $response);
     }
 
     /**
@@ -76,27 +61,58 @@ class NegotiatorTest extends UnitTestCase
      */
     public function allowsWildcardOriginWithoutCredentials()
     {
-        $this->request->setCrossOrigin(true);
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ]);
+        $response = new Response();
 
         $this->negotiator->setAllowedOrigins(['*']);
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
 
-        $this->assertEquals('*', $this->response->getAllowedOrigin());
+        $this->assertEquals('*', $response->getAllowedOrigin());
     }
 
     /**
      * @test
+     * @dataProvider credentialHeaders
      */
-    public function throwsExceptionForWildcardOriginWithCredentials()
+    public function throwsExceptionForWildcardOriginWithCredentials(array $credentialHeaders)
     {
-        $this->request->setCrossOrigin(true);
-        $this->request->setHasCredentials(true);
+        $request = new Request(array_merge([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ], $credentialHeaders));
+        $response = new Response();
+
         $this->negotiator->setAllowedOrigins(['*']);
 
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983266);
 
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
+    }
+
+    /**
+     * @return array
+     */
+    public function credentialHeaders(): array
+    {
+        return [
+            'cookie' => [
+                ['HTTP_COOKIE' => 'test=1'],
+            ],
+            'authorization' => [
+                ['HTTP_AUTHORIZATION' => 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'],
+            ],
+            'client certificate' => [
+                ['SSL_CLIENT_VERIFY' => 'SUCCESS'],
+            ],
+        ];
     }
 
     /**
@@ -104,36 +120,37 @@ class NegotiatorTest extends UnitTestCase
      */
     public function allowsOriginByList()
     {
-        $this->request->getOrigin()->setScheme('http');
-        $this->request->getOrigin()->setHostname('example.org');
-        $this->request->setCrossOrigin(true);
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ]);
+        $response = new Response();
 
         $this->negotiator->setAllowedOrigins(['http://example.org', 'http://example.com']);
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
 
-        $this->assertEquals('http://example.org', $this->response->getAllowedOrigin());
+        $this->assertEquals('http://example.com', $response->getAllowedOrigin());
     }
 
     /**
      * @test
-     * @dataProvider originPatternRequests
-     *
-     * @param string $pattern
-     * @param string $origin
      */
-    public function allowsOriginByPattern(string $pattern, string $origin)
+    public function allowsOriginByPattern()
     {
-        $this->request->setCrossOrigin(true);
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ]);
+        $response = new Response();
 
-        $scheme = parse_url($origin, PHP_URL_SCHEME);
-        $this->request->getOrigin()->setScheme($scheme);
-        $host = parse_url($origin, PHP_URL_HOST);
-        $this->request->getOrigin()->setHostname($host);
+        $this->negotiator->setAllowedOriginsPattern('http:\/\/example\.(org|com)');
+        $this->negotiator->processRequest($request, $response);
 
-        $this->negotiator->setAllowedOriginsPattern($pattern);
-        $this->negotiator->processRequest($this->request, $this->response);
-
-        $this->assertEquals($origin, $this->response->getAllowedOrigin());
+        $this->assertEquals('http://example.com', $response->getAllowedOrigin());
     }
 
     /**
@@ -141,14 +158,18 @@ class NegotiatorTest extends UnitTestCase
      */
     public function throwsExceptionIfOriginIsNotAllowed()
     {
-        $this->request->getOrigin()->setScheme('http');
-        $this->request->getOrigin()->setHostname('example.org');
-        $this->request->setCrossOrigin(true);
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ]);
+        $response = new Response();
 
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983266);
 
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
     }
 
     /**
@@ -156,151 +177,41 @@ class NegotiatorTest extends UnitTestCase
      */
     public function throwsExceptionIfOriginPortIsNotAllowed()
     {
-        $this->request->getOrigin()->setScheme('http');
-        $this->request->getOrigin()->setHostname('example.org');
-        $this->request->getOrigin()->setPort(80);
-        $this->request->setCrossOrigin(true);
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.org:4040',
+        ]);
+        $response = new Response();
+
+        $this->negotiator->setAllowedOrigins(['http://example.org:8080']);
 
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionCode(1413983266);
 
-        $this->negotiator->setAllowedOrigins(['http://example.org:8080']);
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
     }
 
     /**
      * @test
      * @dataProvider credentialRequests
-     *
-     * @param bool $requestHasCredentials
-     * @param bool $allowCredentials
-     * @param bool $expectedAllowCredentials
      */
-    public function allowsCredentials(bool $requestHasCredentials, bool $allowCredentials, bool $expectedAllowCredentials)
+    public function allowsCredentials(array $credentialHeaders, bool $allowCredentials, bool $expectedAllowCredentials)
     {
-        $this->request->getOrigin()->setScheme('http');
-        $this->request->getOrigin()->setHostname('example.org');
-        $this->request->setCrossOrigin(true);
-        $this->request->setHasCredentials($requestHasCredentials);
+        $request = new Request(array_merge([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ], $credentialHeaders));
+        $response = new Response();
 
-        $this->negotiator->setAllowedOrigins(['http://example.org', 'http://example.com']);
+        $this->negotiator->setAllowedOrigins(['http://example.com']);
         $this->negotiator->setAllowCredentials($allowCredentials);
-        $this->negotiator->processRequest($this->request, $this->response);
+        $this->negotiator->processRequest($request, $response);
 
-        $this->assertEquals($expectedAllowCredentials, $this->response->getAllowCredentials());
-    }
-
-    /**
-     * @test
-     * @dataProvider exposedHeaderRequests
-     *
-     * @param array $exposedHeaders
-     * @return array
-     */
-    public function exposesHeaders(array $exposedHeaders)
-    {
-        $this->request->getOrigin()->setScheme('http');
-        $this->request->getOrigin()->setHostname('example.org');
-        $this->request->setCrossOrigin(true);
-
-        $this->negotiator->setAllowedOrigins(['http://example.org', 'http://example.com']);
-        $this->negotiator->setExposedHeaders($exposedHeaders);
-        $this->negotiator->processRequest($this->request, $this->response);
-
-        $this->assertEquals($exposedHeaders, $this->response->getExposedHeaders());
-    }
-
-    /**
-     * @test
-     * @dataProvider preflightRequests
-     *
-     * @param string $requestMethod
-     * @param array $requestHeaders
-     * @param array $allowedMethods
-     * @param array $allowedHeaders
-     */
-    public function allowsValidPreflightRequests(string $requestMethod, array $requestHeaders, array $allowedMethods, array $allowedHeaders)
-    {
-        $this->request->getOrigin()->setScheme('http');
-        $this->request->getOrigin()->setHostname('example.org');
-        $this->request->setCrossOrigin(true);
-        $this->request->setPreflight(true);
-        $this->request->setRequestMethod($requestMethod);
-        $this->request->setRequestHeaders($requestHeaders);
-
-        $this->negotiator->setAllowedOrigins(['http://example.org']);
-        $this->negotiator->setAllowedMethods($allowedMethods);
-        $this->negotiator->setAllowedHeaders($allowedHeaders);
-        $this->negotiator->processRequest($this->request, $this->response);
-
-        $this->assertContains($requestMethod, $this->response->getAllowedMethods());
-
-        foreach ($requestHeaders as $requestHeader) {
-            $this->assertContains($requestHeader, $this->response->getAllowedHeaders());
-        }
-    }
-
-    /**
-     * @test
-     */
-    public function throwsExceptionForPreflightWithoutRequestMethod()
-    {
-        $this->request->setCrossOrigin(true);
-        $this->request->setPreflight(true);
-
-        $this->expectException(AccessDeniedException::class);
-        $this->expectExceptionCode(1413983849);
-
-        $this->negotiator->processRequest($this->request, $this->response);
-    }
-
-    /**
-     * @test
-     */
-    public function throwsExceptionForPreflightWithNotAllowedRequestMethod()
-    {
-        $this->request->setCrossOrigin(true);
-        $this->request->setPreflight(true);
-        $this->request->setRequestMethod('DELETE');
-
-        $this->expectException(AccessDeniedException::class);
-        $this->expectExceptionCode(1413983927);
-
-        $this->negotiator->setAllowedMethods(['PUT']);
-        $this->negotiator->processRequest($this->request, $this->response);
-    }
-
-    /**
-     * @test
-     */
-    public function throwsExceptionForPreflightWithNotAllowedRequestHeaders()
-    {
-        $this->request->setCrossOrigin(true);
-        $this->request->setPreflight(true);
-        $this->request->setRequestMethod('POST');
-        $this->request->setRequestHeaders(['X-Foo']);
-
-        $this->expectException(AccessDeniedException::class);
-        $this->expectExceptionCode(1413988013);
-
-        $this->negotiator->processRequest($this->request, $this->response);
-    }
-
-    /**
-     * @return array
-     */
-    public function originPatternRequests(): array
-    {
-        return [
-            [
-                'http:\/\/example\.(org|com)',
-                'http://example.org',
-            ],
-            [
-                'http:\/\/example\.(org|com)',
-                'http://example.com',
-            ],
-        ];
+        $this->assertEquals($expectedAllowCredentials, $response->getAllowCredentials());
     }
 
     /**
@@ -309,27 +220,48 @@ class NegotiatorTest extends UnitTestCase
     public function credentialRequests(): array
     {
         return [
-            'No credentials, not allowed' => [
-                false,
-                false,
-                false,
-            ],
-            'No credentials, allowed' => [
-                false,
-                true,
-                false,
-            ],
-            'Credentials, not allowed' => [
-                true,
+            'Without credentials, credentials not allowed' => [
+                [],
                 false,
                 false,
             ],
-            'Credentials, allowed' => [
+            'Without credentials, credentials allowed' => [
+                [],
                 true,
+                false,
+            ],
+            'With credentials, credentials not allowed' => [
+                ['HTTP_COOKIE' => 'test=1'],
+                false,
+                false,
+            ],
+            'With credentials, credentials allowed' => [
+                ['HTTP_COOKIE' => 'test=1'],
                 true,
                 true,
             ],
         ];
+    }
+
+    /**
+     * @test
+     * @dataProvider exposedHeaderRequests
+     */
+    public function exposesHeaders(array $exposedHeaders)
+    {
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+        ]);
+        $response = new Response();
+
+        $this->negotiator->setAllowedOrigins(['*']);
+        $this->negotiator->setExposedHeaders($exposedHeaders);
+        $this->negotiator->processRequest($request, $response);
+
+        $this->assertEquals($exposedHeaders, $response->getExposedHeaders());
     }
 
     /**
@@ -345,6 +277,40 @@ class NegotiatorTest extends UnitTestCase
                 ['X-Foo', 'X-Bar'],
             ],
         ];
+    }
+
+    /**
+     * @test
+     * @dataProvider preflightRequests
+     *
+     * @param string $requestMethod
+     * @param array $requestHeaders
+     * @param array $allowedMethods
+     * @param array $allowedHeaders
+     */
+    public function allowsValidPreflightRequests(string $requestMethod, array $requestHeaders, array $allowedMethods, array $allowedHeaders)
+    {
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+            'REQUEST_METHOD' => 'OPTIONS',
+            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => $requestMethod,
+            'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => implode(',', $requestHeaders),
+        ]);
+        $response = new Response();
+
+        $this->negotiator->setAllowedOrigins(['*']);
+        $this->negotiator->setAllowedMethods($allowedMethods);
+        $this->negotiator->setAllowedHeaders($allowedHeaders);
+        $this->negotiator->processRequest($request, $response);
+
+        $this->assertContains($requestMethod, $response->getAllowedMethods());
+
+        foreach ($requestHeaders as $requestHeader) {
+            $this->assertContains($requestHeader, $response->getAllowedHeaders());
+        }
     }
 
     /**
@@ -375,14 +341,50 @@ class NegotiatorTest extends UnitTestCase
     }
 
     /**
-     * Builds a mocked response object
-     *
-     * @return Response|\PHPUnit\Framework\MockObject\MockObject
+     * @test
      */
-    protected function getResponseMock()
+    public function throwsExceptionForPreflightWithDisallowedRequestMethod()
     {
-        return $this->getMockBuilder(Response::class)
-            ->setMethods(null)
-            ->getMock();
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+            'REQUEST_METHOD' => 'OPTIONS',
+            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'DELETE',
+        ]);
+        $response = new Response();
+
+        $this->negotiator->setAllowedOrigins(['*']);
+        $this->negotiator->setAllowedMethods(['PUT']);
+
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413983927);
+
+        $this->negotiator->processRequest($request, $response);
+    }
+
+    /**
+     * @test
+     */
+    public function throwsExceptionForPreflightWithNotAllowedRequestHeaders()
+    {
+        $request = new Request([
+            'HTTP_HOST' => 'example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/test',
+            'HTTP_ORIGIN' => 'http://example.com',
+            'REQUEST_METHOD' => 'OPTIONS',
+            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
+            'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'X-Foo',
+        ]);
+        $response = new Response();
+
+        $this->negotiator->setAllowedOrigins(['*']);
+
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionCode(1413988013);
+
+        $this->negotiator->processRequest($request, $response);
     }
 }
