@@ -23,7 +23,7 @@ jobs:
       env: TYPO3_VERSION=^8.7
     - <<: *test
       php: 7.2
-      env: TYPO3_VERSION=^9.0
+      env: TYPO3_VERSION=~9.3.0
 
     - &lint
       php: 7.0
