@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Pagemachine\Cors\Tests\Unit\AccessControl;
 
 /*
@@ -18,7 +19,6 @@ use Pagemachine\Cors\AccessControl\Exception\AccessDeniedException;
 use Pagemachine\Cors\AccessControl\Negotiator;
 use Pagemachine\Cors\AccessControl\Request;
 use Pagemachine\Cors\AccessControl\Response;
-use Pagemachine\Cors\Http\Uri;
 
 /**
  * Testcase for Pagemachine\Cors\AccessControl\Negotiator
