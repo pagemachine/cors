@@ -1,73 +1,29 @@
-language: php
+dist: trusty
+language: shell
 
-sudo: false
+services:
+  - docker
 
-cache:
-  directories:
-    - $HOME/.composer/cache
+env:
+  global:
+    - PHP_VERSION=7.2
+  jobs:
+    - TYPO3_VERSION=^9.5
+    - TYPO3_VERSION=^8.7
 
-install:
-  - composer install
+script:
+  - docker-compose run --rm app composer build
+
+after_script:
+  - docker-compose down --volumes
 
 jobs:
   include:
-    - &test
-      php: 7.0
-      env: TYPO3_VERSION=^8.7
-      install:
-        - travis_retry composer require typo3/cms-core $TYPO3_VERSION
-      script:
-        - composer test
-    - <<: *test
-      php: 7.1
-      env: TYPO3_VERSION=^8.7
-    - <<: *test
-      php: 7.2
-      env: TYPO3_VERSION=~9.3.0
-
-    - &lint
-      php: 7.0
-      env: PHP lint
-      script:
-        - composer lint:php
-    - <<: *lint
-      php: 7.1
-    - <<: *lint
-      php: 7.2
-
-    - php: 7.0
-      env: Codestyle
-      script:
-        - composer lint:style
-
-    - php: 7.1
-      env: Static analysis
-      install:
-        - composer require --dev phpstan/phpstan
-      script:
-        - composer analyze:php
-
     - stage: deploy
+      name: Deploy to TER
       if: tag IS present
-      php: 7.0
-      before_install: skip
-      install: skip
-      before_script: skip
-      script: |
-        echo -e "Preparing upload of release ${TRAVIS_TAG} to TER\n"
-
-        TAG_ANNOTATION="$(git tag -n -l $TRAVIS_TAG)"
-        TAG_MESSAGE="${TAG_ANNOTATION#* }"
-
-        git reset --hard
-        git clean -xfd
-
-        export PATH=$PATH:$(composer global config bin-dir --absolute 2>/dev/null)
-        composer global require helhum/ter-client
-
-        echo "Uploading release ${TRAVIS_TAG} to TER"
-        ter-client upload $(composer config extra.typo3/cms.extension-key) . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE"
+      script: docker-compose run --rm app composer deploy:ter
 
 notifications:
   slack:
-    secure: FHPbVXHOrXsk80e0+WLID8v5m9S59/qoQyM5XK2hytFUaT+oSh0iY+Ajdnajpl+6qd6iQNbREfd04A2TTBxh7+LzHgOqxhHoZSYTgTHgsOPQPgUCxPJpWInwQGxgp+23pE0l+oX8u0lWkYk9NIf+WtrF6niLvT0KLOJiuB8ojms=
+    secure: TPgLYBAyIa6V6RT3YqndCnpkiifnY01ehmPrhVHU3G3yC4e4PtnqftgCrg8D4IBbmlVTxncNbsDqNbFfBEaJ1dMv6tv0yMpYlllfN5Syl3nBcjh43rHN4DWEffgJ59dAhJJtWjHvPfYR1/80EdKzsmepQl1i1+CXH1ryxtS6jEU=
