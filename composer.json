@@ -33,7 +33,6 @@
     "typo3-ter/cors": "self.version"
   },
   "config": {
-    "bin-dir": "bin",
     "sort-packages": true
   },
   "extra": {
@@ -70,7 +69,7 @@
         "@lint:style",
         "@lint:xml"
     ],
-    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint:php": "parallel-lint --exclude vendor --exclude web .",
     "lint:style": "phpcs",
     "test": [
       "@test:unit"
