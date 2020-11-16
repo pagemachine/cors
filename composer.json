@@ -49,6 +49,21 @@
       "@lint",
       "@test"
     ],
+    "build:cleanup": [
+      "git reset --hard",
+      "git clean -xfd"
+    ],
+    "deploy:ter": [
+      "@build:cleanup",
+      "@deploy:ter:setup",
+      "@deploy:ter:upload"
+    ],
+    "deploy:ter:setup": [
+      "@composer global require helhum/ter-client symfony/console:^3"
+    ],
+    "deploy:ter:upload": [
+      "composer global exec -v -- ter-client upload --username $TYPO3_ORG_USERNAME --password $TYPO3_ORG_PASSWORD --upload-comment \"$(git tag --points-at HEAD --format='%(contents)')\" $(composer config extra.typo3/cms.extension-key) ."
+    ],
     "fix:style": "phpcbf",
     "lint": [
         "@lint:php",
