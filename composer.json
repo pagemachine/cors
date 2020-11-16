@@ -29,7 +29,6 @@
     "squizlabs/php_codesniffer": "^3.3"
   },
   "replace": {
-    "cors": "self.version",
     "typo3-ter/cors": "self.version"
   },
   "config": {
