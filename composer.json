@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "php": "^7.0 < 7.3",
-        "typo3/cms-core": "^9.5",
+        "php": "^7.0",
+        "typo3/cms-core": "^8.7 || ^9.5",
         "typo3/cms-frontend": "*"
     },
     "replace": {
