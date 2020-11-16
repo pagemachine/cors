@@ -104,3 +104,9 @@ Note that all options support [stdWrap](http://docs.typo3.org/typo3cms/Typoscrip
 ## Issues
 
 Found a bug? Need a feature? Let us know through our [issue tracker](https://github.com/pagemachine/cors/issues).
+
+## Testing
+
+All tests can be executed with the shipped Docker Compose definition:
+
+    docker-compose run --rm app composer build
