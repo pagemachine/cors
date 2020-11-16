@@ -1,9 +1,4 @@
-# CORS
-
-[![Latest Version](https://img.shields.io/packagist/v/pagemachine/cors.svg?style=flat-square)](https://packagist.org/packages/pagemachine/cors)
-[![Build Status](https://img.shields.io/travis/pagemachine/cors/master.svg?style=flat-square)](https://travis-ci.org/pagemachine/cors)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/90bcae4a-6a46-4f1c-9746-2458f4ea978d.svg?style=flat-square)](https://insight.sensiolabs.com/projects/90bcae4a-6a46-4f1c-9746-2458f4ea978d)
-[![Code quality](https://img.shields.io/scrutinizer/g/pagemachine/cors.svg?style=flat-square)](https://scrutinizer-ci.com/g/pagemachine/cors/?branch=master)
+# CORS ![CI](https://github.com/pagemachine/cors/workflows/CI/badge.svg)
 
 [Cross Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) for TYPO3
 
@@ -12,10 +7,10 @@
 This extension is installable from various sources:
 
 1. Via [Composer](https://packagist.org/packages/pagemachine/cors):
-        
+
         composer require pagemachine/cors
-       
-2. From the [TYPO3 Extension Repository](https://extensions.typo3.org/extension/cors/) 
+
+2. From the [TYPO3 Extension Repository](https://extensions.typo3.org/extension/cors/)
 3. From [Github](https://github.com/pagemachine/cors/releases)
 
 ## Configuration
