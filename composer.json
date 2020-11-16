@@ -16,7 +16,7 @@
   "type": "typo3-cms-extension",
   "require": {
     "php": "^7.0 < 7.3",
-    "typo3/cms-core": "^8.7 || ^9.0 < 9.4",
+    "typo3/cms-core": "^9.5",
     "typo3/cms-frontend": "*"
   },
   "require-dev": {
@@ -44,17 +44,23 @@
     }
   },
   "scripts": {
-    "analyze:php": "phpstan analyse --ansi --no-progress --configuration=phpstan.neon --level=5 *.php Classes Tests",
-    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
-    "lint:style": "phpcs",
+    "build": [
+      "@composer require --no-progress --ansi --update-with-dependencies typo3/cms-core $TYPO3_VERSION",
+      "@lint",
+      "@test"
+    ],
     "fix:style": "phpcbf",
     "lint": [
-      "@lint:php"
+        "@lint:php",
+        "@lint:style",
+        "@lint:xml"
     ],
-    "test:unit": "phpunit",
+    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint:style": "phpcs",
     "test": [
       "@test:unit"
-    ]
+    ],
+    "test:unit": "phpunit --colors=always"
   },
   "autoload": {
     "psr-4": {
