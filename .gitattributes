@@ -3,6 +3,7 @@
 .github export-ignore
 .gitignore export-ignore
 docker-compose.yml export-ignore
-package.json
+package.json export-ignore
 phpunit.xml export-ignore
+renovate.json export-ignore
 Tests/ export-ignore
