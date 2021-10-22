@@ -34,7 +34,7 @@ class NegotiatorTest extends UnitTestCase
     /**
      * Common setup for all tests
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->negotiator = new Negotiator();
     }
